@@ -1,0 +1,18 @@
+#-------------------------------------------------------------------------------
+# Service request fields
+#-------------------------------------------------------------------------------
+uint8 axis_id
+uint32 cmd_id
+PVTPoint[] pvt_points
+float64 stop_dec
+
+---
+
+#-------------------------------------------------------------------------------
+# Service response fields
+#-------------------------------------------------------------------------------
+# Service success/failure indicator.
+int16 result_code
+
+# Status message (empty if service succeeded).
+string message

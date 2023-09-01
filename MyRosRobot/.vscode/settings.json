@@ -1,0 +1,10 @@
+{
+    "python.autoComplete.extraPaths": [
+    "/home/tpm/Desktop/ws_tpm/install/tpm_client_py/lib/python3.10/site-packages",
+],
+"python.analysis.extraPaths": [
+    "/home/tpm/Desktop/ws_tpm/install/tpm_client_py/lib/python3.10/site-packages",
+]
+"window.zoomLevel": 1
+"editor.fontSize": 18
+}

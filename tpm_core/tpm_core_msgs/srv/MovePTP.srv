@@ -1,0 +1,18 @@
+#-------------------------------------------------------------------------------
+# Service request fields
+#-------------------------------------------------------------------------------
+uint16 cmd_id
+MotionProfile mp_data
+float32[] pos
+uint8 mask
+
+---
+
+#-------------------------------------------------------------------------------
+# Service response fields
+#-------------------------------------------------------------------------------
+# Service success/failure indicator.
+int16 result_code
+
+# Status message (empty if service succeeded).
+string message
