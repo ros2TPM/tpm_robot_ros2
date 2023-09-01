@@ -6,11 +6,11 @@
 
 namespace tpm_core
 {
-  class TopicManager
+  class Manager_Topic
   {
   public:
-    TopicManager(rclcpp::Node::SharedPtr node) ;
-    virtual ~TopicManager() = default;
+    Manager_Topic(rclcpp::Node::SharedPtr node) ;
+    virtual ~Manager_Topic() = default;
 
     void timerCallback_robotStatus();
   private:

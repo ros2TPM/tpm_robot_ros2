@@ -1,4 +1,4 @@
-#include "topicManager.hpp"
+#include "manager_topic.hpp"
 #include "global_instance.hpp" //MAX_AXIS_NUM
 #include "hwLib.hpp"
 #include "tpm_core_msgs/msg/axis_status.hpp"
@@ -12,17 +12,17 @@ using namespace std::chrono; //for timer period.
 
 namespace tpm_core
 {
-TopicManager::TopicManager(rclcpp::Node::SharedPtr node)
+Manager_Topic::Manager_Topic(rclcpp::Node::SharedPtr node)
 {
     size_t queueSize=1; //we always want the latest value. so don't need queue.
     publisher_ = node->create_publisher<RobotStatus>("robot_status", queueSize);
     
     timer_ = node->create_wall_timer(
-      500ms, std::bind(&TopicManager::timerCallback_robotStatus, this));
+      500ms, std::bind(&Manager_Topic::timerCallback_robotStatus, this));
 
 }
 
-void TopicManager::timerCallback_robotStatus()
+void Manager_Topic::timerCallback_robotStatus()
 {
     auto message = RobotStatus();
 

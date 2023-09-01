@@ -1,4 +1,4 @@
-#include "serviceManager.hpp"
+#include "manager_service.hpp"
 #include "archive.hpp"
 #include "hwLib.hpp"
 #include "global_config.hpp"
@@ -22,7 +22,7 @@ namespace tpm_core
     e_jog_dist,
   };
 
-  ServiceManager::ServiceManager(rclcpp::Node::SharedPtr node)
+  Manager_Service::Manager_Service(rclcpp::Node::SharedPtr node)
   {
     using namespace std::placeholders;
 
@@ -30,34 +30,34 @@ namespace tpm_core
 
     //======== general API ======
     services_.push_back(node->create_service<MailBox>( "/op/axis_operation",
-      std::bind(&ServiceManager::axis_operation, this, _1, _2)));
+      std::bind(&Manager_Service::axis_operation, this, _1, _2)));
 
     services_.push_back(node->create_service<MailBox>( "/op/set_axis_param",
-      std::bind(&ServiceManager::set_axis_param, this, _1, _2)));
+      std::bind(&Manager_Service::set_axis_param, this, _1, _2)));
 
     services_.push_back(node->create_service<MailBox>( "/op/set_robot_param",
-      std::bind(&ServiceManager::set_robot_param, this, _1, _2)));
+      std::bind(&Manager_Service::set_robot_param, this, _1, _2)));
   
     //======== ROBC API=======
     services_.push_back(node->create_service<MailBox>(
       "/rob/stop",
-      std::bind(&ServiceManager::robStop, this, _1, _2)));
+      std::bind(&Manager_Service::robStop, this, _1, _2)));
 
     services_.push_back(node->create_service<MovePTP>(
       "/rob/movePTP",
-      std::bind(&ServiceManager::robMovePTP, this, _1, _2)));
+      std::bind(&Manager_Service::robMovePTP, this, _1, _2)));
 
     services_.push_back(node->create_service<MailBox>(
       "/rob/getAxis",
-      std::bind(&ServiceManager::robGetAxis, this, _1, _2)));
+      std::bind(&Manager_Service::robGetAxis, this, _1, _2)));
 
     services_.push_back(node->create_service<MailBox>(
       "/rob/getBuffDepth",
-      std::bind(&ServiceManager::robGetBuffDepth, this, _1, _2)));
+      std::bind(&Manager_Service::robGetBuffDepth, this, _1, _2)));
     
   }
   
-  short ServiceManager::axis_operation(const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
+  short Manager_Service::axis_operation(const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
   {
     CArchive recv;
     recv.Update(req->buffer.size(), req->buffer.data());
@@ -71,7 +71,7 @@ namespace tpm_core
     return 0;
   }
   
-  short ServiceManager::set_axis_param(const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
+  short Manager_Service::set_axis_param(const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
   {
     CArchive recv;
     recv.Update(req->buffer.size(), req->buffer.data());
@@ -95,7 +95,7 @@ namespace tpm_core
     return 0;
   }
 
-  short ServiceManager::set_robot_param(const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
+  short Manager_Service::set_robot_param(const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
   {
     CArchive recv;
     recv.Update(req->buffer.size(), req->buffer.data());
@@ -123,7 +123,7 @@ namespace tpm_core
     return 0;
   }
 
-  short ServiceManager::robStop(
+  short Manager_Service::robStop(
     const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
   {
     CArchive recv;
@@ -136,7 +136,7 @@ namespace tpm_core
     return res->result_code;
   }
 
-  short ServiceManager::robMovePTP(
+  short Manager_Service::robMovePTP(
     const MovePTP::Request::SharedPtr req, MovePTP::Response::SharedPtr res)
   {
     MCL_MPDATA mp;
@@ -159,7 +159,7 @@ namespace tpm_core
     return res->result_code;
   }
 
-  short ServiceManager::robGetAxis(
+  short Manager_Service::robGetAxis(
     const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
   {
     CArchive send;
@@ -180,7 +180,7 @@ namespace tpm_core
     return res->result_code;
   }
 
-  short ServiceManager::robGetBuffDepth(
+  short Manager_Service::robGetBuffDepth(
     const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
   {
     CArchive send;

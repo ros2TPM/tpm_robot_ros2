@@ -1,10 +1,10 @@
-#include "paramManager.hpp"
+#include "manager_param.hpp"
 #include "global_config.hpp"
 #include "def_macro.h"
 
 namespace tpm_core
 {
-prmManager::prmManager(rclcpp::Node::SharedPtr node)
+Manager_Param::Manager_Param(rclcpp::Node::SharedPtr node)
 {
     ROS_PRINT("=== declare_parameters =====");
       std::vector<double> zeros = {0.0,0.0,0.0,0.0,0.0,0.0};

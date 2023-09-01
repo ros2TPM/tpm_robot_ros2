@@ -1,8 +1,8 @@
 #include <cstdio>
 #include <rclcpp/rclcpp.hpp>
-#include "serviceManager.hpp"
-#include "topicManager.hpp"
-#include "paramManager.hpp"
+#include "manager_service.hpp"
+#include "manager_topic.hpp"
+#include "manager_param.hpp"
 #include "hwLib.hpp"
 #include "myRobot.h"
 #include "global_instance.hpp"
@@ -25,7 +25,7 @@ class TpmCoreNode : public rclcpp::Node
     {
       // Note: can't use 'this->shared_from_this()' in constructor. so put in a init() function.
         ROS_PRINT("==== Load parameters...");
-        param_ = std::make_shared<prmManager> (this->shared_from_this());
+        param_ = std::make_shared<Manager_Param> (this->shared_from_this());
         
         ROS_PRINT("==== start connect...");
         auto& hwLib = HwLib::Instance();
@@ -36,15 +36,15 @@ class TpmCoreNode : public rclcpp::Node
         Robot::getInstance().create_axes(vec_axisIP);
 
         ROS_PRINT("==== Create service...");
-        srv_ = std::make_shared<ServiceManager> (this->shared_from_this());
+        srv_ = std::make_shared<Manager_Service> (this->shared_from_this());
         
         ROS_PRINT("==== Create topic...");
-        tpc_ = std::make_shared<TopicManager>   (this->shared_from_this()); 
+        tpc_ = std::make_shared<Manager_Topic>   (this->shared_from_this()); 
     }
   private:
-    std::shared_ptr<ServiceManager> srv_; 
-    std::shared_ptr<TopicManager>   tpc_;
-    std::shared_ptr<prmManager>   param_;
+    std::shared_ptr<Manager_Service> srv_; 
+    std::shared_ptr<Manager_Topic>   tpc_;
+    std::shared_ptr<Manager_Param>   param_;
 };
 
 int main(int argc, char ** argv)

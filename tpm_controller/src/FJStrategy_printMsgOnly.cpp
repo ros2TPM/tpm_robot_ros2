@@ -14,7 +14,7 @@ void FJStrategy_printMsgOnly::Execute(
     auto result = std::make_shared<FollowJointTrajectory::Result>();
 
     auto trjPointSize = goal->trajectory.points.size();
-    int trjIdx = 0;
+    size_t trjIdx = 0;
 
     while (rclcpp::ok() && trjIdx < trjPointSize)
     {

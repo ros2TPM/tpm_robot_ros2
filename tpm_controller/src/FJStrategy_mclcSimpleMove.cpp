@@ -120,7 +120,7 @@ std::vector<double> FJStrategy_mclcSimpleMove::GetMJointStates()
     _mJointStates.clear();
     for (size_t i=0;i<6;i++)
     {
-        double pos;
+        FLT pos;
         mclc_axis_get_trgPosCmd(i, &pos);
         _mJointStates.push_back(pos);
     }

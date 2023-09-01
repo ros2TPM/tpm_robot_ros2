@@ -9,11 +9,11 @@ using namespace tpm_core_msgs::srv;
 
 namespace tpm_core
 {
-  class ServiceManager
+  class Manager_Service
   {
   public:
-    ServiceManager(rclcpp::Node::SharedPtr node);
-    virtual ~ServiceManager() = default;
+    Manager_Service(rclcpp::Node::SharedPtr node);
+    virtual ~Manager_Service() = default;
 
   private:
     std::vector<rclcpp::ServiceBase::SharedPtr> services_;
