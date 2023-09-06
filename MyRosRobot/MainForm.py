@@ -9,8 +9,8 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 from MainFormUI import Ui_MainWindow
+from tpm_core_msgs.srv import AxisOperation as axisOP
 from tpm_client_py import libRobotOP
-from tpm_client_py.libRobotOP import Axis_Operation as axisOP
 from tpm_client_py.libRobotOP import Axis_Parameter as axisParam
 from tpm_client_py.libRobotOP import Robot_Parameter as robotParam
 from ProcessRunner import ProcessRunner
@@ -88,21 +88,21 @@ class MainWindow(QMainWindow):
 
         # axis operation event
         
-        self.mainForm.btnOp_jogPos.pressed.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.jog_pos))
-        self.mainForm.btnOp_jogPos.released.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.stop))
-        self.mainForm.btnOp_jogNeg.pressed.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.jog_neg))
-        self.mainForm.btnOp_jogNeg.released.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.stop))
+        self.mainForm.btnOp_jogPos.pressed.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.JOG_POS))
+        self.mainForm.btnOp_jogPos.released.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.STOP))
+        self.mainForm.btnOp_jogNeg.pressed.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.JOG_NEG))
+        self.mainForm.btnOp_jogNeg.released.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.STOP))
 
         
-        self.mainForm.btnOp_svon    .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.servo_on))
-        self.mainForm.btnOp_svoff   .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.servo_off))
-        self.mainForm.btnOp_home    .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.home))
-        self.mainForm.btnOp_clrAlm  .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.clear_alm))
-        self.mainForm.btnOp_stop    .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.stop))
-        self.mainForm.btnOp_find_ORG.clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.search_org))
-        self.mainForm.btnOp_setToOffset .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.set_pos_to_offset))
-        self.mainForm.btnOp_setToZero   .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.set_pos_to_zero))
-        self.mainForm.btnOp_mvToZero    .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.mv_to_zero))
+        self.mainForm.btnOp_svon    .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SERVO_ON))
+        self.mainForm.btnOp_svoff   .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SERVO_OFF))
+        self.mainForm.btnOp_home    .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.HOME))
+        self.mainForm.btnOp_clrAlm  .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.CLEAR_ALM))
+        self.mainForm.btnOp_stop    .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.STOP))
+        self.mainForm.btnOp_find_ORG.clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SEARCH_ORG))
+        self.mainForm.btnOp_setToOffset .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SET_AS_OFFSET))
+        self.mainForm.btnOp_setToZero   .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SET_AS_ZERO))
+        self.mainForm.btnOp_mvToZero    .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.MV_TO_ZERO))
         
         '''  this approach fails.
         self.btnOp_mapping = [

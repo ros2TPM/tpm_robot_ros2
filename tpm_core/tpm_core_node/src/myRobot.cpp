@@ -6,22 +6,10 @@
 #include <thread>
 #include <math.h>
 
+#include "tpm_core_msgs/srv/axis_operation.hpp"
+
 namespace tpm_core {
 
-enum eFuncType
-  {
-    e_servo_on    ,
-    e_servo_off   ,
-    e_home        ,
-    e_set_as_offset ,
-    e_set_as_zero ,
-    e_mv_to_zero  ,
-    e_clear_alm   ,
-    e_jog_pos     ,
-    e_jog_neg     ,
-    e_stop        ,
-    e_search_org
-  };
 class Robot::Private
 {
 public:    
@@ -173,17 +161,29 @@ short Robot::do_action(char funcType, signed char axisId)
 
     switch(funcType)
     {
-      case(eFuncType::e_servo_on) : return Private::servo   (*this, axisId, true);
-      case(eFuncType::e_servo_off): return Private::servo   (*this, axisId, false);
-      case(eFuncType::e_home)     : return Private::home    (*this, axisId);
-      case(eFuncType::e_clear_alm): return Private::clear_alm(*this, axisId);
-      case(eFuncType::e_jog_pos)  : return Private::jog     (*this, axisId, true);
-      case(eFuncType::e_jog_neg)  : return Private::jog     (*this, axisId, false);
-      case(eFuncType::e_stop)     : return Private::stop    (*this, axisId);
-      case(eFuncType::e_set_as_offset): return Private::set_as_offset(*this, axisId);
-      case(eFuncType::e_set_as_zero)  : return Private::set_as_zero (*this, axisId);
-      case(eFuncType::e_mv_to_zero)   : return Private::mv_to_zero  (*this, axisId);
-      case(eFuncType::e_search_org)   : return Private::search_org  (*this, axisId);
+      case(tpm_core_msgs::srv::AxisOperation::Request::SERVO_ON):
+        return Private::servo(*this, axisId, true);
+      case(tpm_core_msgs::srv::AxisOperation::Request::SERVO_OFF):
+        return Private::servo(*this, axisId, false);
+      case(tpm_core_msgs::srv::AxisOperation::Request::HOME):
+        return Private::home(*this, axisId);
+      case(tpm_core_msgs::srv::AxisOperation::Request::CLEAR_ALM):
+        return Private::clear_alm(*this, axisId);
+      case(tpm_core_msgs::srv::AxisOperation::Request::JOG_POS):
+        return Private::jog(*this, axisId, true);
+      case(tpm_core_msgs::srv::AxisOperation::Request::JOG_NEG):
+        return Private::jog(*this, axisId, false);
+      case(tpm_core_msgs::srv::AxisOperation::Request::STOP):
+        return Private::stop(*this, axisId);
+      case(tpm_core_msgs::srv::AxisOperation::Request::SET_AS_ZERO):
+        return Private::set_as_offset(*this, axisId);
+      case(tpm_core_msgs::srv::AxisOperation::Request::SET_AS_OFFSET):
+        return Private::set_as_zero (*this, axisId);
+      case(tpm_core_msgs::srv::AxisOperation::Request::MV_TO_ZERO):
+        return Private::mv_to_zero  (*this, axisId);
+      case(tpm_core_msgs::srv::AxisOperation::Request::SEARCH_ORG):
+        return Private::search_org  (*this, axisId);
+
       default:
         ROS_PRINT("ERROR: funcType=%d is not implemented", funcType);
         return -1;

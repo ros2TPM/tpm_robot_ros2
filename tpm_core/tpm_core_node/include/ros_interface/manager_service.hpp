@@ -4,6 +4,7 @@
 #include "rclcpp/rclcpp.hpp"
 #include "tpm_core_msgs/srv/mail_box.hpp"
 #include "tpm_core_msgs/srv/move_ptp.hpp"
+#include "tpm_core_msgs/srv/axis_operation.hpp"
 
 using namespace tpm_core_msgs::srv;
 
@@ -19,7 +20,7 @@ namespace tpm_core
     std::vector<rclcpp::ServiceBase::SharedPtr> services_;
     
 
-    short axis_operation (const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res);
+    short axis_operation (const AxisOperation::Request::SharedPtr req, AxisOperation::Response::SharedPtr res);
     short set_axis_param (const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res);
     short set_robot_param(const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res);
 

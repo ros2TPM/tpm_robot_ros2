@@ -29,7 +29,7 @@ namespace tpm_core
     pRobot = &Robot::getInstance();
 
     //======== general API ======
-    services_.push_back(node->create_service<MailBox>( "/op/axis_operation",
+    services_.push_back(node->create_service<AxisOperation>( "/op/axis_operation",
       std::bind(&Manager_Service::axis_operation, this, _1, _2)));
 
     services_.push_back(node->create_service<MailBox>( "/op/set_axis_param",
@@ -57,17 +57,10 @@ namespace tpm_core
     
   }
   
-  short Manager_Service::axis_operation(const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
+  short Manager_Service::axis_operation(const AxisOperation::Request::SharedPtr req, AxisOperation::Response::SharedPtr res)
   {
-    CArchive recv;
-    recv.Update(req->buffer.size(), req->buffer.data());
-
-    char funcType;
-    signed char axisId;
-    recv >>funcType >> axisId;
-    
-    TRY(pRobot->do_action(funcType, axisId));
-    
+    TRY(pRobot->do_action(req->function, req->axis_id));
+    res->ok = true;
     return 0;
   }
   

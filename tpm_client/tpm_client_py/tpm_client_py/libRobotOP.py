@@ -5,9 +5,9 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 
+from tpm_core_msgs.srv import AxisOperation
 from tpm_core_msgs.srv import MailBox
 from tpm_core_msgs.msg import RobotStatus
-from tpm_core_msgs.msg import AxisStatus
 
 from enum import Enum
 
@@ -15,19 +15,6 @@ from enum import Enum
 class Robot_Parameter(Enum):
     move_speed  = 0
     jog_dist    = 1
-
-class Axis_Operation(Enum):
-    servo_on    = 0
-    servo_off   = 1
-    home        = 2
-    set_pos_to_offset = 3
-    set_pos_to_zero = 4
-    mv_to_zero  = 5
-    clear_alm   = 6
-    jog_pos     = 7
-    jog_neg     = 8
-    stop        = 9
-    search_org  = 10
 
 class Axis_Parameter(Enum):
     home_offset = 0
@@ -45,7 +32,7 @@ class Lib(Node):
         super().__init__('ros_robot_lib')
 
         # frequently called clients: declare as class member, instead of declare it every time when called.
-        self.client_axisOp = self.create_client(MailBox, '/op/axis_operation')
+        self.client_axisOp = self.create_client(AxisOperation, '/op/axis_operation')
         self.client_setAxisParam = self.create_client(MailBox, '/op/set_axis_param')
         self.client_setRobotParam = self.create_client(MailBox, '/op/set_robot_param')
         
@@ -93,12 +80,9 @@ class Lib(Node):
             print('"axis_operation" service not available.')
             return
         
-        #send a request to service.
-        sendBuff = struct.pack("=bb", funcType.value, axisId)#signed char.
-        byteArr = array.array('B', sendBuff)
-
-        req = MailBox.Request()
-        req.buffer = byteArr
+        req = AxisOperation.Request()
+        req.axis_id = axisId
+        req.function = funcType
 
         future = self.client_axisOp.call_async(req)
         #future = self.client.call_async(req)
