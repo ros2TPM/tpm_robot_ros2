@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "rclcpp/rclcpp.hpp"
-#include "tpm_core_msgs/msg/robot_status.hpp"
+#include "tpm_msgs/msg/robot_status.hpp"
 
 namespace tpm_core
 {
@@ -15,7 +15,7 @@ namespace tpm_core
     void timerCallback_robotStatus();
   private:
     rclcpp::TimerBase::SharedPtr timer_;
-    rclcpp::Publisher<tpm_core_msgs::msg::RobotStatus>::SharedPtr publisher_;
+    rclcpp::Publisher<tpm_msgs::msg::RobotStatus>::SharedPtr publisher_;
 
     
     

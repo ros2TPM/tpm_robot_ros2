@@ -8,7 +8,7 @@
 
 #include "control_msgs/action/follow_joint_trajectory.hpp"
 #include "sensor_msgs/msg/joint_state.hpp"
-#include "tpm_core_msgs/msg/robot_status.hpp"
+#include "tpm_msgs/msg/robot_status.hpp"
 
 #include "FJStrategy.h"
 
@@ -38,7 +38,7 @@ public:
         joint_state_publisher_ = this->create_publisher<sensor_msgs::msg::JointState>("joint_states", 10);
 
         // subscription for update robot status
-        robot_status_subsriber_ = this->create_subscription<tpm_core_msgs::msg::RobotStatus>("robot_status", 1,
+        robot_status_subsriber_ = this->create_subscription<tpm_msgs::msg::RobotStatus>("robot_status", 1,
             std::bind(&TPMController::Handle_RobotStatusUpdated, this, _1));
     }
 
@@ -50,7 +50,7 @@ private:
     FJStrategy* _fj; //follow joint strategy
     rclcpp_action::Server<FollowJointTrajectory>::SharedPtr action_server_;
     rclcpp::Publisher<sensor_msgs::msg::JointState>::SharedPtr joint_state_publisher_;
-    rclcpp::Subscription<tpm_core_msgs::msg::RobotStatus>::SharedPtr robot_status_subsriber_;
+    rclcpp::Subscription<tpm_msgs::msg::RobotStatus>::SharedPtr robot_status_subsriber_;
 
     rclcpp_action::GoalResponse handle_goal(const rclcpp_action::GoalUUID& uuid, std::shared_ptr<const FollowJointTrajectory::Goal> goal)
     {
@@ -78,7 +78,7 @@ private:
         std::thread{[this, goal_handle]() {_fj->Execute(goal_handle);}}.detach();
     }
 
-    void Handle_RobotStatusUpdated(const tpm_core_msgs::msg::RobotStatus& robStatus)
+    void Handle_RobotStatusUpdated(const tpm_msgs::msg::RobotStatus& robStatus)
     {
         //RCLCPP_INFO(this->get_logger(), "Handle_RobotStatusUpdated");
         mJointStates.clear();

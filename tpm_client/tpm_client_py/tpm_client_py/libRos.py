@@ -5,7 +5,7 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 
-from tpm_core_msgs.srv import MailBox
+from tpm_msgs.srv import MailBox
 
 class rosMnetLib(Node):
     def __init__(self):

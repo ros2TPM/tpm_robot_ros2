@@ -12,7 +12,7 @@ add_compile_options(-Wno-unused-parameter)
 set(THIS_PACKAGE_INCLUDE_DEPENDS
     ament_cmake
     rclcpp
-    tpm_core_msgs
+    tpm_msgs
     sensor_msgs
 )
 foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})

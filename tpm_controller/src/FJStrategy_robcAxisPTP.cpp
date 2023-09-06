@@ -6,11 +6,11 @@ using namespace std::chrono_literals;
 FJStrategy_robcAxisPTP::FJStrategy_robcAxisPTP(rclcpp::Node::SharedPtr node)
     :FJStrategy(node)
 {
-  cliDDACycle = node->create_client<tpm_core_msgs::srv::MailBox>("/rob/ddaCycle");
-  cliGetAxis = node->create_client<tpm_core_msgs::srv::MailBox>("/rob/getAxis");
-  cliMoveAxisPTP = node->create_client<tpm_core_msgs::srv::MovePTP>("/rob/movePTP");
-  cliRobGetBuff = node->create_client<tpm_core_msgs::srv::MailBox>("/rob/getBuffDepth");
-  cliRobStop = node->create_client<tpm_core_msgs::srv::MailBox>("/rob/stop");
+  cliDDACycle = node->create_client<tpm_msgs::srv::MailBox>("/rob/ddaCycle");
+  cliGetAxis = node->create_client<tpm_msgs::srv::MailBox>("/rob/getAxis");
+  cliMoveAxisPTP = node->create_client<tpm_msgs::srv::MovePTP>("/rob/movePTP");
+  cliRobGetBuff = node->create_client<tpm_msgs::srv::MailBox>("/rob/getBuffDepth");
+  cliRobStop = node->create_client<tpm_msgs::srv::MailBox>("/rob/stop");
 }
 
 void FJStrategy_robcAxisPTP::Execute(const std::shared_ptr<GoalHandleFJT> goal_handle)
@@ -33,7 +33,7 @@ void FJStrategy_robcAxisPTP::execute_all(const std::shared_ptr<GoalHandleFJT> go
   while (rclcpp::ok() && trjIdx < trjPointSize)
   {
     auto point = goal->trajectory.points.at(trjIdx);
-    auto request = std::make_shared<tpm_core_msgs::srv::MovePTP::Request>();
+    auto request = std::make_shared<tpm_msgs::srv::MovePTP::Request>();
     for (size_t i = 0; i < point.positions.size(); i++)
     {
       float pos = point.positions.at(i) * 180 / M_PI;
@@ -63,7 +63,7 @@ void FJStrategy_robcAxisPTP::execute_all(const std::shared_ptr<GoalHandleFJT> go
   std::chrono::nanoseconds sleepTime(1000000); // 1ms
 
   CArchive recv, send;
-  auto getBuffReq = std::make_shared<tpm_core_msgs::srv::MailBox::Request>();
+  auto getBuffReq = std::make_shared<tpm_msgs::srv::MailBox::Request>();
   do{
     isMoving = false;
 
@@ -91,7 +91,7 @@ void FJStrategy_robcAxisPTP::execute_all(const std::shared_ptr<GoalHandleFJT> go
         goal_handle->canceled(result);
         RCLCPP_INFO(_node->get_logger(), "Goal Canceled");
 
-        auto stopReq = std::make_shared<tpm_core_msgs::srv::MailBox::Request>();
+        auto stopReq = std::make_shared<tpm_msgs::srv::MailBox::Request>();
         char type = 0;
         send.Clear();
         send << type;
@@ -134,7 +134,7 @@ void FJStrategy_robcAxisPTP::execute_last_point(const std::shared_ptr<GoalHandle
   maxVel *= 180 / M_PI;//rad 2 deg.
 
   auto point = goal->trajectory.points.back();
-  auto request = std::make_shared<tpm_core_msgs::srv::MovePTP::Request>();
+  auto request = std::make_shared<tpm_msgs::srv::MovePTP::Request>();
   request->cmd_id = trjPointSize;
   request->mask = 0xff;
   request->mp_data.feed  = maxVel;
@@ -159,7 +159,7 @@ void FJStrategy_robcAxisPTP::execute_last_point(const std::shared_ptr<GoalHandle
   std::chrono::milliseconds sleepTime(100); // 100ms
 
   CArchive recv, send;
-  auto getBuffReq = std::make_shared<tpm_core_msgs::srv::MailBox::Request>();
+  auto getBuffReq = std::make_shared<tpm_msgs::srv::MailBox::Request>();
   do{
     isMoving = false;
 
@@ -187,7 +187,7 @@ void FJStrategy_robcAxisPTP::execute_last_point(const std::shared_ptr<GoalHandle
         goal_handle->canceled(result);
         RCLCPP_INFO(_node->get_logger(), "Goal Canceled");
 
-        auto stopReq = std::make_shared<tpm_core_msgs::srv::MailBox::Request>();
+        auto stopReq = std::make_shared<tpm_msgs::srv::MailBox::Request>();
         char type = 0;
         send.Clear();
         send << type;
@@ -209,7 +209,7 @@ void FJStrategy_robcAxisPTP::execute_last_point(const std::shared_ptr<GoalHandle
 }
 
 void FJStrategy_robcAxisPTP::get_buffer_callback(
-  rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedFuture future)
+  rclcpp::Client<tpm_msgs::srv::MailBox>::SharedFuture future)
 {
   auto status = future.wait_for(1s);
   if (status == std::future_status::ready)

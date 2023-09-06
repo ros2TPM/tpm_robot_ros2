@@ -16,9 +16,9 @@
 #include "control_msgs/action/follow_joint_trajectory.hpp"
 #include "std_msgs/msg/float64_multi_array.hpp"
 //#include "sensor_msgs/msg/joint_state.hpp"
-#include "tpm_core_msgs/srv/move_ptp.hpp"
-#include "tpm_core_msgs/srv/move_pvt.hpp"
-#include "tpm_core_msgs/srv/mail_box.hpp"
+#include "tpm_msgs/srv/move_ptp.hpp"
+#include "tpm_msgs/srv/move_pvt.hpp"
+#include "tpm_msgs/srv/mail_box.hpp"
 
 // user includes
 //#include "MCLC/MCLC.h"
@@ -80,18 +80,18 @@ public:
     void Execute(const std::shared_ptr<GoalHandleFJT> goal_handle) override;
 
 private:
-    rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedPtr cliDDACycle;
-    rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedPtr cliGetAxisBuff;
-    rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedPtr cliGetAxisPos;
-    rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedPtr cliStop;
-    rclcpp::Client<tpm_core_msgs::srv::MovePVT>::SharedPtr cliMovePVT;
+    rclcpp::Client<tpm_msgs::srv::MailBox>::SharedPtr cliDDACycle;
+    rclcpp::Client<tpm_msgs::srv::MailBox>::SharedPtr cliGetAxisBuff;
+    rclcpp::Client<tpm_msgs::srv::MailBox>::SharedPtr cliGetAxisPos;
+    rclcpp::Client<tpm_msgs::srv::MailBox>::SharedPtr cliStop;
+    rclcpp::Client<tpm_msgs::srv::MovePVT>::SharedPtr cliMovePVT;
 
     double axis_pos_;
     unsigned int buffer_;
     bool get_buffer_done_;
     bool get_axis_done_;
-    void get_buffer_callback(rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedFuture future);
-    void get_axis_callback(rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedFuture future);
+    void get_buffer_callback(rclcpp::Client<tpm_msgs::srv::MailBox>::SharedFuture future);
+    void get_axis_callback(rclcpp::Client<tpm_msgs::srv::MailBox>::SharedFuture future);
 };
 
 class FJStrategy_robcAxisPTP : public FJStrategy
@@ -102,18 +102,18 @@ public:
     void Execute(const std::shared_ptr<GoalHandleFJT> goal_handle) override;
 
 private:
-    rclcpp::Client<tpm_core_msgs::srv::MovePTP>::SharedPtr cliMoveAxisPTP;
-    rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedPtr cliRobGetBuff;
-    rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedPtr cliRobStop;
-    rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedPtr cliDDACycle;
-    rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedPtr cliGetAxis;
+    rclcpp::Client<tpm_msgs::srv::MovePTP>::SharedPtr cliMoveAxisPTP;
+    rclcpp::Client<tpm_msgs::srv::MailBox>::SharedPtr cliRobGetBuff;
+    rclcpp::Client<tpm_msgs::srv::MailBox>::SharedPtr cliRobStop;
+    rclcpp::Client<tpm_msgs::srv::MailBox>::SharedPtr cliDDACycle;
+    rclcpp::Client<tpm_msgs::srv::MailBox>::SharedPtr cliGetAxis;
 
     rclcpp::Subscription<std_msgs::msg::Float64MultiArray>::SharedPtr subRobAxes;
     void Handle_RobAxesChanged(const std_msgs::msg::Float64MultiArray& msg);
 
     int buffer_;
     bool get_buffer_done_;
-    void get_buffer_callback(rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedFuture future);
+    void get_buffer_callback(rclcpp::Client<tpm_msgs::srv::MailBox>::SharedFuture future);
 
     void execute_all(const std::shared_ptr<GoalHandleFJT> goal_handle);
     void execute_last_point(const std::shared_ptr<GoalHandleFJT> goal_handle);

@@ -1,12 +1,12 @@
 #include "manager_topic.hpp"
 #include "global_instance.hpp" //MAX_AXIS_NUM
 #include "hwLib.hpp"
-#include "tpm_core_msgs/msg/axis_status.hpp"
+#include "tpm_msgs/msg/axis_status.hpp"
 #include "myRobot.h"
 #include "def_macro.h"
 #include <chrono> //for timer
 
-using namespace tpm_core_msgs::msg;
+using namespace tpm_msgs::msg;
 using namespace std::chrono; //for timer period.
 
 

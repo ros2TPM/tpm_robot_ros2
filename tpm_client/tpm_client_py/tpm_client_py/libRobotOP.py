@@ -5,9 +5,9 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 
-from tpm_core_msgs.srv import AxisOperation
-from tpm_core_msgs.srv import MailBox
-from tpm_core_msgs.msg import RobotStatus
+from tpm_msgs.srv import AxisOperation
+from tpm_msgs.srv import MailBox
+from tpm_msgs.msg import RobotStatus
 
 from enum import Enum
 

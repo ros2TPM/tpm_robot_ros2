@@ -3,18 +3,18 @@
 
 #define AXIS_NUM 6 //todo: use vector instead of fixed len?
 
-using namespace tpm_core_msgs::msg;
+using namespace tpm_msgs::msg;
 using namespace std::chrono_literals;
 
 FJStrategy_mclcPVTClient::FJStrategy_mclcPVTClient(rclcpp::Node::SharedPtr node)
     :FJStrategy(node)
 {
     _mJointStates.resize(AXIS_NUM, 0);
-    cliDDACycle = _node->create_client<tpm_core_msgs::srv::MailBox>("/mclc/ddaCycle");
-    cliGetAxisBuff = _node->create_client<tpm_core_msgs::srv::MailBox>("/mclc/axisGetBuffDepth");
-    cliGetAxisPos = _node->create_client<tpm_core_msgs::srv::MailBox>("/mclc/axisGetTrgPosCmd");
-    cliMovePVT = _node->create_client<tpm_core_msgs::srv::MovePVT>("/mclc/axisMovePvt");
-    cliStop = _node->create_client<tpm_core_msgs::srv::MailBox>("/mclc/axisStop");
+    cliDDACycle = _node->create_client<tpm_msgs::srv::MailBox>("/mclc/ddaCycle");
+    cliGetAxisBuff = _node->create_client<tpm_msgs::srv::MailBox>("/mclc/axisGetBuffDepth");
+    cliGetAxisPos = _node->create_client<tpm_msgs::srv::MailBox>("/mclc/axisGetTrgPosCmd");
+    cliMovePVT = _node->create_client<tpm_msgs::srv::MovePVT>("/mclc/axisMovePvt");
+    cliStop = _node->create_client<tpm_msgs::srv::MailBox>("/mclc/axisStop");
 }
 
 void FJStrategy_mclcPVTClient::Execute(
@@ -62,7 +62,7 @@ void FJStrategy_mclcPVTClient::Execute(
     }
 
     //=======================================================
-    auto request = std::make_shared<tpm_core_msgs::srv::MovePVT::Request>();
+    auto request = std::make_shared<tpm_msgs::srv::MovePVT::Request>();
     for (size_t i = 0; i < AXIS_NUM; i++)
     {
         request->axis_id = i;
@@ -82,7 +82,7 @@ void FJStrategy_mclcPVTClient::Execute(
     CArchive send;
     char axisId = 0;
     send << axisId;
-    auto getBuffReq = std::make_shared<tpm_core_msgs::srv::MailBox::Request>();
+    auto getBuffReq = std::make_shared<tpm_msgs::srv::MailBox::Request>();
 
     getBuffReq->buffer.resize(send.GetSize());
     memcpy(getBuffReq->buffer.data(), send.GetData(), send.GetSize());
@@ -113,7 +113,7 @@ void FJStrategy_mclcPVTClient::Execute(
             goal_handle->canceled(result);
             RCLCPP_INFO(_node->get_logger(), "Goal Canceled");
 
-            auto stopReq = std::make_shared<tpm_core_msgs::srv::MailBox::Request>();
+            auto stopReq = std::make_shared<tpm_msgs::srv::MailBox::Request>();
             char type = 0;
 
             for (char i = 0; i < AXIS_NUM; i++)
@@ -138,7 +138,7 @@ void FJStrategy_mclcPVTClient::Execute(
 
 
 void FJStrategy_mclcPVTClient::get_buffer_callback(
-  rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedFuture future)
+  rclcpp::Client<tpm_msgs::srv::MailBox>::SharedFuture future)
 {
   auto status = future.wait_for(1s);
   if (status == std::future_status::ready)
@@ -153,7 +153,7 @@ void FJStrategy_mclcPVTClient::get_buffer_callback(
 }
 
 void FJStrategy_mclcPVTClient::get_axis_callback(
-  rclcpp::Client<tpm_core_msgs::srv::MailBox>::SharedFuture future)
+  rclcpp::Client<tpm_msgs::srv::MailBox>::SharedFuture future)
 {
   //RCLCPP_INFO(_node->get_logger(), "get_axis_callback");
   auto status = future.wait_for(1s);

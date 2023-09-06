@@ -11,7 +11,7 @@ find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(control_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
-find_package(tpm_core_msgs REQUIRED)
+find_package(tpm_msgs REQUIRED)
 
 file(GLOB SRC_FJSTRATEGY "src/FJStrategy_*.cpp")
 add_executable(tpm_controller 
@@ -35,7 +35,7 @@ ament_target_dependencies(
   "rclcpp_action"
   "control_msgs"
   "sensor_msgs"
-  "tpm_core_msgs"
+  "tpm_msgs"
 )
 
 install(TARGETS tpm_controller

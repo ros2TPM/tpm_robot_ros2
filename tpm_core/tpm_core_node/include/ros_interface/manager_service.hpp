@@ -2,11 +2,11 @@
 
 #include <vector>
 #include "rclcpp/rclcpp.hpp"
-#include "tpm_core_msgs/srv/mail_box.hpp"
-#include "tpm_core_msgs/srv/move_ptp.hpp"
-#include "tpm_core_msgs/srv/axis_operation.hpp"
+#include "tpm_msgs/srv/mail_box.hpp"
+#include "tpm_msgs/srv/move_ptp.hpp"
+#include "tpm_msgs/srv/axis_operation.hpp"
 
-using namespace tpm_core_msgs::srv;
+using namespace tpm_msgs::srv;
 
 namespace tpm_core
 {

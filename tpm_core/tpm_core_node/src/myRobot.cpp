@@ -6,7 +6,7 @@
 #include <thread>
 #include <math.h>
 
-#include "tpm_core_msgs/srv/axis_operation.hpp"
+#include "tpm_msgs/srv/axis_operation.hpp"
 
 namespace tpm_core {
 
@@ -161,27 +161,27 @@ short Robot::do_action(char funcType, signed char axisId)
 
     switch(funcType)
     {
-      case(tpm_core_msgs::srv::AxisOperation::Request::SERVO_ON):
+      case(tpm_msgs::srv::AxisOperation::Request::SERVO_ON):
         return Private::servo(*this, axisId, true);
-      case(tpm_core_msgs::srv::AxisOperation::Request::SERVO_OFF):
+      case(tpm_msgs::srv::AxisOperation::Request::SERVO_OFF):
         return Private::servo(*this, axisId, false);
-      case(tpm_core_msgs::srv::AxisOperation::Request::HOME):
+      case(tpm_msgs::srv::AxisOperation::Request::HOME):
         return Private::home(*this, axisId);
-      case(tpm_core_msgs::srv::AxisOperation::Request::CLEAR_ALM):
+      case(tpm_msgs::srv::AxisOperation::Request::CLEAR_ALM):
         return Private::clear_alm(*this, axisId);
-      case(tpm_core_msgs::srv::AxisOperation::Request::JOG_POS):
+      case(tpm_msgs::srv::AxisOperation::Request::JOG_POS):
         return Private::jog(*this, axisId, true);
-      case(tpm_core_msgs::srv::AxisOperation::Request::JOG_NEG):
+      case(tpm_msgs::srv::AxisOperation::Request::JOG_NEG):
         return Private::jog(*this, axisId, false);
-      case(tpm_core_msgs::srv::AxisOperation::Request::STOP):
+      case(tpm_msgs::srv::AxisOperation::Request::STOP):
         return Private::stop(*this, axisId);
-      case(tpm_core_msgs::srv::AxisOperation::Request::SET_AS_ZERO):
+      case(tpm_msgs::srv::AxisOperation::Request::SET_AS_ZERO):
         return Private::set_as_offset(*this, axisId);
-      case(tpm_core_msgs::srv::AxisOperation::Request::SET_AS_OFFSET):
+      case(tpm_msgs::srv::AxisOperation::Request::SET_AS_OFFSET):
         return Private::set_as_zero (*this, axisId);
-      case(tpm_core_msgs::srv::AxisOperation::Request::MV_TO_ZERO):
+      case(tpm_msgs::srv::AxisOperation::Request::MV_TO_ZERO):
         return Private::mv_to_zero  (*this, axisId);
-      case(tpm_core_msgs::srv::AxisOperation::Request::SEARCH_ORG):
+      case(tpm_msgs::srv::AxisOperation::Request::SEARCH_ORG):
         return Private::search_org  (*this, axisId);
 
       default:
