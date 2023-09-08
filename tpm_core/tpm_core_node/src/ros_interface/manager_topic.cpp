@@ -54,7 +54,7 @@ void Manager_Topic::timerCallback_robotStatus()
 
     auto jointStatesMsg = JointState();
     jointStatesMsg.header.stamp = rclcpp::Clock{}.now();
-    DeltaKinematics::Instance().GetJointStates(RIDT->robc.axis, RIDT->robc.pose, jointStatesMsg.name, jointStatesMsg.position);
+    RobotKinematics::GetInstance()->GetJointStates(RIDT->robc.axis, RIDT->robc.pose, jointStatesMsg.name, jointStatesMsg.position);
     joint_states_publisher_->publish(jointStatesMsg);
 }
 

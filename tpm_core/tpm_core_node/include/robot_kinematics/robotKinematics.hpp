@@ -9,32 +9,34 @@ namespace tpm_core
   {
   protected:
     // private constructor, copy constructor, and assignment operator
-    RobotKinematics(){};
-    RobotKinematics(const RobotKinematics&);
-    RobotKinematics& operator=(const RobotKinematics&);
+    RobotKinematics(){}
 
   public:
-    // RobotKinematics(const RobotKinematics&)=delete;
-    // RobotKinematics& operator=(const RobotKinematics&)=delete;
-    // ~RobotKinematics();// This will be automatically called when the program exits
+    static void SelectKinematic(ROB_KIN_TYPE type);
+    static RobotKinematics* GetInstance() { return _ptr; }
+    RobotKinematics(const RobotKinematics&)=delete;
+    RobotKinematics& operator=(const RobotKinematics&)=delete;
+    virtual ~RobotKinematics(){ delete(_ptr); } // This will be automatically called when the program exits
 
     virtual void Init(FLT a[], FLT alpha[], FLT d[], FLT theta[]) = 0;
 
     virtual void GetJointStates(FLT* axes, FLT* pos, std::vector<std::string>& jointNames, std::vector<double>& jointValues){}
 
   protected:
+    static RobotKinematics* _ptr;
     std::vector<std::string> _joint_names;
 
+  };
+
+  class SerialKinematics : public RobotKinematics
+  {
+    void Init(FLT a[], FLT alpha[], FLT d[], FLT theta[]) override;
+    void GetJointStates(FLT* axes, FLT* pos, std::vector<std::string>& jointNames, std::vector<double>& jointValues) override;
   };
 
   class DeltaKinematics : public RobotKinematics
   {
   public:
-    static DeltaKinematics& Instance()
-    {
-      static DeltaKinematics instance; //initialized only once.
-      return instance;
-    }
     void Init(FLT a[], FLT alpha[], FLT d[], FLT theta[]) override;
     void GetJointStates(FLT* axes, FLT* pos, std::vector<std::string>& jointNames, std::vector<double>& jointValues) override;
 

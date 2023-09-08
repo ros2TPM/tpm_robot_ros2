@@ -5,6 +5,46 @@ using namespace std;
 
 namespace tpm_core
 {
+  RobotKinematics* RobotKinematics::_ptr = NULL;
+
+  void RobotKinematics::SelectKinematic(ROB_KIN_TYPE type)
+  {
+    delete(_ptr);
+
+    switch (type)
+    {
+    case ROB_Delta_Pris:
+      _ptr = new DeltaKinematics();
+      break;
+    
+    default:
+      _ptr = new SerialKinematics();
+      break;
+    }
+  }
+
+  void SerialKinematics::Init(FLT a[], FLT alpha[], FLT d[], FLT theta[])
+  {
+    _joint_names.clear();
+    _joint_names = {
+      "joint1", "joint2", "joint3",
+      "joint4", "joint5", "joint6",
+      "x", "y", "z", "a", "b", "c"
+    };
+  }
+
+  void SerialKinematics::GetJointStates(FLT* axes, FLT* pos, std::vector<std::string>& jointNames, std::vector<double>& jointValues)
+  {
+    jointValues.clear();
+    jointNames = this->_joint_names;
+
+    for(int i = 0; i < MAX_AXIS_PER_ROBOT; i++)
+      jointValues.push_back(axes[i]);
+
+    for(int i = 0; i < MAX_AXIS_PER_ROBOT; i++)
+      jointValues.push_back(pos[i]);
+  }
+
   void DeltaKinematics::Init(FLT a[], FLT alpha[], FLT d[], FLT theta[])
   {
     _joint_names.clear();
@@ -78,8 +118,8 @@ namespace tpm_core
       axes[0] / 1000, alpha[0], beta[0],
       axes[1] / 1000, alpha[1], beta[1],
       axes[2] / 1000, alpha[2], beta[2],
-      pos[0] / 1000,
-      pos[1] / 1000,
+       pos[0] / 1000,
+       pos[1] / 1000,
       -pos[2] / 1000,
     };
   }

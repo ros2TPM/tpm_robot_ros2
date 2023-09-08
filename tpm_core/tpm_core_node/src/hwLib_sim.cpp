@@ -76,7 +76,7 @@ namespace tpm_core
   {
 
     // FLT posLimit[6] = { 120, 90, 50, 155, 120, 355 };
-    // FLT negLimit[6] = { -160, -33, -130, -90, -50, -355 };      
+    // FLT negLimit[6] = { -160, -33, -130, -90, -50, -355 };
     // FLT a       [6] = { 0, 64.2, 305, 0, 0, 0 };
     // FLT alpha   [6] = { 180, 90, 0, 90, -90, -90 };
     // FLT d       [6] = { -169.77, 0, 0, -222.63, 0, 36.25 };
@@ -100,7 +100,8 @@ namespace tpm_core
     FLT pulsePerDeg[6] = {100, 100, 100, 100, 100, 100};
     auto rc = init_inner(ROB_Delta_Pris, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);
 
-    DeltaKinematics::Instance().Init(a, alpha, d, theta);
+    RobotKinematics::SelectKinematic(ROB_Delta_Pris);
+    RobotKinematics::GetInstance()->Init(a, alpha, d, theta);
 
     return rc;
 
