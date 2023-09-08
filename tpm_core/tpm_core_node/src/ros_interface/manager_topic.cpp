@@ -6,6 +6,9 @@
 #include "def_macro.h"
 #include <chrono> //for timer
 
+#include "robot_kinematics/robotKinematics.hpp"
+
+using namespace sensor_msgs::msg;
 using namespace tpm_msgs::msg;
 using namespace std::chrono; //for timer period.
 
@@ -16,6 +19,7 @@ Manager_Topic::Manager_Topic(rclcpp::Node::SharedPtr node)
 {
     size_t queueSize=1; //we always want the latest value. so don't need queue.
     publisher_ = node->create_publisher<RobotStatus>("robot_status", queueSize);
+    joint_states_publisher_ = node->create_publisher<JointState>("joint_states", queueSize);
     
     timer_ = node->create_wall_timer(
       500ms, std::bind(&Manager_Topic::timerCallback_robotStatus, this));
@@ -47,6 +51,11 @@ void Manager_Topic::timerCallback_robotStatus()
     }
 
     publisher_->publish(message);
+
+    auto jointStatesMsg = JointState();
+    jointStatesMsg.header.stamp = rclcpp::Clock{}.now();
+    DeltaKinematics::Instance().GetJointStates(RIDT->robc.axis, RIDT->robc.pose, jointStatesMsg.name, jointStatesMsg.position);
+    joint_states_publisher_->publish(jointStatesMsg);
 }
 
 }//end namesapce

@@ -74,6 +74,7 @@ add_executable(${PROJECT_NAME}
   src/ros_interface/manager_param.cpp
   src/ros_interface/manager_topic.cpp
   src/ros_interface/manager_service.cpp
+  src/robot_kinematics/robotKinematics.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
 

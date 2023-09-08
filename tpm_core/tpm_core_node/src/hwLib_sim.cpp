@@ -5,6 +5,8 @@
 #include "global_instance.hpp" //for MAX_AXIS_NUM
 #include <thread> //for RI-DDA_Cycle()
 
+#include "robot_kinematics/robotKinematics.hpp"
+
 namespace tpm_core
 {
   HwLib& HwLib::Instance(){
@@ -34,6 +36,12 @@ namespace tpm_core
               ROS_PRINT("dda_cycle error: %d", rc);
           
           get_axis(RIDT->robc.axis);
+          get_pose(RIDT->robc.pose);
+
+          // ROS_PRINT("Axis:[%.3f, %.3f, %.3f] Pose[%.3f, %.3f, %.3f]",
+          //   RIDT->robc.axis[0], RIDT->robc.axis[1], RIDT->robc.axis[2],
+          //   RIDT->robc.pose[0], RIDT->robc.pose[1], RIDT->robc.pose[2]
+          // );
               
           RIDT->m1a[0].encPos = (temp_counter++)/1000; //generate some fake data
 
@@ -67,17 +75,32 @@ namespace tpm_core
   short HwLib::init()
   {
 
-    FLT posLimit[6] = { 120, 90, 50, 155, 120, 355 };
-    FLT negLimit[6] = { -160, -33, -130, -90, -50, -355 };      
-    FLT a       [6] = { 0, 64.2, 305, 0, 0, 0 };
-    FLT alpha   [6] = { 180, 90, 0, 90, -90, -90 };
-    FLT d       [6] = { -169.77, 0, 0, -222.63, 0, 36.25 };
-    FLT theta   [6] = { 0, 0, 0, 0, 0, 0 };
-    FLT thetaShift[6] = { 0, 90, 0, 0, 0, 0 };
+    // FLT posLimit[6] = { 120, 90, 50, 155, 120, 355 };
+    // FLT negLimit[6] = { -160, -33, -130, -90, -50, -355 };      
+    // FLT a       [6] = { 0, 64.2, 305, 0, 0, 0 };
+    // FLT alpha   [6] = { 180, 90, 0, 90, -90, -90 };
+    // FLT d       [6] = { -169.77, 0, 0, -222.63, 0, 36.25 };
+    // FLT theta   [6] = { 0, 0, 0, 0, 0, 0 };
+    // FLT thetaShift[6] = { 0, 90, 0, 0, 0, 0 };
+
+    // FLT pulsePerDeg[6] = {100, 100, 100, 100, 100, 100};
+
+    // Robot::getInstance().get_pulse_per_deg(pulsePerDeg, 6);
+    // auto rc = init_inner(ROB_Axis6, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);
+
+    // delta
+    FLT posLimit[6] = { 150, 150, 150 };
+    FLT negLimit[6] = { 0 };      
+    FLT a       [6] = { 0 };
+    FLT alpha   [6] = { 45.0,0.0,0.0,0.0,0.0,0.0 };
+    FLT d       [6] = { 392.154, 237.485,  400.0, 39.5, 42.0,0.0 };
+    FLT theta   [6] = { 105.0,627.323,0,0.0,0.0,0.0 };
+    FLT thetaShift[6] = { 0 };
 
     FLT pulsePerDeg[6] = {100, 100, 100, 100, 100, 100};
-    //Robot::getInstance().get_pulse_per_deg(pulsePerDeg, 6);
-    auto rc = init_inner(ROB_Axis6, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);
+    auto rc = init_inner(ROB_Delta_Pris, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);
+
+    DeltaKinematics::Instance().Init(a, alpha, d, theta);
 
     return rc;
 
@@ -89,7 +112,7 @@ namespace tpm_core
     return rc;
   }
 
-  short HwLib_Sim::dda_cycle()
+  short HwLib_Sim::dda_cycle()  // todo: remove this use DDA_Cycle
   {
     //printf("HwLib_Sim::dda_cycle\n");
     return robc_dda_cycle();
@@ -109,6 +132,7 @@ namespace tpm_core
   }
   short HwLib_Sim::jog_axis(U8 AxisId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc) 
   {
+    //ROS_PRINT("AxisId:%d, Dir:%d, Dist:%.3f, Vel:%.3f, Acc:%.3f", AxisId, dir, Dist, Vel, Acc);
     return robc_jog_axis(AxisId, dir, Dist, Vel, Acc);
   }
   short HwLib_Sim::jog_pose(U8 PoseId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc, ROB_FRAME_TYPE frame) 
@@ -138,6 +162,11 @@ namespace tpm_core
 
     //printf("HwLib_Sim::get_axis\n");
     robc_get_axis(values);
+    return 0;
+  }
+  short HwLib_Sim::get_pose(FLT* values)
+  {
+    robc_get_pose(values);
     return 0;
   }
 

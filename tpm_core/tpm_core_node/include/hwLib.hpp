@@ -53,6 +53,7 @@ namespace tpm_core
     virtual short jog_pose(U8 PoseId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc, ROB_FRAME_TYPE frame){return 0;}
     virtual short move_p2p_axis(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pos, UINT8 mask) {return 0;}
     virtual short get_axis(FLT* values) {return 0;}
+    virtual short get_pose(FLT* values) {return 0;}
     virtual short get_buffer_depth(INT32* buffDepth) {return 0;}
 
     virtual short hold  () {return 0;}
@@ -148,6 +149,7 @@ namespace tpm_core
     short jog_pose(U8 PoseId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc, ROB_FRAME_TYPE frame) override;
     short move_p2p_axis(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pos, UINT8 mask) override;
     short get_axis(FLT* values) override;
+    short get_pose(FLT* values) override;
     short get_buffer_depth(INT32* buffDepth) override;
 
     short hold  () override;
