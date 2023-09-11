@@ -21,4 +21,18 @@ public:
     static void load_parameters();
 };
 
+class RobotSpec
+{
+public:
+    static int robot_type;
+    static std::vector<double> a;
+    static std::vector<double> alpha;
+    static std::vector<double> d;
+    static std::vector<double> theta;
+    static std::vector<double> theta_shift;
+    static std::vector<double> pos_limit;
+    static std::vector<double> neg_limit;
+    static std::vector<double> pulse_per_unit;
+};
+
 }//end namespace

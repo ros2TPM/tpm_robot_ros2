@@ -3,6 +3,7 @@
 #include "def_macro.h"
 #include "def_RIDT.h"
 #include "global_instance.hpp" //for MAX_AXIS_NUM
+#include "global_config.hpp" //for RobotSpec
 #include <thread> //for RI-DDA_Cycle()
 
 #include "robot_kinematics/robotKinematics.hpp"
@@ -74,33 +75,32 @@ namespace tpm_core
   #pragma region ROBC
   short HwLib::init()
   {
+    ROB_KIN_TYPE robotType = (ROB_KIN_TYPE)RobotSpec::robot_type;
 
-    // FLT posLimit[6] = { 120, 90, 50, 155, 120, 355 };
-    // FLT negLimit[6] = { -160, -33, -130, -90, -50, -355 };
-    // FLT a       [6] = { 0, 64.2, 305, 0, 0, 0 };
-    // FLT alpha   [6] = { 180, 90, 0, 90, -90, -90 };
-    // FLT d       [6] = { -169.77, 0, 0, -222.63, 0, 36.25 };
-    // FLT theta   [6] = { 0, 0, 0, 0, 0, 0 };
-    // FLT thetaShift[6] = { 0, 90, 0, 0, 0, 0 };
+    FLT posLimit   [MAX_AXIS_PER_ROBOT];
+    FLT negLimit   [MAX_AXIS_PER_ROBOT];
+    FLT a          [MAX_AXIS_PER_ROBOT];
+    FLT alpha      [MAX_AXIS_PER_ROBOT];
+    FLT d          [MAX_AXIS_PER_ROBOT];
+    FLT theta      [MAX_AXIS_PER_ROBOT];
+    FLT thetaShift [MAX_AXIS_PER_ROBOT];
+    FLT pulsePerDeg[MAX_AXIS_PER_ROBOT];
 
-    // FLT pulsePerDeg[6] = {100, 100, 100, 100, 100, 100};
+    for (int i = 0; i < MAX_AXIS_PER_ROBOT; i++)
+    {
+      posLimit[i] = RobotSpec::pos_limit[i];
+      negLimit[i] = RobotSpec::neg_limit[i];
+      a[i] = RobotSpec::a[i];
+      alpha[i] = RobotSpec::alpha[i];
+      d[i] = RobotSpec::d[i];
+      theta[i] = RobotSpec::theta[i];
+      thetaShift[i] = RobotSpec::theta_shift[i];
+      pulsePerDeg[i] = RobotSpec::pulse_per_unit[i];
+    }
 
-    // Robot::getInstance().get_pulse_per_deg(pulsePerDeg, 6);
-    // auto rc = init_inner(ROB_Axis6, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);
+    auto rc = init_inner(robotType, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);
 
-    // delta
-    FLT posLimit[6] = { 150, 150, 150 };
-    FLT negLimit[6] = { 0 };      
-    FLT a       [6] = { 0 };
-    FLT alpha   [6] = { 45.0,0.0,0.0,0.0,0.0,0.0 };
-    FLT d       [6] = { 392.154, 237.485,  400.0, 39.5, 42.0,0.0 };
-    FLT theta   [6] = { 105.0,627.323,0,0.0,0.0,0.0 };
-    FLT thetaShift[6] = { 0 };
-
-    FLT pulsePerDeg[6] = {100, 100, 100, 100, 100, 100};
-    auto rc = init_inner(ROB_Delta_Pris, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);
-
-    RobotKinematics::SelectKinematic(ROB_Delta_Pris);
+    RobotKinematics::SelectKinematic(robotType);
     RobotKinematics::GetInstance()->Init(a, alpha, d, theta);
 
     return rc;

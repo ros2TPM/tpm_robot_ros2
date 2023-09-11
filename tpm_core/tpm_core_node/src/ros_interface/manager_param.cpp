@@ -41,6 +41,27 @@ Manager_Param::Manager_Param(rclcpp::Node::SharedPtr node)
         ROS_PRINT("max_jog_speed: ");
         for(size_t i = 0; i < Config::max_jog_speed.size(); i++)
             ROS_PRINT("%2f,", Config::max_jog_speed[i]);
+
+
+    node->declare_parameter("robot_type", 40);
+    node->declare_parameter("a", zeros);
+    node->declare_parameter("alpha", zeros);
+    node->declare_parameter("d", zeros);
+    node->declare_parameter("theta", zeros);
+    node->declare_parameter("theta_shift", zeros);
+    node->declare_parameter("pos_limit", zeros);
+    node->declare_parameter("neg_limit", zeros);
+    node->declare_parameter("pulse_per_unit", zeros);
+
+    node->get_parameter("robot_type", RobotSpec::robot_type);
+    node->get_parameter("a", RobotSpec::a);
+    node->get_parameter("alpha", RobotSpec::alpha);
+    node->get_parameter("d", RobotSpec::d);
+    node->get_parameter("theta", RobotSpec::theta);
+    node->get_parameter("theta_shift", RobotSpec::theta_shift);
+    node->get_parameter("pos_limit", RobotSpec::pos_limit);
+    node->get_parameter("neg_limit", RobotSpec::neg_limit);
+    node->get_parameter("pulse_per_unit", RobotSpec::pulse_per_unit);
 }
 
 }

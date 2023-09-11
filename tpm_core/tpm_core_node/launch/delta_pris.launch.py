@@ -12,11 +12,10 @@ def generate_launch_description():
         'mnetConfig.yaml'
     )
 
-    # You can simply define another path for the second .yaml and append it to the parameters
     robot_config = os.path.join(
         get_package_share_directory('tpm_core_node'),
         'config',
-        'ar3Config.yaml'
+        'delta_prisConfig.yaml'
     )
 
     ld.add_action(

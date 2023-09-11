@@ -13,6 +13,15 @@ std::vector<long int> Config::home_dir;
 std::vector<double> Config::max_jog_speed;
 std::vector<double> Config::pulse_per_deg;
 
+int RobotSpec::robot_type;
+std::vector<double> RobotSpec::a;
+std::vector<double> RobotSpec::alpha;
+std::vector<double> RobotSpec::d;
+std::vector<double> RobotSpec::theta;
+std::vector<double> RobotSpec::theta_shift;
+std::vector<double> RobotSpec::pos_limit;
+std::vector<double> RobotSpec::neg_limit;
+std::vector<double> RobotSpec::pulse_per_unit;
 
 void Config::declare_parameters()
 {
