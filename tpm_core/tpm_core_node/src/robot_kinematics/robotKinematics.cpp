@@ -29,7 +29,7 @@ namespace tpm_core
     _joint_names = {
       "joint1", "joint2", "joint3",
       "joint4", "joint5", "joint6",
-      "x", "y", "z", "a", "b", "c"
+      //"x", "y", "z", "a", "b", "c"
     };
   }
 
@@ -39,10 +39,10 @@ namespace tpm_core
     jointNames = this->_joint_names;
 
     for(int i = 0; i < MAX_AXIS_PER_ROBOT; i++)
-      jointValues.push_back(axes[i]);
+      jointValues.push_back(axes[i] * M_PI / 180);
 
-    for(int i = 0; i < MAX_AXIS_PER_ROBOT; i++)
-      jointValues.push_back(pos[i]);
+    // for(int i = 0; i < MAX_AXIS_PER_ROBOT; i++)
+    //   jointValues.push_back(pos[i]);
   }
 
   void DeltaKinematics::Init(FLT a[], FLT alpha[], FLT d[], FLT theta[])

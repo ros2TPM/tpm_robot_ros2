@@ -12,8 +12,10 @@ add_compile_options(-Wno-unused-parameter)
 set(THIS_PACKAGE_INCLUDE_DEPENDS
     ament_cmake
     rclcpp
+    rclcpp_action
     tpm_msgs
     sensor_msgs
+    control_msgs
 )
 foreach(Dependency IN ITEMS ${THIS_PACKAGE_INCLUDE_DEPENDS})
   find_package(${Dependency} REQUIRED)
@@ -74,6 +76,7 @@ add_executable(${PROJECT_NAME}
   src/ros_interface/manager_param.cpp
   src/ros_interface/manager_topic.cpp
   src/ros_interface/manager_service.cpp
+  src/ros_interface/manager_action.cpp
   src/robot_kinematics/robotKinematics.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})

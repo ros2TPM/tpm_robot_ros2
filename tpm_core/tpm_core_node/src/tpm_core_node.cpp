@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <rclcpp/rclcpp.hpp>
+#include "manager_action.hpp"
 #include "manager_service.hpp"
 #include "manager_topic.hpp"
 #include "manager_param.hpp"
@@ -39,10 +40,14 @@ class TpmCoreNode : public rclcpp::Node
         srv_ = std::make_shared<Manager_Service> (this->shared_from_this());
         
         ROS_PRINT("==== Create topic...");
-        tpc_ = std::make_shared<Manager_Topic>   (this->shared_from_this()); 
+        tpc_ = std::make_shared<Manager_Topic>   (this->shared_from_this());
+
+        ROS_PRINT("==== Create action...");
+        act_ = std::make_shared<Manager_Action> (this->shared_from_this());
     }
   private:
-    std::shared_ptr<Manager_Service> srv_; 
+    std::shared_ptr<Manager_Action>  act_;
+    std::shared_ptr<Manager_Service> srv_;
     std::shared_ptr<Manager_Topic>   tpc_;
     std::shared_ptr<Manager_Param>   param_;
 };
