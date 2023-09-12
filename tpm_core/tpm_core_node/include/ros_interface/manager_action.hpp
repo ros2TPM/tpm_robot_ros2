@@ -4,6 +4,8 @@
 #include "rclcpp_action/rclcpp_action.hpp"
 #include "control_msgs/action/follow_joint_trajectory.hpp"
 
+#include "FJStrategy.hpp"
+
 namespace tpm_core
 {
   class Manager_Action
@@ -22,6 +24,6 @@ namespace tpm_core
     rclcpp_action::CancelResponse handle_fjt_cancel(const std::shared_ptr<GoalHandleFJT> goal_handle);
     void handle_fjt_accepted(const std::shared_ptr<GoalHandleFJT> goal_handle);
 
-    void execute_ftj(const std::shared_ptr<GoalHandleFJT> goal_handle);
+    FJStrategy* fj_;
   };
 }

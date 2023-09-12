@@ -61,15 +61,15 @@ def generate_launch_description():
     )
 
     # joint driver
-    ld.add_action(
-        Node(
-            package="tpm_controller",
-            executable="tpm_controller",
-            parameters=[
-                moveit_config.robot_description,
-            ],
-        )
-    )
+    # ld.add_action(
+    #     Node(
+    #         package="tpm_controller",
+    #         executable="tpm_controller",
+    #         parameters=[
+    #             moveit_config.robot_description,
+    #         ],
+    #     )
+    # )
 
     ld.add_action(
         IncludeLaunchDescription(

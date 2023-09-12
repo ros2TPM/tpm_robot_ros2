@@ -78,6 +78,8 @@ add_executable(${PROJECT_NAME}
   src/ros_interface/manager_service.cpp
   src/ros_interface/manager_action.cpp
   src/robot_kinematics/robotKinematics.cpp
+  src/FJStrategy/FJStrategy_mclcPVT.cpp
+  src/FJStrategy/FJStrategy_robcAxisPTP.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
 

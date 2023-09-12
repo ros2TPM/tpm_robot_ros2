@@ -110,8 +110,8 @@ namespace tpm_core
       Vec3_RotZYX(v[i], tmp, rotZ[i], -this->theta, 0);
       Vec3_NormalizeSelf(v[i]);
 
-      alpha[i] = -atan2(v[i][2], sqrt(v[i][0] * v[i][0] + v[i][1] * v[i][1]));
-      beta[i]  =  atan2(v[i][1], v[i][0]);
+      alpha[i] = -atan2(v[i][2], v[i][0]);
+      beta[i]  =  atan2(v[i][1], sqrt(v[i][0] * v[i][0] + v[i][2] * v[i][2]));
     }
 
     jointValues = {
