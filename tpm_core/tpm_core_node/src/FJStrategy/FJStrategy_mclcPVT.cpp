@@ -38,11 +38,8 @@ namespace tpm_core
       auto err = HwLib::Instance().axis_move_pvt(i, 0, trjPointSize, pvtPoints[i], 1000);
       if(err != 0)
         ROS_PRINT("Add PVT cmd failed. ErrCode: %d", err);
-      
-    ROS_PRINT("tag");
     }
 
-    ROS_PRINT("t1");
     bool isMoving;
     U32 buff;
     std::chrono::milliseconds sleepTime(1);
@@ -51,7 +48,6 @@ namespace tpm_core
       for (size_t i = 0; i < axisNum; i++)
       {
         HwLib::Instance().axis_get_buffer_depth(i, &buff);
-    ROS_PRINT("t2");
         if (buff != 0)
         {
           isMoving = true;

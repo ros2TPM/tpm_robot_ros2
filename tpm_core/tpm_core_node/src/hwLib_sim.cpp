@@ -108,6 +108,7 @@ namespace tpm_core
   }
   short HwLib_Sim::init_inner(ROB_KIN_TYPE type, FLT* a, FLT* alpha, FLT* d, FLT* theta, FLT* thetaShift, FLT* posLimit, FLT* negLimit, FLT* pulsePerDeg)
   {
+    mclc_init();
     auto rc = robc_init(type, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);
     printf("(%d)HwLib_Sim::init\n", rc);
     return rc;
