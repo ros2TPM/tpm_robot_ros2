@@ -8,7 +8,6 @@
   #include "RPiRobIF.h"
 #else
   #include "RobC.h"
-  #include "MCLC.h"
   #include "def_RIDT.h"
 #endif
 
@@ -61,12 +60,12 @@ namespace tpm_core
     virtual short feedrate(double feedrate) {return 0;}
 
     //==== MCLC ====
-    virtual short axis_move_pos (U8 AxisId, U32 CmdId, MCL_MPDATA mp, FLT pos) {return 0;}
-    virtual short axis_move_pvt (U8 AxisId, U32 CmdId, U32 pointNum, MCL_PVT_POINT* pvtPoints, FLT stopDec) {return 0;}
-    virtual short axis_stop     (U8 AxisId, U8 StopType) {return 0;}
-    virtual short axis_get_buffer_depth(U8 AxisId, U32* buffDepth) {return 0;}
-    virtual short axis_get_trgPosCmd(U8 AxisId, FLT* pos) {return 0;}
-    virtual short axis_get_actPosCmd(U8 AxisId, FLT* pos) {return 0;}
+    // virtual short axis_move_pos (U8 AxisId, U32 CmdId, MCL_MPDATA mp, FLT pos) {return 0;}
+    // virtual short axis_move_pvt (U8 AxisId, U32 CmdId, U32 pointNum, MCL_PVT_POINT* pvtPoints, FLT stopDec) {return 0;}
+    // virtual short axis_stop     (U8 AxisId, U8 StopType) {return 0;}
+    // virtual short axis_get_buffer_depth(U8 AxisId, U32* buffDepth) {return 0;}
+    // virtual short axis_get_trgPosCmd(U8 AxisId, FLT* pos) {return 0;}
+    // virtual short axis_get_actPosCmd(U8 AxisId, FLT* pos) {return 0;}
 
     //===== Mnet ====
     virtual int mnet_m1a_set_svon   (UINT16 ip, UINT16 on_off) {return 0;}
@@ -105,12 +104,12 @@ namespace tpm_core
     short feedrate(double feedrate) override;
 
     //===== MCLC =====
-    short axis_move_pos (U8 AxisId, U32 CmdId, MCL_MPDATA mp, FLT pos) override;
-    short axis_move_pvt (U8 AxisId, U32 CmdId, U32 pointNum, MCL_PVT_POINT* pvtPoints, FLT stopDec) override;
-    short axis_stop     (U8 AxisId, U8 StopType) override;
-    short axis_get_buffer_depth(U8 AxisId, U32* buffDepth) override;
-    short axis_get_trgPosCmd(U8 AxisId, FLT* pos) override;
-    short axis_get_actPosCmd(U8 AxisId, FLT* pos) override;
+    // short axis_move_pos (U8 AxisId, U32 CmdId, MCL_MPDATA mp, FLT pos) override;
+    // short axis_move_pvt (U8 AxisId, U32 CmdId, U32 pointNum, MCL_PVT_POINT* pvtPoints, FLT stopDec) override;
+    // short axis_stop     (U8 AxisId, U8 StopType) override;
+    // short axis_get_buffer_depth(U8 AxisId, U32* buffDepth) override;
+    // short axis_get_trgPosCmd(U8 AxisId, FLT* pos) override;
+    // short axis_get_actPosCmd(U8 AxisId, FLT* pos) override;
 
     //===== Mnet =====
     int mnet_m1a_set_svon   (UINT16 ip, UINT16 on_off) override;
@@ -157,12 +156,12 @@ namespace tpm_core
     short feedrate(double feedrate) override;
 
     // ==== MCLC ====
-    short axis_move_pos (U8 AxisId, U32 CmdId, MCL_MPDATA mp, FLT pos) override;
-    short axis_move_pvt (U8 AxisId, U32 CmdId, U32 pointNum, MCL_PVT_POINT* pvtPoints, FLT stopDec) override;
-    short axis_stop     (U8 AxisId, U8 StopType) override;
-    short axis_get_buffer_depth(U8 AxisId, U32* buffDepth) override;
-    short axis_get_trgPosCmd(U8 AxisId, FLT* pos) override;
-    short axis_get_actPosCmd(U8 AxisId, FLT* pos) override;
+    // short axis_move_pos (U8 AxisId, U32 CmdId, MCL_MPDATA mp, FLT pos) override;
+    // short axis_move_pvt (U8 AxisId, U32 CmdId, U32 pointNum, MCL_PVT_POINT* pvtPoints, FLT stopDec) override;
+    // short axis_stop     (U8 AxisId, U8 StopType) override;
+    // short axis_get_buffer_depth(U8 AxisId, U32* buffDepth) override;
+    // short axis_get_trgPosCmd(U8 AxisId, FLT* pos) override;
+    // short axis_get_actPosCmd(U8 AxisId, FLT* pos) override;
 
   protected:
     short init_inner(ROB_KIN_TYPE type, FLT* a, FLT* alpha, FLT* d, FLT* theta, FLT* thetaShift, FLT* posLimit, FLT* negLimit, FLT* pulsePerDeg) override;

@@ -108,7 +108,6 @@ namespace tpm_core
   }
   short HwLib_Sim::init_inner(ROB_KIN_TYPE type, FLT* a, FLT* alpha, FLT* d, FLT* theta, FLT* thetaShift, FLT* posLimit, FLT* negLimit, FLT* pulsePerDeg)
   {
-    mclc_init();
     auto rc = robc_init(type, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);
     printf("(%d)HwLib_Sim::init\n", rc);
     return rc;
@@ -199,10 +198,15 @@ namespace tpm_core
     robc_feedrate(feedrate);
     return 0;
   }
+
   #pragma endregion
 
   #pragma region MCLC
   /*
+  short HwLib_Sim::axis_move_pvt(U8 AxisId, U32 CmdId, U32 pointNum, MCL_PVT_POINT* pvtPoints, FLT stopDec)
+  {
+    return robc_move_pvt(AxisId, CmdId, pointNum, pvtPoints, stopDec);
+  }
   short HwLib_Sim::init()
   {
     mclc_init();
@@ -211,14 +215,10 @@ namespace tpm_core
   short HwLib_Sim::dda_cycle()
   {
     return mclc_dda_cycle();
-  }*/
+  }
   short HwLib_Sim::axis_move_pos(U8 AxisId, U32 CmdId, MCL_MPDATA mp, FLT pos)
   {
     return mclc_axis_move_pos(AxisId, CmdId, &mp, pos);
-  }
-  short HwLib_Sim::axis_move_pvt(U8 AxisId, U32 CmdId, U32 pointNum, MCL_PVT_POINT* pvtPoints, FLT stopDec)
-  {
-    return mclc_axis_move_pvt(AxisId, CmdId, pointNum, pvtPoints, stopDec);
   }
   short HwLib_Sim::axis_stop(U8 AxisId, U8 StopType)
   {
@@ -236,6 +236,7 @@ namespace tpm_core
   {
     return mclc_axis_get_actPosCmd(AxisId, pos);
   }
+  */
   #pragma endregion
 
  

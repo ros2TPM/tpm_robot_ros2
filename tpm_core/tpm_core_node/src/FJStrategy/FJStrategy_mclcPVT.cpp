@@ -13,7 +13,9 @@ namespace tpm_core
     auto trjPointSize = goal->trajectory.points.size();
     size_t trjIdx = 0;
 
-    size_t axisNum = MIN(MAX_AXIS_PER_ROBOT, goal->trajectory.points[0].positions.size());
+    size_t axisNum = MAX_AXIS_PER_ROBOT;
+    if (MAX_AXIS_PER_ROBOT > goal->trajectory.points[0].positions.size())
+      axisNum = goal->trajectory.points[0].positions.size();
     MCL_PVT_POINT pvtPoints[axisNum][trjPointSize];
 
     while(rclcpp::ok() && trjIdx < trjPointSize)
@@ -33,27 +35,21 @@ namespace tpm_core
       trjIdx++;
     }
 
-    for (size_t i = 0; i < axisNum; i++)
-    {
-      auto err = HwLib::Instance().axis_move_pvt(i, 0, trjPointSize, pvtPoints[i], 1000);
-      if(err != 0)
-        ROS_PRINT("Add PVT cmd failed. ErrCode: %d", err);
-    }
+    // for (size_t i = 0; i < axisNum; i++)
+    // {
+    //   auto err = HwLib::Instance().axis_move_pvt(i, 0, trjPointSize, pvtPoints[i], 1000);
+    //   if(err != 0)
+    //     ROS_PRINT("Add PVT cmd failed. ErrCode: %d", err);
+    // }
 
     bool isMoving;
-    U32 buff;
+    INT32 buff;
     std::chrono::milliseconds sleepTime(1);
     do{
       isMoving = false;
-      for (size_t i = 0; i < axisNum; i++)
-      {
-        HwLib::Instance().axis_get_buffer_depth(i, &buff);
-        if (buff != 0)
-        {
-          isMoving = true;
-          break;
-        }
-      }
+      HwLib::Instance().get_buffer_depth(&buff);
+      if (buff != 0)
+        isMoving = true;
 
       if (goal_handle->is_canceling())
       {
@@ -61,8 +57,7 @@ namespace tpm_core
         result->error_string = "has canceled";
         ROS_PRINT("Goal Canceled");
 
-        for (size_t i = 0; i < axisNum; i++)
-          HwLib::Instance().axis_stop(i, MCL_STOP_RAPID);
+        HwLib::Instance().stop(0);
 
         return;
       }
