@@ -199,6 +199,15 @@ namespace tpm_core
     return 0;
   }
 
+
+  short HwLib_Sim::set_pvt_data(U8 AxisId, U32 PointNum, MCL_PVT_POINT* PvtPoints)
+  {
+    return robc_set_pvt_data(AxisId, PointNum, PvtPoints);
+  }
+  short HwLib_Sim::move_pvt(FLT StopDec, U8 Mask)
+  {
+    return robc_move_pvt(0, StopDec, Mask);
+  }
   #pragma endregion
 
   #pragma region MCLC

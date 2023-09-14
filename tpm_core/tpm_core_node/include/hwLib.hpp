@@ -59,6 +59,9 @@ namespace tpm_core
     virtual short resume() {return 0;}
     virtual short feedrate(double feedrate) {return 0;}
 
+    virtual short set_pvt_data(U8 AxisId, U32 PointNum, MCL_PVT_POINT* PvtPoints) {return 0;}
+    virtual short move_pvt(FLT StopDec, U8 Mask) {return 0;}
+
     //==== MCLC ====
     // virtual short axis_move_pos (U8 AxisId, U32 CmdId, MCL_MPDATA mp, FLT pos) {return 0;}
     // virtual short axis_move_pvt (U8 AxisId, U32 CmdId, U32 pointNum, MCL_PVT_POINT* pvtPoints, FLT stopDec) {return 0;}
@@ -154,6 +157,9 @@ namespace tpm_core
     short hold  () override;
     short resume() override;
     short feedrate(double feedrate) override;
+
+    short set_pvt_data(U8 AxisId, U32 PointNum, MCL_PVT_POINT* PvtPoints) override;
+    short move_pvt(FLT StopDec, U8 Mask) override;
 
     // ==== MCLC ====
     // short axis_move_pos (U8 AxisId, U32 CmdId, MCL_MPDATA mp, FLT pos) override;

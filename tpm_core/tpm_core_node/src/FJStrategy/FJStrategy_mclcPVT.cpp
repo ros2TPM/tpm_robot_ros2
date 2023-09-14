@@ -35,17 +35,23 @@ namespace tpm_core
       trjIdx++;
     }
 
-    // for (size_t i = 0; i < axisNum; i++)
-    // {
-    //   auto err = HwLib::Instance().axis_move_pvt(i, 0, trjPointSize, pvtPoints[i], 1000);
-    //   if(err != 0)
-    //     ROS_PRINT("Add PVT cmd failed. ErrCode: %d", err);
-    // }
+    short err;
+    for (size_t i = 0; i < axisNum; i++)
+    {
+      err = HwLib::Instance().set_pvt_data(i, trjPointSize, pvtPoints[i]);
+      if(err != 0)
+        ROS_PRINT("Set PVT data failed. ErrCode: %d", err);
+    }
+    err = (MCL_ERR)HwLib::Instance().move_pvt(1000, 0xFF);
+    if(err != 0)
+      ROS_PRINT("Add PVT cmd failed. ErrCode: %d", err);
 
     bool isMoving;
     INT32 buff;
-    std::chrono::milliseconds sleepTime(1);
+    std::chrono::milliseconds sleepTime(10);
     do{
+      rclcpp::sleep_for(sleepTime);
+      
       isMoving = false;
       HwLib::Instance().get_buffer_depth(&buff);
       if (buff != 0)
@@ -61,8 +67,6 @@ namespace tpm_core
 
         return;
       }
-
-      rclcpp::sleep_for(sleepTime);
     }while(rclcpp::ok() && isMoving);
 
     result->error_code = 0;

@@ -15,8 +15,8 @@ namespace tpm_core
       std::bind(&Manager_Action::handle_fjt_accepted, this, _1)
     );
 
-    // fj_ = new FJStrategy_mclcPVT();
-    fj_ = new FJStrategy_robcAxisPTP();
+    fj_ = new FJStrategy_mclcPVT();
+    // fj_ = new FJStrategy_robcAxisPTP();
   }
 
   rclcpp_action::GoalResponse Manager_Action::handle_fjt_goal(const rclcpp_action::GoalUUID& uuid, std::shared_ptr<const FollowJointTrajectory::Goal> goal)
