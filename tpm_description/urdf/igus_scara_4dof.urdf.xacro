@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="igus_scara_4dof" >
+
+<!--Define constant-->
+<xacro:property name="PI" value="3.14159"/>
+<xacro:property name="d2r" value="0.0174533"/> <!--degree 2 radius-->
+<material name="gray">
+  <color rgba="0.4 0.4 0.4 1"/> 
+</material>
+<material name="red">
+  <color rgba="1 0 0 1"/> 
+</material>
+<material name="green">
+  <color rgba="0 1 0 1"/> 
+</material>
+<material name="blue">
+  <color rgba="0 0 1 1"/> <!-- Long stick is represented by a long-thin box -->
+</material>
+<material name="yellow">
+  <color rgba="1 1 0 1"/> 
+</material>
+
+<!-- ======== base ======== -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_scara_4dof/0_base.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+  
+  
+  <link name="link1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_scara_4dof/1_link1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+  </link>
+
+  <link name="link2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_scara_4dof/2_link2.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <link name="link3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_scara_4dof/3_link3.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="yellow"/>
+    </visual>
+  </link>
+
+  <joint name="joint1" type="prismatic">
+    <axis xyz="0 0 1" />
+    <origin xyz="0 0 0.32" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="link1"/>
+    <limit effort="30" velocity="1" lower="0" upper="0.5"/>
+  </joint>
+
+  <joint name="joint2" type="revolute">
+    <axis xyz="0 0 1"/>
+    <origin xyz="0 -0.17 -0.031" rpy="0 0 0"/>
+    <parent link="link1"/>
+    <child link="link2"/>
+		<limit effort="100.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+  </joint>
+
+  <joint name="joint3" type="revolute">
+    <axis xyz="0 0 1"/>
+    <origin xyz="0 -0.27 -0.039" rpy="0 0 0"/>
+    <parent link="link2"/>
+    <child link="link3"/>
+		<limit effort="100.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+  </joint>
+</robot>

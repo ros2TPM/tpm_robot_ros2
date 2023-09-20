@@ -1,0 +1,126 @@
+<?xml version="1.0" ?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="igus_delta_3dof" >
+
+<!--Define constant-->
+<xacro:property name="PI" value="3.14159"/>
+<xacro:property name="d2r" value="0.0174533"/> <!--degree 2 radius-->
+<xacro:property name="R" value="0.22425" /> <!--distance between origin (center of base plane) to slide (at top most position)-->
+<material name="gray">
+  <color rgba="0.4 0.4 0.4 1"/> 
+</material>
+<material name="red">
+  <color rgba="1 0 0 1"/> 
+</material>
+<material name="green">
+  <color rgba="0 1 0 1"/> 
+</material>
+<material name="blue">
+  <color rgba="0 0 1 1"/> 
+</material>
+<material name="yellow">
+  <color rgba="1 1 0 1"/> 
+</material>
+<!-- === axis macro === -->
+<xacro:macro name="axis" params="id color">
+
+  <!-- this prismatic joint defines the origin & rpy of the slide. It moves along the new X-Axis. -->
+  <joint name="joint${id}" type="prismatic">
+    <origin xyz="${R*cos((-270+120*id)*d2r)} ${R*sin((-270+120*id)*d2r)} -0.16793" rpy="0 ${45*d2r} ${(id*120-90)*d2r}"/>
+    <parent link="base_link"/>
+    <child link="slide${id}"/>
+    <limit effort="30" velocity="1" lower="0" upper="1.5"/>
+  </joint>
+
+  <!-- Slide is represented by a box -->
+  <link name="slide${id}">
+    <visual>
+      <origin xyz="-0.0345 0 0.0195" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1 0.073 0.055"/>
+      </geometry>
+      <material name="${color}"/>
+    </visual>
+  </link>
+
+  <!--Ball joint is represent by two revolute joints and a Null link in between -->
+  <joint name="elbow${id}_a" type="revolute">
+    <axis xyz="0 1 0"/>
+    <parent link="slide${id}"/>
+    <child link="link${id}_a"/>
+		<limit effort="100.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+  </joint>
+
+  <link name="link${id}_a"/><!--empty link-->
+
+  <joint name="elbow${id}_b" type="revolute">
+    <axis xyz="0 0 1"/>
+    <parent link="link${id}_a"/>
+    <child link="link${id}_b"/>
+		<limit effort="100.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+  </joint>
+
+  <!-- Long stick is represented by a long-thin box -->
+  <link name="link${id}_b">
+    <visual>
+      <origin xyz="0.2 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.4 0.003 0.003"/>
+      </geometry>
+      <material name="yellow"/>
+    </visual>
+  </link>
+</xacro:macro>
+<cylinder length="0.005" radius="0.08"/>
+<!-- ======== base ======== -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_delta_3dof/0_base.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+<!-- ======== axes ======== -->
+  <xacro:axis id="1" color="red" />
+  <xacro:axis id="2" color="green" />
+  <xacro:axis id="3" color="blue" />
+
+<!-- ========button plane======== -->
+  <joint name="x" type="prismatic">
+		<parent link="base_link"/>
+		<child link="aux1"/>
+		<limit effort="100.0" lower="-1" upper="1" velocity="0.5"/>
+		<origin rpy="0 0 0" xyz="0 0 0"/>
+  </joint>
+
+  <link name="aux1"/> <!--empty link-->
+
+  <joint name="y" type="prismatic">
+		<parent link="aux1"/>
+		<child link="aux2"/>
+		<limit effort="100.0" lower="-1" upper="1" velocity="0.5"/>
+		<origin rpy="0 0 ${PI/2}" xyz="0 0 0"/>
+  </joint>
+
+  <link name="aux2"/><!--empty link-->
+
+  <joint name="z" type="prismatic">
+		<parent link="aux2"/>
+		<child link="plane"/>
+		<limit effort="100.0" lower="0" upper="1" velocity="0.5"/>
+		<origin rpy="0 ${PI/2} 0" xyz="0 0 0"/>
+  </joint>
+
+  <link name="plane">
+    <visual>
+			<origin xyz="0 0 0" rpy="0 ${-PI/2} 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_delta_3dof/7_plane.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+
+</robot>
