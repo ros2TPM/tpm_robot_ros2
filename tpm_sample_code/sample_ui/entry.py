@@ -10,4 +10,3 @@ if '__main__' == __name__:
     mainform.show()
 
     ret = app.exec_()
-    #sys.stdout = mainform.old_stdout

@@ -1,6 +1,6 @@
 from setuptools import setup
 
-package_name = 'tpm_client_py'
+package_name = 'sample_client_py'
 
 setup(
     name=package_name,
@@ -14,13 +14,13 @@ setup(
     install_requires=['setuptools'],
     zip_safe=True,
     maintainer='tpm',
-    maintainer_email='diven.cwy@tpm-pac.com',
-    description='TODO: Package description',
+    maintainer_email='tpm@tpm-pac.com',
+    description='a sample client node in python',
     license='TODO: License declaration',
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'tpm_client_py = tpm_client_py.tpm_client:main'
+            'sample_client_py = sample_client_py.entry:main'
         ],
     },
 )

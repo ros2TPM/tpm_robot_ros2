@@ -1,0 +1,10 @@
+{
+    "python.autoComplete.extraPaths": [
+    "/home/tpm/Desktop/tpm_robot_ros2/install/sample_client_py/lib/python3.10/site-packages",
+],
+"python.analysis.extraPaths": [
+    "/home/tpm/Desktop/tpm_robot_ros2/install/sample_client_py/lib/python3.10/site-packages",
+]
+"window.zoomLevel": 1
+"editor.fontSize": 18
+}

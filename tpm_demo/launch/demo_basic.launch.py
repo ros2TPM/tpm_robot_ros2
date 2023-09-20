@@ -19,7 +19,6 @@ def generate_launch_description():
             choices=[
                 "ar3", 
                 "igus_delta_3dof"
-                #"igus_scara_4dof", 
                 ],
         )
     )
@@ -65,7 +64,7 @@ def generate_launch_description():
     # Run a Python script 
     pkg_dir = packages.get_package_prefix('tpm_demo')
     simple_ui = ExecuteProcess(
-        cmd=['python3 ', f'{pkg_dir}/../../src/MyRosRobot/MyRosRobot.py'],
+        cmd=['python3 ', f'{pkg_dir}/../../src/tpm_sample_code/sample_ui/entry.py'],
         shell=True
     )
     

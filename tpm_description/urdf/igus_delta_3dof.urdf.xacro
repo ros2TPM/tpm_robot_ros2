@@ -7,7 +7,7 @@
 <xacro:property name="d2r" value="0.0174533"/> <!--degree 2 radius-->
 <xacro:property name="R" value="0.22425" /> <!--distance between origin (center of base plane) to slide (at top most position)-->
 <material name="gray">
-  <color rgba="0.4 0.4 0.4 1"/> 
+  <color rgba="0.6 0.6 0.6 1"/> 
 </material>
 <material name="red">
   <color rgba="1 0 0 1"/> 

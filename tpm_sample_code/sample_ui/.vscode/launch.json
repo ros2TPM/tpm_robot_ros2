@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "env": {
-                "PYTHONPATH": "home/tpm/Desktop/ws_tpm/src/tpm_client/tpm_client_py"
+                "PYTHONPATH": "home/tpm/Desktop/tpm_robot_ros2/src/tpm_sample_code/sample_client_py"
             },
             "justMyCode": true
         }

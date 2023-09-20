@@ -10,9 +10,9 @@ from PySide2.QtWidgets import *
 
 from MainFormUI import Ui_MainWindow
 from tpm_msgs.srv import AxisOperation as axisOP
-from tpm_client_py import libRobotOP
-from tpm_client_py.libRobotOP import Axis_Parameter as axisParam
-from tpm_client_py.libRobotOP import Robot_Parameter as robotParam
+from sample_client_py import libRobotOP
+from sample_client_py.libRobotOP import Axis_Parameter as axisParam
+from sample_client_py.libRobotOP import Robot_Parameter as robotParam
 from ProcessRunner import ProcessRunner
 
 class MainWindow(QMainWindow):
