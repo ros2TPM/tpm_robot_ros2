@@ -18,7 +18,34 @@ from ProcessRunner import ProcessRunner
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
+        
+        self.axisId_buttons = [
+            self.mainForm.radBtn_axis0,
+            self.mainForm.radBtn_axis1,
+            self.mainForm.radBtn_axis2,
+            self.mainForm.radBtn_axis3,
+            self.mainForm.radBtn_axis4,
+            self.mainForm.radBtn_axis5,
+            self.mainForm.radBtn_axisAll
+        ]
+        self.poseId_buttons = [
+            self.mainForm.radBtn_poseX,
+            self.mainForm.radBtn_poseY,
+            self.mainForm.radBtn_poseZ,
+            self.mainForm.radBtn_poseA,
+            self.mainForm.radBtn_poseB,
+            self.mainForm.radBtn_poseC
+        ]
+        self.poseTexts = [
+            self.mainForm.txt_poseX,
+            self.mainForm.txt_poseY,
+            self.mainForm.txt_poseZ,
+            self.mainForm.txt_poseA,
+            self.mainForm.txt_poseB,
+            self.mainForm.txt_poseC
+            ]
 
+        self.nowPoseId = 0
         self.nowAxisId = 0
         self.axisNum = 6
 
@@ -38,32 +65,35 @@ class MainWindow(QMainWindow):
         self.mainForm = Ui_MainWindow()
         self.mainForm.setupUi(self)
 
+        self.read_paras()
         self.set_slot()
 
+    def read_paras(self):
+        # todo: get parameters from tpm_core_node
+        hmOffset = []
+        psl = []
+        nsl = []
+        self._opLib.get_robot_parameter(robotParam.home_offset, hmOffset)
+        self._opLib.get_robot_parameter(robotParam.psl, psl)
+        self._opLib.get_robot_parameter(robotParam.nsl, nsl)
+        for axisId in range(self.axisNum):
+            txt_hmOffset = getattr(self.mainForm, 'txt_hmOff' + str(axisId))
+            txt_hmOffset.setText(f"{hmOffset[axisId]:.2f}")
+
+            txt_psl = getattr(self.mainForm, 'txt_psl' + str(axisId))
+            txt_psl.setText(f"{psl[axisId]:.2f}")
+
+            txt_nsl = getattr(self.mainForm, 'txt_nsl' + str(axisId))
+            txt_nsl.setText(f"{nsl[axisId]:.2f}")
+            pass
+
     def set_slot(self):
-        # open node/process event
-        self.ProcessRunner = ProcessRunner() #create an instance, in order to use its functions
-        self.mainForm.btnOpen_coreNode      .clicked.connect(self.ProcessRunner.start_tpm_core_node)
-        self.mainForm.btnOpen_mvgrp_ctrller .clicked.connect(self.ProcessRunner.start_demo_noRviz)
-        self.mainForm.btnOpen_mylinkpy      .clicked.connect(self.ProcessRunner.start_mylinkpy)
-        self.mainForm.btnOpen_script        .clicked.connect(self.ProcessRunner.start_script_node)
-        self.mainForm.btnOpen_rviz          .clicked.connect(self.ProcessRunner.start_rviz_only)
-        
         # update status timer
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.Handle_UpdateStatus)
         self.timer.start(200)
 
         # select axis event
-        self.axisId_buttons = [
-            self.mainForm.radBtn_axis0,
-            self.mainForm.radBtn_axis1,
-            self.mainForm.radBtn_axis2,
-            self.mainForm.radBtn_axis3,
-            self.mainForm.radBtn_axis4,
-            self.mainForm.radBtn_axis5,
-            self.mainForm.radBtn_axisAll
-        ]
         for btn in self.axisId_buttons:
             btn.clicked.connect(self.Handle_AxisSelectedChanged)
         
@@ -80,14 +110,8 @@ class MainWindow(QMainWindow):
         # speed slider event //valueChanged
         self.mainForm.sld_speed.sliderReleased.connect(self.Handle_speed_slider)
         self.mainForm.sld_speed.setValue(50)
-        
-        # set home offset event
-        for axisId in range(self.axisNum):
-            btnHmOffset = getattr(self.mainForm, 'btnHmOffset' + str(axisId))
-            btnHmOffset.clicked.connect(self.Handle_SetHomeOffset)
 
         # axis operation event
-        
         self.mainForm.btnOp_jogPos.pressed.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.JOG_POS))
         self.mainForm.btnOp_jogPos.released.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.STOP))
         self.mainForm.btnOp_jogNeg.pressed.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.JOG_NEG))
@@ -103,7 +127,17 @@ class MainWindow(QMainWindow):
         self.mainForm.btnOp_setToOffset .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SET_AS_OFFSET))
         self.mainForm.btnOp_setToZero   .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SET_AS_ZERO))
         self.mainForm.btnOp_mvToZero    .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.MV_TO_ZERO))
-        
+
+        # pose jog event
+        #self.mainForm.btnJog_pos.pressed.connect (lambda: self._opLib.rob_action(self.nowPoseId, robOP.Request.JOG_POS);
+        #self.mainForm.btnJog_pos.released.connect(lambda: self._opLib.rob_action(self.nowPoseId, robOP.Request.STOP);
+        #self.mainForm.btnJog_neg.pressed.connect (lambda: self._opLib.rob_action(self.nowPoseId, robOP.Request.JOG_NEG);
+        #self.mainForm.btnJog_neg.released.connect(lambda: self._opLib.rob_action(self.nowPoseId, robOP.Request.STOP);
+
+        # select pose event
+        for btn in self.poseId_buttons:
+            btn.clicked.connect(self.Handle_PoseSelectedChanged)
+
         '''  this approach fails.
         self.btnOp_mapping = [
             (self.mainForm.btnOp_svon,      axisOP.servo_on),
@@ -186,6 +220,12 @@ class MainWindow(QMainWindow):
             axisPos = msg.axes[axisId].mnet_encoder
             txtPos.setText(str(axisPos))
 
+        # update pose
+        #robPose = msg.rob_pose;
+        #for poseId in range(6):
+        #    self.poseTexts[poseId].setText(str(robPose[poseId]));
+        #    pass
+
         pass
 
     def Handle_AxisSelectedChanged(self):
@@ -197,6 +237,13 @@ class MainWindow(QMainWindow):
 
         if self.mainForm.radBtn_axisAll.isChecked():
             self.nowAxisId = -1
+        pass
+
+    def Handle_PoseSelectedChanged(self):
+        for i in range(6):
+            if self.poseId_buttons[i].isChecked():
+                self.nowPoseId = i
+                break
         pass
 
     def Handle_JogDistSelectedChanged(self):
@@ -216,15 +263,3 @@ class MainWindow(QMainWindow):
         print("Slider value changed: ", speed)
         self._opLib.set_robot_parameter(robotParam.move_speed, speed)
 
-
-    def Handle_SetHomeOffset(self):
-        btn = self.sender()
-        axisId = int(btn.objectName()[len('btnHmOffset'):])
-
-        spinBox = getattr(self.mainForm, 'spinBox_hmOffset' + str(axisId))
-        hmOffset = spinBox.value()
-        print(hmOffset)
-        # todo: SetAxisHmOffset(axisId, hmOffset)
-        self._opLib.set_axis_parameter(axisId, axisParam.home_offset, hmOffset)
-
-    
