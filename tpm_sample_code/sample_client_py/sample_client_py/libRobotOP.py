@@ -4,6 +4,11 @@ import numpy as np
 
 import rclpy
 from rclpy.node import Node
+from rclpy.parameter import Parameter
+from rcl_interfaces.msg import ParameterValue
+from rcl_interfaces.srv import SetParameters, GetParameters, ListParameters
+from rcl_interfaces.msg import ParameterDescriptor, ParameterValue
+
 
 from tpm_msgs.srv import AxisOperation
 from tpm_msgs.srv import MailBox
@@ -35,6 +40,8 @@ class Lib(Node):
         self.client_axisOp = self.create_client(AxisOperation, '/op/axis_operation')
         self.client_setAxisParam = self.create_client(MailBox, '/op/set_axis_param')
         self.client_setRobotParam = self.create_client(MailBox, '/op/set_robot_param')
+
+        self.client_getParams = self.create_client(GetParameters, '/tpm_core_node/get_parameters')
         
         self.subscription = self.create_subscription(
             RobotStatus,
@@ -119,6 +126,17 @@ class Lib(Node):
         req.buffer = byteArr
 
         future = self.client_setAxisParam.call(req)
+
+    def get_parameters(self, paramName):
+        if not self.client_getParams.wait_for_service(timeout_sec=1.0):
+            print('"get_parameters" service not available.')
+            return
+
+        req = GetParameters.Request()
+        req.names = [paramName]
+
+        res = self.client_getParams.call(req)
+        return res.values[0]
 
     #endregion
 

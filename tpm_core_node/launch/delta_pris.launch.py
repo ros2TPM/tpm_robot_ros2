@@ -15,7 +15,7 @@ def generate_launch_description():
     robot_config = os.path.join(
         get_package_share_directory('tpm_core_node'),
         'config',
-        'delta_prisConfig.yaml'
+        'igus_delta_3dof.yaml'
     )
 
     ld.add_action(

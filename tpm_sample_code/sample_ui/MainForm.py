@@ -18,6 +18,26 @@ from ProcessRunner import ProcessRunner
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
+        self.nowPoseId = 0
+        self.nowAxisId = 0
+        self.axisNum = 6
+
+        self._opLib = libRobotOP.Lib()
+        self._opLib.initROS()
+        threading.Thread(target = lambda: rclpy.spin(self._opLib)).start()
+
+        self.setup_ui()
+        pass
+
+    def closeEvent(self, event):
+        self._opLib.destroy_node()
+        rclpy.shutdown()
+
+    def setup_ui(self):
+        self.setFixedSize(980, 510)
+
+        self.mainForm = Ui_MainWindow()
+        self.mainForm.setupUi(self)
         
         self.axisId_buttons = [
             self.mainForm.radBtn_axis0,
@@ -45,37 +65,14 @@ class MainWindow(QMainWindow):
             self.mainForm.txt_poseC
             ]
 
-        self.nowPoseId = 0
-        self.nowAxisId = 0
-        self.axisNum = 6
-
-        self.setup_ui()
-        self._opLib = libRobotOP.Lib()
-        self._opLib.initROS()
-        threading.Thread(target = lambda: rclpy.spin(self._opLib)).start()
-        pass
-
-    def closeEvent(self, event):
-        self._opLib.destroy_node()
-        rclpy.shutdown()
-
-    def setup_ui(self):
-        self.setFixedSize(980, 510)
-
-        self.mainForm = Ui_MainWindow()
-        self.mainForm.setupUi(self)
-
         self.read_paras()
         self.set_slot()
 
     def read_paras(self):
-        # todo: get parameters from tpm_core_node
-        hmOffset = []
-        psl = []
-        nsl = []
-        self._opLib.get_robot_parameter(robotParam.home_offset, hmOffset)
-        self._opLib.get_robot_parameter(robotParam.psl, psl)
-        self._opLib.get_robot_parameter(robotParam.nsl, nsl)
+        hmOffset = self._opLib.get_parameters('home_offsets').double_array_value
+        psl = self._opLib.get_parameters('pos_limit').double_array_value
+        print(psl)
+        nsl = self._opLib.get_parameters('neg_limit').double_array_value
         for axisId in range(self.axisNum):
             txt_hmOffset = getattr(self.mainForm, 'txt_hmOff' + str(axisId))
             txt_hmOffset.setText(f"{hmOffset[axisId]:.2f}")

@@ -14,7 +14,7 @@ def generate_launch_description():
     # You can simply define another path for the second .yaml and append it to the parameters
     robot_config = os.path.join(
         get_package_share_directory('tpm_core_node'),
-        'config/ar3Config.yaml'
+        'config/ar3.yaml'
     )
 
     ld.add_action(
