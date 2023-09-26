@@ -33,8 +33,10 @@ namespace tpm_core
       while(!is_need_stop_dda)
       {
           short rc = dda_cycle();
-          if (rc != 0)
+          if (rc != 0){
               ROS_PRINT("dda_cycle error: %d", rc);
+              ROS_PRINT("%s", robc_get_last_error_msg());
+          }
           
           get_axis(RIDT->robc.axis);
           get_pose(RIDT->robc.pose);

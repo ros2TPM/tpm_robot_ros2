@@ -40,6 +40,7 @@
         "/home/tpm/ws_moveit2/install/rosparam_shortcuts/include/**",
         "/home/tpm/ws_moveit2/install/moveit_task_constructor_msgs/include/**",
         "/opt/ros/humble/include/**",
+        "/home/tpm/Desktop/RobCLib/RobC/",
         "/home/tpm/Desktop/tpm_robot_ros2/src/robot_command/include/**",
         "/home/tpm/Desktop/tpm_robot_ros2/src/tpm_core_node/include/**",
         "/home/tpm/Desktop/tpm_robot_ros2/src/tpm_msgs/include/**",

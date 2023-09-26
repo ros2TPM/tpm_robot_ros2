@@ -1,0 +1,10 @@
+moveit_setup_assistant_config:
+  urdf:
+    package: tpm_description
+    relative_path: urdf/ar3.urdf.xacro
+  srdf:
+    relative_path: config/ar3.srdf
+  package_settings:
+    author_name: Taiwan Pulse Motion
+    author_email: tpm@tpm-pac.com
+    generated_timestamp: 1695637793
