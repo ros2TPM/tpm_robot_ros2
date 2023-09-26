@@ -10,6 +10,8 @@ Manager_Param::Manager_Param(rclcpp::Node::SharedPtr node)
       std::vector<double> zeros = {0.0,0.0,0.0,0.0,0.0,0.0};
       std::vector<int> zeros_i = {0, 0, 0, 0, 0, 0};
 
+      node->declare_parameter("jog_dist", -1);
+
       node->declare_parameter("alm_logic", 0);
       node->declare_parameter("org_logic", 0);
       node->declare_parameter("feedback_src", 0);

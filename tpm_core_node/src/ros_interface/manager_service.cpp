@@ -12,10 +12,6 @@ namespace tpm_core
   Robot* pRobot;
   typedef short (*opFunc2)(int);
 
-  enum eAxisParam
-  {
-    e_home_offset,
-  };
   enum eRobotParam
   {
     e_move_speed,
@@ -32,11 +28,6 @@ namespace tpm_core
     //todo: /op/ --> /tpm/
     services_.push_back(node->create_service<AxisOperation>( "/op/axis_operation",
       std::bind(&Manager_Service::axis_operation, this, _1, _2)));
-
-    // // todo: remove
-    // services_.push_back(node->create_service<MailBox>( "/op/set_axis_param",
-    //   std::bind(&Manager_Service::set_axis_param, this, _1, _2)));
-
     
   
     //======== ROBC API=======
@@ -44,100 +35,37 @@ namespace tpm_core
     //**** replace MailBox to robot_operation.
     //fureture todo: hold, resume, feedrate
     //fureture todo: delay, set io out/wait io in
-    services_.push_back(node->create_service<MailBox>(
-      "/rob/stop",
-      std::bind(&Manager_Service::robStop, this, _1, _2)));
-    services_.push_back(node->create_service<MailBox>( "/op/set_robot_param",
-      std::bind(&Manager_Service::set_robot_param, this, _1, _2)));
+    services_.push_back(node->create_service<RobotOperation>(
+      "/tpm/robot_operation",
+      std::bind(&Manager_Service::robot_operation, this, _1, _2)
+    ));
 
-
-    //todo: MoveLIN, jog_pose
+    //todo: MoveLIN
     services_.push_back(node->create_service<MovePTP>(
       "/rob/movePTP",
       std::bind(&Manager_Service::robMovePTP, this, _1, _2)));
 
-    // services_.push_back(node->create_service<MailBox>(
-    //   "/rob/getAxis",
-    //   std::bind(&Manager_Service::robGetAxis, this, _1, _2)));
-
-    // services_.push_back(node->create_service<MailBox>(
-    //   "/rob/getBuffDepth",
-    //   std::bind(&Manager_Service::robGetBuffDepth, this, _1, _2)));
+    services_.push_back(node->create_service<JogPose>(
+      "/rob/jog_pose",
+      std::bind(&Manager_Service::jog_pose, this, _1, _2)
+    ));
     
   }
   
   short Manager_Service::axis_operation(const AxisOperation::Request::SharedPtr req, AxisOperation::Response::SharedPtr res)
   {
-    TRY(pRobot->do_action(req->function, req->axis_id));
+    TRY(pRobot->do_axis_action(req->function, req->axis_id));
     res->ok = true;
     return 0;
   }
-  
-  short Manager_Service::set_axis_param(const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
+
+  short Manager_Service::robot_operation(const RobotOperation::Request::SharedPtr req, RobotOperation::Response::SharedPtr res)
   {
-    CArchive recv;
-    recv.Update(req->buffer.size(), req->buffer.data());
-
-    char paramType;
-    signed char axisId;
-    recv >> paramType >> axisId;
-
-    ROS_PRINT("paramType=%d (axisId=%d)", paramType,  axisId);
-
-    switch (paramType)
-    {
-    case e_home_offset:
-      recv >> Config::home_offsets[axisId];
-      break;
-    
-    default:
-      ROS_PRINT("Error: set_axis_param does not implement paramType:%d", paramType);
-      break;
-    }
+    TRY(pRobot->do_action(req->function, req->arg1));
+    res->ok = true;
     return 0;
   }
-
-  short Manager_Service::set_robot_param(const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
-  {
-    CArchive recv;
-    recv.Update(req->buffer.size(), req->buffer.data());
-
-    char paramType;
-    double value;
-    recv >> paramType >> value;
-
-    ROS_PRINT("rob_paramType=%d (value=%.2f)", paramType, value);
-
-    switch (paramType)
-    {
-      case e_move_speed:
-        Robot::set_vel_ratio(value/100);
-        break;
-
-      case e_jog_dist:
-        Robot::set_jog_dist(value);
-      break;
-    
-    default:
-      ROS_PRINT("Error: set_robot_param does not implement paramType:%d", paramType);
-      break;
-    }
-    return 0;
-  }
-
-  short Manager_Service::robStop(
-    const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
-  {
-    CArchive recv;
-    recv.Update(req->buffer.size(), req->buffer.data());
-
-    UINT8 stopType;
-    recv >> stopType;
-
-    res->result_code = HwLib::Instance().stop(stopType);
-    return res->result_code;
-  }
-
+ 
   short Manager_Service::robMovePTP(
     const MovePTP::Request::SharedPtr req, MovePTP::Response::SharedPtr res)
   {
@@ -162,40 +90,11 @@ namespace tpm_core
     return res->result_code;
   }
 
-  short Manager_Service::robGetAxis(
-    const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
+  short Manager_Service::jog_pose(const JogPose::Request::SharedPtr req, JogPose::Response::SharedPtr res)
   {
-    CArchive send;
-
-    FLT axis[6];
-
-    res->result_code = HwLib::Instance().get_axis(axis);
-
-    for (size_t i = 0; i < 6; i++)
-    {
-      double pos = axis[i];
-      send << pos;
-    }
-
-    res->buffer.resize(send.GetSize());
-    memcpy(res->buffer.data(), send.GetData(), send.GetSize());
-
-    return res->result_code;
-  }
-
-  short Manager_Service::robGetBuffDepth(
-    const MailBox::Request::SharedPtr req, MailBox::Response::SharedPtr res)
-  {
-    CArchive send;
-    INT32 buffDepth;
-
-    res->result_code = HwLib::Instance().get_buffer_depth(&buffDepth);
-
-    send << buffDepth;
-    res->buffer.resize(send.GetSize());
-    memcpy(res->buffer.data(), send.GetData(), send.GetSize());
-
-    return res->result_code;
+    TRY(pRobot->jog_pose(req->pose_id, req->jog_dir));
+    res->ok = true;
+    return 0;
   }
 
 }

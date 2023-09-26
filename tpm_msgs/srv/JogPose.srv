@@ -1,0 +1,14 @@
+int8 POSE_X=0
+int8 POSE_Y=1
+int8 POSE_Z=2
+int8 POSE_A=3
+int8 POSE_B=4
+int8 POSE_C=5
+
+int8 DIR_POS= 1
+int8 DIR_NEG=-1
+
+int8 pose_id
+int8 jog_dir
+---
+bool ok

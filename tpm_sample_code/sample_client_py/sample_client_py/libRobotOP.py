@@ -4,13 +4,12 @@ import numpy as np
 
 import rclpy
 from rclpy.node import Node
-from rclpy.parameter import Parameter
-from rcl_interfaces.msg import ParameterValue
-from rcl_interfaces.srv import SetParameters, GetParameters, ListParameters
-from rcl_interfaces.msg import ParameterDescriptor, ParameterValue
+from rcl_interfaces.srv import SetParameters, GetParameters
 
 
 from tpm_msgs.srv import AxisOperation
+from tpm_msgs.srv import RobotOperation
+from tpm_msgs.srv import JogPose
 from tpm_msgs.srv import MailBox
 from tpm_msgs.msg import RobotStatus
 
@@ -40,6 +39,9 @@ class Lib(Node):
         self.client_axisOp = self.create_client(AxisOperation, '/op/axis_operation')
         self.client_setAxisParam = self.create_client(MailBox, '/op/set_axis_param')
         self.client_setRobotParam = self.create_client(MailBox, '/op/set_robot_param')
+        self.client_robotOp = self.create_client(RobotOperation, '/tpm/robot_operation')
+
+        self.client_robJog = self.create_client(JogPose, '/rob/jog_pose')
 
         self.client_getParams = self.create_client(GetParameters, '/tpm_core_node/get_parameters')
         
@@ -96,36 +98,35 @@ class Lib(Node):
         #rclpy.spin_until_future_complete(self, future, timeout_sec=1.0)
         #return future.result()    
         pass
+
+    def rob_action(self, funcType, arg1):
+        print(f"robot_operation: func={funcType}, arg1={arg1}")
+
+        if not self.client_robotOp.wait_for_service(timeout_sec=1.0):
+            print('"robot_operation" service not available.')
+            return
+        
+        req = RobotOperation.Request()
+        req.function = funcType
+        req.arg1 = arg1
+
+        future = self.client_robotOp.call_async(req)
+        pass
     
-    def set_robot_parameter(self, paramType, value):
-        if not self.client_setRobotParam.wait_for_service(timeout_sec=1.0):
-            print('"client_setRobotParam" service not available.')
+    def jog_pose(self, poseId, dir):
+        print(f"jog_pose: poseId={poseId}, dir={dir}")
+
+        if not self.client_robJog.wait_for_service(timeout_sec=1.0):
+            print('"robot_operation" service not available.')
             return
         
-        sendBuff = struct.pack("=bd", paramType.value, value)
-        byteArr = array.array('B', sendBuff)
+        req = JogPose.Request()
+        req.pose_id = poseId
+        req.jog_dir = dir
 
-        req = MailBox.Request()
-        req.buffer = byteArr
+        future = self.client_robJog.call_async(req)
+        pass
 
-        future = self.client_setRobotParam.call(req)
-
-    def set_axis_parameter(self, axisId, paramType, value):
-        if not self.client_setAxisParam.wait_for_service(timeout_sec=1.0):
-            print('"axis_setParam" service not available.')
-            return
-        
-        sendBuff = struct.pack("=bb", paramType.value, axisId)
-
-        if paramType == Axis_Parameter.home_offset:
-            sendBuff += struct.pack("=d", value)
-
-        byteArr = array.array('B', sendBuff)
-
-        req = MailBox.Request()
-        req.buffer = byteArr
-
-        future = self.client_setAxisParam.call(req)
 
     def get_parameters(self, paramName):
         if not self.client_getParams.wait_for_service(timeout_sec=1.0):

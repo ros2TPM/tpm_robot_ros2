@@ -10,6 +10,8 @@ from PySide2.QtWidgets import *
 
 from MainFormUI import Ui_MainWindow
 from tpm_msgs.srv import AxisOperation as axisOP
+from tpm_msgs.srv import RobotOperation as robOP
+from tpm_msgs.srv import JogPose
 from sample_client_py import libRobotOP
 from sample_client_py.libRobotOP import Axis_Parameter as axisParam
 from sample_client_py.libRobotOP import Robot_Parameter as robotParam
@@ -71,7 +73,6 @@ class MainWindow(QMainWindow):
     def read_paras(self):
         hmOffset = self._opLib.get_parameters('home_offsets').double_array_value
         psl = self._opLib.get_parameters('pos_limit').double_array_value
-        print(psl)
         nsl = self._opLib.get_parameters('neg_limit').double_array_value
         for axisId in range(self.axisNum):
             txt_hmOffset = getattr(self.mainForm, 'txt_hmOff' + str(axisId))
@@ -126,10 +127,10 @@ class MainWindow(QMainWindow):
         self.mainForm.btnOp_mvToZero    .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.MV_TO_ZERO))
 
         # pose jog event
-        #self.mainForm.btnJog_pos.pressed.connect (lambda: self._opLib.rob_action(self.nowPoseId, robOP.Request.JOG_POS);
-        #self.mainForm.btnJog_pos.released.connect(lambda: self._opLib.rob_action(self.nowPoseId, robOP.Request.STOP);
-        #self.mainForm.btnJog_neg.pressed.connect (lambda: self._opLib.rob_action(self.nowPoseId, robOP.Request.JOG_NEG);
-        #self.mainForm.btnJog_neg.released.connect(lambda: self._opLib.rob_action(self.nowPoseId, robOP.Request.STOP);
+        self.mainForm.btnJog_pos.pressed.connect (lambda: self._opLib.jog_pose(self.nowPoseId, JogPose.Request.DIR_POS))
+        self.mainForm.btnJog_pos.released.connect(lambda: self._opLib.rob_action(robOP.Request.STOP, 0.0))
+        self.mainForm.btnJog_neg.pressed.connect (lambda: self._opLib.jog_pose(self.nowPoseId, JogPose.Request.DIR_NEG))
+        self.mainForm.btnJog_neg.released.connect(lambda: self._opLib.rob_action(robOP.Request.STOP, 0.0))
 
         # select pose event
         for btn in self.poseId_buttons:
@@ -218,10 +219,9 @@ class MainWindow(QMainWindow):
             txtPos.setText(str(axisPos))
 
         # update pose
-        #robPose = msg.rob_pose;
-        #for poseId in range(6):
-        #    self.poseTexts[poseId].setText(str(robPose[poseId]));
-        #    pass
+        for poseId in range(6):
+           self.poseTexts[poseId].setText(str(msg.end_pose[poseId]))
+           pass
 
         pass
 
@@ -252,11 +252,13 @@ class MainWindow(QMainWindow):
                 break
 
         print("selected jod dist: " + str(nowDist))
-        self._opLib.set_robot_parameter(robotParam.jog_dist, nowDist)
+        self._opLib.rob_action(robOP.Request.JOG_DIST, nowDist)
+        # self._opLib.set_robot_parameter(robotParam.jog_dist, nowDist)
         pass
 
     def Handle_speed_slider(self):
         speed = self.mainForm.sld_speed.value()
         print("Slider value changed: ", speed)
-        self._opLib.set_robot_parameter(robotParam.move_speed, speed)
+        self._opLib.rob_action(robOP.Request.FEEDRATE, speed)
+        # self._opLib.set_robot_parameter(robotParam.move_speed, speed)
 

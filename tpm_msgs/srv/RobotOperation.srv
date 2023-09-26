@@ -1,0 +1,8 @@
+int8 STOP=1
+int8 FEEDRATE=2
+int8 JOG_DIST=3
+
+int8 function
+float32 arg1
+---
+bool ok

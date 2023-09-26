@@ -18,6 +18,8 @@ set(
 set(
   SRV_FILES
     srv/AxisOperation.srv
+    srv/RobotOperation.srv
+    srv/JogPose.srv
     srv/MailBox.srv
     srv/MovePTP.srv
     srv/MovePVT.srv

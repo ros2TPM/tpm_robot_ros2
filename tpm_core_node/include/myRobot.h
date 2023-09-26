@@ -27,7 +27,10 @@ public:
     void create_axes(std::vector<unsigned char> slaveIps);
     void clear_axes();
 
-    short do_action(char funcType, signed char axisId);
+    short do_axis_action(char funcType, signed char axisId);
+    short do_action(char funcType, float arg1);
+
+    short jog_pose(char poseId, signed char dir);
 
     bool is_homing(){return isHoming;}
     void get_pulse_per_deg(float* out_array, int len); 

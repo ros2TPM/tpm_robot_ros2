@@ -3,10 +3,12 @@
 #include "def_macro.h"
 #include "hwLib.hpp"
 #include "global_instance.hpp"
+#include "global_config.hpp"
 #include <thread>
 #include <math.h>
 
 #include "tpm_msgs/srv/axis_operation.hpp"
+#include "tpm_msgs/srv/robot_operation.hpp"
 
 namespace tpm_core {
 
@@ -152,7 +154,7 @@ void Robot::get_pulse_per_deg(float* out_array, int len)
         out_array[i] = (float)axes[i]->_config.pulse_per_deg;
 }
 
-short Robot::do_action(char funcType, signed char axisId)
+short Robot::do_axis_action(char funcType, signed char axisId)
 {
     if(axisId < -1 || axisId >= axisNum){
         ROS_PRINT("ERROR: axisId=%d. should be [0~%d] or -1", axisId, axisNum-1);
@@ -188,6 +190,33 @@ short Robot::do_action(char funcType, signed char axisId)
         ROS_PRINT("ERROR: funcType=%d is not implemented", funcType);
         return -1;
     }
+    return 0;
+}
+short Robot::do_action(char funcType, float arg1)
+{
+    switch (funcType)
+    {
+    case tpm_msgs::srv::RobotOperation::Request::STOP:
+        return HwLib::Instance().stop((short)arg1);
+    case tpm_msgs::srv::RobotOperation::Request::FEEDRATE:
+        Axis::vel_ratio = arg1;
+        TRY(HwLib::Instance().feedrate(arg1));
+        return 0;
+    default:
+        ROS_PRINT("ERROR: funcType=%d is not implemented", funcType);
+        return -1;
+    }
+    return 0;
+}
+
+short Robot::jog_pose(char poseId, signed char dir)
+{
+    MCL_DIR_TYPE jogDir = (dir >= 0) ? MCL_DIR_POS : MCL_DIR_NEG;
+    FLT Dist = (Axis::jog_dist == -1) ? 0: Axis::jog_dist;
+    FLT Vel = Config::max_jog_speed[0] * Axis::vel_ratio;//unit:deg
+    FLT Acc = Vel*10;
+
+    TRY(HwLib::Instance().jog_pose(poseId, jogDir, Dist, Vel, Acc, ROB_FRAME_BASE));
     return 0;
 }
 
