@@ -252,13 +252,13 @@ class MainWindow(QMainWindow):
                 break
 
         print("selected jod dist: " + str(nowDist))
-        self._opLib.rob_action(robOP.Request.JOG_DIST, nowDist)
+        self._opLib.rob_action(robOP.Request.JOG_DIST, float(nowDist))
         # self._opLib.set_robot_parameter(robotParam.jog_dist, nowDist)
         pass
 
     def Handle_speed_slider(self):
         speed = self.mainForm.sld_speed.value()
         print("Slider value changed: ", speed)
-        self._opLib.rob_action(robOP.Request.FEEDRATE, speed)
+        self._opLib.rob_action(robOP.Request.FEEDRATE, speed/100.0)
         # self._opLib.set_robot_parameter(robotParam.move_speed, speed)
 
