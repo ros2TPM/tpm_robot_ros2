@@ -21,8 +21,6 @@ public:
     ~Robot();// This will be automatically called when the program exits
     
     static double get_vel_ratio();
-    static short set_vel_ratio(double value);
-    static short set_jog_dist(double value);
 
     void create_axes(std::vector<unsigned char> slaveIps);
     void clear_axes();

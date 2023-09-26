@@ -220,7 +220,7 @@ class MainWindow(QMainWindow):
 
         # update pose
         for poseId in range(6):
-           self.poseTexts[poseId].setText(str(msg.end_pose[poseId]))
+           self.poseTexts[poseId].setText(f"{msg.end_pose[poseId]:.2f}")
            pass
 
         pass

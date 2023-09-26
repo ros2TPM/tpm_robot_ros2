@@ -12,9 +12,11 @@ public:
     static int org_logic;   
     static int feedback_src;
     static int home_mode;
+    static double max_xyz_jog_speed;
+    static double max_abc_jog_speed;
     static std::vector<double> home_offsets;
     static std::vector<long int> home_dir;
-    static std::vector<double> max_jog_speed;
+    static std::vector<double> max_axes_jog_speed;
     static std::vector<double> pulse_per_deg;
 
     static void declare_parameters();

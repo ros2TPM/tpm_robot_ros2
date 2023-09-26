@@ -49,6 +49,8 @@ void Manager_Topic::timerCallback_robotStatus()
         message.axes[i].deg = RIDT->robc.axis[i];
         message.axes[i].mnet_encoder = RIDT->m1a[i].encPos;
     }
+    for(int i=0; i < 6; i++)
+        message.end_pose[i] = RIDT->robc.pose[i];
 
     publisher_->publish(message);
 

@@ -8,9 +8,11 @@ int Config::alm_logic;
 int Config::org_logic;   
 int Config::feedback_src;
 int Config::home_mode;
+double Config::max_xyz_jog_speed;
+double Config::max_abc_jog_speed;
 std::vector<double> Config::home_offsets;
 std::vector<long int> Config::home_dir;
-std::vector<double> Config::max_jog_speed;
+std::vector<double> Config::max_axes_jog_speed;
 std::vector<double> Config::pulse_per_deg;
 
 int RobotSpec::robot_type;

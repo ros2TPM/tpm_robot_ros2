@@ -28,12 +28,9 @@ namespace tpm_core
     //todo: /op/ --> /tpm/
     services_.push_back(node->create_service<AxisOperation>( "/op/axis_operation",
       std::bind(&Manager_Service::axis_operation, this, _1, _2)));
-    
   
     //======== ROBC API=======
-
-    //**** replace MailBox to robot_operation.
-    //fureture todo: hold, resume, feedrate
+    //fureture todo: hold, resume
     //fureture todo: delay, set io out/wait io in
     services_.push_back(node->create_service<RobotOperation>(
       "/tpm/robot_operation",

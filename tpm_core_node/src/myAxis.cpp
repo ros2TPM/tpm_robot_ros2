@@ -16,7 +16,7 @@ void Axis::init(unsigned short slvIp, int id)
     _id = id;
     _config.home_dir        = Config::home_dir[id];
     _config.home_offsets    = Config::home_offsets[id];
-    _config.max_jog_vel     = Config::max_jog_speed[id];
+    _config.max_jog_vel     = Config::max_axes_jog_speed[id];
     _config.pulse_per_deg   = Config::pulse_per_deg[id];
 }
 short Axis::servo(bool isOn)

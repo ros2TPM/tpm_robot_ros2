@@ -178,9 +178,9 @@ short Robot::do_axis_action(char funcType, signed char axisId)
       case(tpm_msgs::srv::AxisOperation::Request::STOP):
         return Private::stop(*this, axisId);
       case(tpm_msgs::srv::AxisOperation::Request::SET_AS_ZERO):
-        return Private::set_as_offset(*this, axisId);
-      case(tpm_msgs::srv::AxisOperation::Request::SET_AS_OFFSET):
         return Private::set_as_zero (*this, axisId);
+      case(tpm_msgs::srv::AxisOperation::Request::SET_AS_OFFSET):
+        return Private::set_as_offset(*this, axisId);
       case(tpm_msgs::srv::AxisOperation::Request::MV_TO_ZERO):
         return Private::mv_to_zero  (*this, axisId);
       case(tpm_msgs::srv::AxisOperation::Request::SEARCH_ORG):
@@ -202,6 +202,9 @@ short Robot::do_action(char funcType, float arg1)
         Axis::vel_ratio = arg1;
         TRY(HwLib::Instance().feedrate(arg1));
         return 0;
+    case tpm_msgs::srv::RobotOperation::Request::JOG_DIST:
+        Axis::jog_dist = arg1;
+        return 0;
     default:
         ROS_PRINT("ERROR: funcType=%d is not implemented", funcType);
         return -1;
@@ -213,25 +216,20 @@ short Robot::jog_pose(char poseId, signed char dir)
 {
     MCL_DIR_TYPE jogDir = (dir >= 0) ? MCL_DIR_POS : MCL_DIR_NEG;
     FLT Dist = (Axis::jog_dist == -1) ? 0: Axis::jog_dist;
-    FLT Vel = Config::max_jog_speed[0] * Axis::vel_ratio;//unit:deg
+    FLT Vel = 0;
+    if (poseId < 3)
+        Vel = Config::max_xyz_jog_speed * Axis::vel_ratio;//unit:mm
+    else
+        Vel = Config::max_abc_jog_speed * Axis::vel_ratio;//unit:deg
+
     FLT Acc = Vel*10;
 
+    ROS_PRINT("jog_pose: poseId=%d,dir=%d", poseId, jogDir);
     TRY(HwLib::Instance().jog_pose(poseId, jogDir, Dist, Vel, Acc, ROB_FRAME_BASE));
     return 0;
 }
 
 //==== static function ====
-short Robot::set_vel_ratio(double ratio)
-{
-    Axis::vel_ratio = ratio;
-    TRY(HwLib::Instance().feedrate(ratio));
-    return 0;
-}
-short Robot::set_jog_dist(double value)
-{
-    Axis::jog_dist = value;
-    return 0;
-}
 double Robot::get_vel_ratio()
 {
     return Axis::vel_ratio;
