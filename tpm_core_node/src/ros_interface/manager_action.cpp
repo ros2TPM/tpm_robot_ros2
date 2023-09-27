@@ -9,7 +9,7 @@ namespace tpm_core
     using namespace std::placeholders;
     
     fjt_action_server_ = rclcpp_action::create_server<FollowJointTrajectory>(
-      node, "/ar3_arm_controller/follow_joint_trajectory",
+      node, "/tpm_arm_controller/follow_joint_trajectory",
       std::bind(&Manager_Action::handle_fjt_goal, this, _1, _2),
       std::bind(&Manager_Action::handle_fjt_cancel, this, _1),
       std::bind(&Manager_Action::handle_fjt_accepted, this, _1)

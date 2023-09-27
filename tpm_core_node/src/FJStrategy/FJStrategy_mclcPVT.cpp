@@ -33,9 +33,11 @@ namespace tpm_core
 
         //ROS_PRINT("Axis(%d) Point(%ld): %.3f", i, trjIdx, pos);
       }
+      //ROS_PRINT("ToltalTime(%d): %.2f", trjIdx, pvtPoints[0][trjIdx].timeMs);
 
       trjIdx++;
     }
+    //ROS_PRINT("ToltalTime: %.2f", pvtPoints[0][trjPointSize-1].timeMs);
 
     short err;
     for (size_t i = 0; i < axisNum; i++)
