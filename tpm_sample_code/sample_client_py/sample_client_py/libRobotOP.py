@@ -36,12 +36,9 @@ class Lib(Node):
         super().__init__('ros_robot_lib')
 
         # frequently called clients: declare as class member, instead of declare it every time when called.
-        self.client_axisOp = self.create_client(AxisOperation, '/op/axis_operation')
-        self.client_setAxisParam = self.create_client(MailBox, '/op/set_axis_param')
-        self.client_setRobotParam = self.create_client(MailBox, '/op/set_robot_param')
+        self.client_axisOp  = self.create_client(AxisOperation, '/tpm/axis_operation')
         self.client_robotOp = self.create_client(RobotOperation, '/tpm/robot_operation')
-
-        self.client_robJog = self.create_client(JogPose, '/rob/jog_pose')
+        self.client_robJog  = self.create_client(JogPose, '/rob/jog_pose')
 
         self.client_getParams = self.create_client(GetParameters, '/tpm_core_node/get_parameters')
         
@@ -126,7 +123,6 @@ class Lib(Node):
 
         future = self.client_robJog.call_async(req)
         pass
-
 
     def get_parameters(self, paramName):
         if not self.client_getParams.wait_for_service(timeout_sec=1.0):

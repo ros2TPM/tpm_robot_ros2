@@ -30,6 +30,8 @@ namespace tpm_core
         pvtPoints[i][trjIdx].pos = pos;
         pvtPoints[i][trjIdx].vel = vel;
         pvtPoints[i][trjIdx].timeMs = (point.time_from_start.sec * 1e3f) + (point.time_from_start.nanosec / 1e6f);
+
+        //ROS_PRINT("Axis(%d) Point(%ld): %.3f", i, trjIdx, pos);
       }
 
       trjIdx++;

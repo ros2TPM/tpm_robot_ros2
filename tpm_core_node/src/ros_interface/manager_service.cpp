@@ -25,8 +25,7 @@ namespace tpm_core
     pRobot = &Robot::getInstance();
 
     //======== general API ======
-    //todo: /op/ --> /tpm/
-    services_.push_back(node->create_service<AxisOperation>( "/op/axis_operation",
+    services_.push_back(node->create_service<AxisOperation>( "/tpm/axis_operation",
       std::bind(&Manager_Service::axis_operation, this, _1, _2)));
   
     //======== ROBC API=======
