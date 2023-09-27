@@ -4,8 +4,8 @@
   <name>sample_client_py</name>
   <version>0.0.0</version>
   <description>a sample client node in python</description>
-  <maintainer email="tpm@tpm-pac.com">tpm</maintainer>
-  <license>TODO: License declaration</license>
+  <maintainer email="ros2.tpm@tpm-pac.com">Taiwan Pulse Motion</maintainer>
+  <license>Apache-2.0</license>
 
   <test_depend>ament_copyright</test_depend>
   <test_depend>ament_flake8</test_depend>

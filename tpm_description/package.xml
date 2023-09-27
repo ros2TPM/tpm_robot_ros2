@@ -4,8 +4,8 @@
   <name>tpm_description</name>
   <version>0.0.0</version>
   <description>Description of robot urdf</description>
-  <maintainer email="tpm@tpm-pac.com">Taiwan Pulse Motion</maintainer>
-  <license>BSD</license>
+  <maintainer email="ros2.tpm@tpm-pac.com">Taiwan Pulse Motion</maintainer>
+  <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 

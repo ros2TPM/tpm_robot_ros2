@@ -6,9 +6,8 @@
   <description>
      An automatically generated package with all the configuration and launch files for using the ar3 with the MoveIt Motion Planning Framework
   </description>
-  <maintainer email="tpm@tpm-pac.com">Taiwan Pulse Motion</maintainer>
-
-  <license>BSD</license>
+  <maintainer email="ros2.tpm@tpm-pac.com">Taiwan Pulse Motion</maintainer>
+  <license>Apache-2.0</license>
 
   <url type="website">http://moveit.ros.org/</url>
   <url type="bugtracker">https://github.com/ros-planning/moveit2/issues</url>
