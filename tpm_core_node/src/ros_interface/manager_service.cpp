@@ -36,10 +36,10 @@ namespace tpm_core
       std::bind(&Manager_Service::robot_operation, this, _1, _2)
     ));
 
-    //todo: MoveLIN
-    services_.push_back(node->create_service<MovePTP>(
-      "/rob/movePTP",
-      std::bind(&Manager_Service::robMovePTP, this, _1, _2)));
+    services_.push_back(node->create_service<RobotMove>(
+      "/rob/move",
+      std::bind(&Manager_Service::rob_move, this, _1, _2)
+    ));
 
     services_.push_back(node->create_service<JogPose>(
       "/rob/jog_pose",
@@ -62,8 +62,7 @@ namespace tpm_core
     return 0;
   }
  
-  short Manager_Service::robMovePTP(
-    const MovePTP::Request::SharedPtr req, MovePTP::Response::SharedPtr res)
+  short Manager_Service::rob_move(const RobotMove::Request::SharedPtr req, RobotMove::Response::SharedPtr res)
   {
     MCL_MPDATA mp;
     mp.Feed  = req->mp_data.feed;
@@ -77,12 +76,41 @@ namespace tpm_core
     mp.OverlapType = (MCL_OVERLAP_TYPE)req->mp_data.overlap_type;
     mp.IsCheckInPos = req->mp_data.is_check_inpos;
 
-    FLT* pos = new FLT[req->pos.size()];
-    for (size_t i=0;i<req->pos.size();i++)
-      pos[i] = req->pos.at(i);
+    switch (req->function)
+    {
+    case RobotMove::Request::PTP_AXIS:
+    {
+      FLT* axis = new FLT[req->axis.size()];
+      for (size_t i=0;i<req->axis.size();i++)
+        axis[i] = req->axis.at(i);
 
-    res->result_code = HwLib::Instance().move_p2p_axis(req->cmd_id, mp, pos, req->mask);
-    delete []pos;
+      res->result_code = HwLib::Instance().move_p2p_axis(req->cmd_id, mp, axis, req->mask);
+      if (res->result_code != 0)
+        res->message = HwLib::Instance().get_last_err_msg();
+
+      delete[] axis;
+      break;
+    }
+    case RobotMove::Request::LIN_POSE:
+    {
+      FLT* pose = new FLT[req->pose.size()];
+      for (size_t i=0;i<req->pose.size();i++)
+        pose[i] = req->pose.at(i);
+
+      res->result_code = HwLib::Instance().move_lin_pose(req->cmd_id, mp, pose, req->mask);
+      if (res->result_code != 0)
+        res->message = HwLib::Instance().get_last_err_msg();
+
+      delete[] pose;
+      break;
+    }
+
+    default:
+      ROS_PRINT("ERROR: RobotMove Type=%d is not implemented", req->function);
+      res->message = "RobotMove Type not implemented";
+      res->result_code = ROB_ERR_NOT_IMPLEMENTED;
+      break;
+    }
     return res->result_code;
   }
 

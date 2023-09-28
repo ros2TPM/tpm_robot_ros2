@@ -16,7 +16,10 @@ namespace tpm_core
     size_t axisNum = MAX_AXIS_PER_ROBOT;
     if (MAX_AXIS_PER_ROBOT > goal->trajectory.points[0].positions.size())
       axisNum = goal->trajectory.points[0].positions.size();
-    MCL_PVT_POINT pvtPoints[axisNum][trjPointSize];
+    
+    MCL_PVT_POINT** pvtPoints = new MCL_PVT_POINT*[axisNum];
+    for (size_t i = 0; i < axisNum; i++)
+      pvtPoints[i] = new MCL_PVT_POINT[trjPointSize];
 
     while(rclcpp::ok() && trjIdx < trjPointSize)
     {
@@ -33,7 +36,6 @@ namespace tpm_core
 
         //ROS_PRINT("Axis(%d) Point(%ld): %.3f", i, trjIdx, pos);
       }
-      //ROS_PRINT("ToltalTime(%d): %.2f", trjIdx, pvtPoints[0][trjIdx].timeMs);
 
       trjIdx++;
     }
@@ -49,6 +51,11 @@ namespace tpm_core
     err = (MCL_ERR)HwLib::Instance().move_pvt(1000, 0xFF);
     if(err != 0)
       ROS_PRINT("Add PVT cmd failed. ErrCode: %d", err);
+
+    // Delete pvtPoints
+    for (size_t i = 0; i < axisNum; i++)
+      delete[] pvtPoints[i];
+    delete[] pvtPoints;
 
     bool isMoving;
     INT32 buff;

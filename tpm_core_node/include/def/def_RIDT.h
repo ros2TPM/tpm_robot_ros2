@@ -11,7 +11,7 @@ typedef float FLT;
 typedef struct {
     FLT axis[MAX_AXIS_PER_ROBOT]; //robc_get_axis
     FLT pose[MAX_AXIS_PER_ROBOT]; //robc_get_pose
-    int32_t bufDepth;                 //robc_get_buffer_depth
+    uint32_t bufDepth;                 //robc_get_buffer_depth
     uint32_t nowCmdId;                 //robc_get_now_cmd_id
     int32_t lastErr;                  //robc_get_last_error
 } ST_RIDT_ROBC, ST_RIDT_ROBC_t;

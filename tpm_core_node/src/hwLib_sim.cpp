@@ -157,7 +157,10 @@ namespace tpm_core
 
     return robc_move_p2p_axis(cmdId, &mpData, pos, mask);
   }
-
+  short HwLib_Sim::move_lin_pose(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pose, UINT8 mask)
+  {
+    return robc_move_lin_pose(cmdId, &mpData, pose, mask, ROB_FRAME_BASE);
+  }
   short HwLib_Sim::get_axis(FLT* values)
   {
     // for (int i = 0; i < 6; i++)
@@ -180,6 +183,10 @@ namespace tpm_core
     //printf("HwLib_Sim::get_buffer_depth\n");
     *buffDepth = robc_get_buffer_depth();
     return 0;
+  }
+  std::string HwLib_Sim::get_last_err_msg()
+  {
+    return robc_get_last_error_msg();
   }
 
   short HwLib_Sim::hold()

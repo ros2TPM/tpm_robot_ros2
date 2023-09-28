@@ -52,6 +52,8 @@ void Manager_Topic::timerCallback_robotStatus()
     for(int i=0; i < 6; i++)
         message.end_pose[i] = RIDT->robc.pose[i];
 
+    message.buffer_depth = RIDT->robc.bufDepth;
+
     publisher_->publish(message);
 
     auto jointStatesMsg = JointState();

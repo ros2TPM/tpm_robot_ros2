@@ -3,6 +3,7 @@
 #include "def_type.h"
 #include <vector>
 #include <stdio.h>
+#include <string>
 
 #ifdef ROB_REAL
   #include "RPiRobIF.h"
@@ -50,10 +51,12 @@ namespace tpm_core
     virtual short set_axis_position(U8 AxisId, FLT value) {return 0;}
     virtual short jog_axis(U8 AxisId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc) {return 0;}
     virtual short jog_pose(U8 PoseId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc, ROB_FRAME_TYPE frame){return 0;}
-    virtual short move_p2p_axis(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pos, UINT8 mask) {return 0;}
+    virtual short move_p2p_axis(UINT16 cmdId, MCL_MPDATA& mpData, FLT* axis, UINT8 mask) {return 0;}
+    virtual short move_lin_pose(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pose, UINT8 mask) {return 0;}
     virtual short get_axis(FLT* values) {return 0;}
     virtual short get_pose(FLT* values) {return 0;}
     virtual short get_buffer_depth(INT32* buffDepth) {return 0;}
+    virtual std::string get_last_err_msg() {return "";}
 
     virtual short hold  () {return 0;}
     virtual short resume() {return 0;}
@@ -98,9 +101,11 @@ namespace tpm_core
     short set_axis_position(U8 AxisId, FLT value) override;
     short jog_axis(U8 AxisId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc) override;
     short jog_pose(U8 PoseId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc, ROB_FRAME_TYPE frame) override;
-    short move_p2p_axis(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pos, UINT8 mask) override;
+    short move_p2p_axis(UINT16 cmdId, MCL_MPDATA& mpData, FLT* axis, UINT8 mask) override;
+    short move_lin_pose(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pose, UINT8 mask) override;
     short get_axis(FLT* values) override;
     short get_buffer_depth(INT32* buffDepth) override;
+    std::string get_last_err_msg() override;
 
     short hold  () override;
     short resume() override;
@@ -149,10 +154,12 @@ namespace tpm_core
     short set_axis_position(U8 AxisId, FLT value) override;
     short jog_axis(U8 AxisId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc) override;
     short jog_pose(U8 PoseId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc, ROB_FRAME_TYPE frame) override;
-    short move_p2p_axis(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pos, UINT8 mask) override;
+    short move_p2p_axis(UINT16 cmdId, MCL_MPDATA& mpData, FLT* axis, UINT8 mask) override;
+    short move_lin_pose(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pose, UINT8 mask) override;
     short get_axis(FLT* values) override;
     short get_pose(FLT* values) override;
     short get_buffer_depth(INT32* buffDepth) override;
+    std::string get_last_err_msg() override;
 
     short hold  () override;
     short resume() override;

@@ -1,15 +1,21 @@
+uint8 PTP_AXIS=1
+uint8 LIN_POSE=2
+
 #-------------------------------------------------------------------------------
 # Service request fields
 #-------------------------------------------------------------------------------
-uint8[] buffer
+uint8 function
+uint16 cmd_id
+MotionProfile mp_data
+float32[] axis
+float32[] pose
+uint8 mask
 
 ---
 
 #-------------------------------------------------------------------------------
 # Service response fields
 #-------------------------------------------------------------------------------
-uint8[] buffer
-
 # Service success/failure indicator.
 int16 result_code
 

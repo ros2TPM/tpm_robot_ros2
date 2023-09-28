@@ -153,6 +153,10 @@ namespace tpm_core
   {
     return rpi_robc_move_p2p_axis(cmdId, &mpData, pos, mask);
   }
+  short HwLib_Real::move_lin_pose(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pose, UINT8 mask)
+  {
+    return rpi_robc_move_lin_pose(cmdId, &mpData, pose, mask, ROB_FRAME_BASE);
+  }
   short HwLib_Real::get_axis(FLT* values)
   {
     return rpi_robc_get_axis(values);
@@ -160,6 +164,10 @@ namespace tpm_core
   short HwLib_Real::get_buffer_depth(INT32* buffDepth)
   {
     return rpi_robc_get_buffer_depth(buffDepth);
+  }
+  std::string HwLib_Real::get_last_err_msg()
+  {
+    return rpi_robc_get_last_error_msg();
   }
 
   short HwLib_Real::hold()
