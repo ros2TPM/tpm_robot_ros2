@@ -41,6 +41,10 @@ namespace tpm_core
           get_axis(RIDT->robc.axis);
           get_pose(RIDT->robc.pose);
 
+          U32 buffDepth = 0;
+          get_buffer_depth(&buffDepth);
+          RIDT->robc.bufDepth = buffDepth;
+
           // ROS_PRINT("Axis:[%.3f, %.3f, %.3f] Pose[%.3f, %.3f, %.3f]",
           //   RIDT->robc.axis[0], RIDT->robc.axis[1], RIDT->robc.axis[2],
           //   RIDT->robc.pose[0], RIDT->robc.pose[1], RIDT->robc.pose[2]
@@ -176,7 +180,7 @@ namespace tpm_core
     return 0;
   }
 
-  short HwLib_Sim::get_buffer_depth(INT32* buffDepth)
+  short HwLib_Sim::get_buffer_depth(U32* buffDepth)
   {
     // *buffDepth = 0;
 

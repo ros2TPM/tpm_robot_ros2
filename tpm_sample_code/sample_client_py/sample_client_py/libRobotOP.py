@@ -10,7 +10,6 @@ from rcl_interfaces.srv import SetParameters, GetParameters
 from tpm_msgs.srv import AxisOperation
 from tpm_msgs.srv import RobotOperation
 from tpm_msgs.srv import JogPose
-from tpm_msgs.srv import MailBox
 from tpm_msgs.msg import RobotStatus
 
 from enum import Enum

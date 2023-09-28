@@ -55,7 +55,7 @@ namespace tpm_core
     virtual short move_lin_pose(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pose, UINT8 mask) {return 0;}
     virtual short get_axis(FLT* values) {return 0;}
     virtual short get_pose(FLT* values) {return 0;}
-    virtual short get_buffer_depth(INT32* buffDepth) {return 0;}
+    virtual short get_buffer_depth(U32* buffDepth) {return 0;}
     virtual std::string get_last_err_msg() {return "";}
 
     virtual short hold  () {return 0;}
@@ -104,7 +104,7 @@ namespace tpm_core
     short move_p2p_axis(UINT16 cmdId, MCL_MPDATA& mpData, FLT* axis, UINT8 mask) override;
     short move_lin_pose(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pose, UINT8 mask) override;
     short get_axis(FLT* values) override;
-    short get_buffer_depth(INT32* buffDepth) override;
+    short get_buffer_depth(U32* buffDepth) override;
     std::string get_last_err_msg() override;
 
     short hold  () override;
@@ -158,7 +158,7 @@ namespace tpm_core
     short move_lin_pose(UINT16 cmdId, MCL_MPDATA& mpData, FLT* pose, UINT8 mask) override;
     short get_axis(FLT* values) override;
     short get_pose(FLT* values) override;
-    short get_buffer_depth(INT32* buffDepth) override;
+    short get_buffer_depth(U32* buffDepth) override;
     std::string get_last_err_msg() override;
 
     short hold  () override;

@@ -14,7 +14,7 @@ def generate_launch_description():
     ld.add_action(
         DeclareLaunchArgument(
             "robot_name",
-            default_value="igus_delta_3dof",
+            default_value="ar3",
             description="name of the robot",
             choices=[
                 "ar3", 
@@ -62,7 +62,7 @@ def generate_launch_description():
         )
     #==== Simple UI ====
     # Run a Python script 
-    pkg_dir = packages.get_package_prefix('tpm_demo')
+    pkg_dir = packages.get_package_prefix('sample_client_py')
     simple_ui = ExecuteProcess(
         cmd=['python3 ', f'{pkg_dir}/../../src/tpm_sample_code/sample_ui/entry.py'],
         shell=True

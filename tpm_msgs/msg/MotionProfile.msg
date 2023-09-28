@@ -8,3 +8,6 @@ float32 overlap_rate
 uint8 overlap_type
 uint8 coord
 uint8 is_check_inpos
+
+uint8 COORD_ABS=0
+uint8 COORD_REL=1

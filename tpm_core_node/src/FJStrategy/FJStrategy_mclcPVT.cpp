@@ -58,7 +58,7 @@ namespace tpm_core
     delete[] pvtPoints;
 
     bool isMoving;
-    INT32 buff;
+    U32 buff;
     std::chrono::milliseconds sleepTime(10);
     do{
       rclcpp::sleep_for(sleepTime);

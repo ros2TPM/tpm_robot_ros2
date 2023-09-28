@@ -59,7 +59,7 @@ short Axis::start_homing()
     //wait for mv_to_zero done.
     while(1)
     {
-        INT32 buffDepth;
+        U32 buffDepth;
         hwLib.get_buffer_depth(&buffDepth);
         if(buffDepth == 0)
             break;

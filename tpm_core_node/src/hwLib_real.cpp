@@ -161,7 +161,7 @@ namespace tpm_core
   {
     return rpi_robc_get_axis(values);
   }
-  short HwLib_Real::get_buffer_depth(INT32* buffDepth)
+  short HwLib_Real::get_buffer_depth(U32* buffDepth)
   {
     return rpi_robc_get_buffer_depth(buffDepth);
   }

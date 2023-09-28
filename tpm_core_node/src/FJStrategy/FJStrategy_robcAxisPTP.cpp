@@ -47,7 +47,7 @@ namespace tpm_core
       ROS_PRINT("move_p2p_axis failed. result:%d", rc);
 
     // wait move done
-    INT32 buff = 0;
+    U32 buff = 0;
     do
     {
       rclcpp::sleep_for(std::chrono::milliseconds(100));
