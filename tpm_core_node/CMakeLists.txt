@@ -24,11 +24,7 @@ endforeach()
 set(INCLUDE_DIR
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
-  /home/tpm/Desktop/RPX-L132D/include
-  /home/tpm/Desktop/RobCLib/RobC
-  /home/tpm/Desktop/RobCLib/MCLC
-  /home/tpm/Desktop/RobCLib/MCLC/Core
-  /home/tpm/Desktop/ws_tpm_light/src/tpm_controller/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../RobC/include
 )
 
 ###########
@@ -56,10 +52,15 @@ else()
   set(LIB_SRC
     src/hwLib_sim.cpp
   )
-  
+
+  link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../RobC/lib)
+  install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../RobC/lib/
+    DESTINATION lib
+  )
+
   set(LIB_DEPENDENCIES
     RobC
-    MCLC
   )
 endif()
 # because cmake cache the value, unset USE_REAL_MNET

@@ -222,44 +222,5 @@ namespace tpm_core
     return robc_move_pvt(0, StopDec, Mask);
   }
   #pragma endregion
-
-  #pragma region MCLC
-  /*
-  short HwLib_Sim::axis_move_pvt(U8 AxisId, U32 CmdId, U32 pointNum, MCL_PVT_POINT* pvtPoints, FLT stopDec)
-  {
-    return robc_move_pvt(AxisId, CmdId, pointNum, pvtPoints, stopDec);
-  }
-  short HwLib_Sim::init()
-  {
-    mclc_init();
-    return 0;
-  }
-  short HwLib_Sim::dda_cycle()
-  {
-    return mclc_dda_cycle();
-  }
-  short HwLib_Sim::axis_move_pos(U8 AxisId, U32 CmdId, MCL_MPDATA mp, FLT pos)
-  {
-    return mclc_axis_move_pos(AxisId, CmdId, &mp, pos);
-  }
-  short HwLib_Sim::axis_stop(U8 AxisId, U8 StopType)
-  {
-    return mclc_axis_stop(AxisId, (MCL_STOP_TYPE)StopType);
-  }
-  short HwLib_Sim::axis_get_buffer_depth(U8 AxisId, U32* buffDepth)
-  {
-    return mclc_axis_get_buffer_depth(AxisId, buffDepth);
-  }
-  short HwLib_Sim::axis_get_trgPosCmd(U8 AxisId, FLT* pos)
-  {
-    return mclc_axis_get_trgPosCmd(AxisId, pos);
-  }
-  short HwLib_Sim::axis_get_actPosCmd(U8 AxisId, FLT* pos)
-  {
-    return mclc_axis_get_actPosCmd(AxisId, pos);
-  }
-  */
-  #pragma endregion
-
  
 }
