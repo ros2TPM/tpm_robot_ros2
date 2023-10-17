@@ -66,6 +66,12 @@ Manager_Param::Manager_Param(rclcpp::Node::SharedPtr node)
     node->get_parameter("pos_limit", RobotSpec::pos_limit);
     node->get_parameter("neg_limit", RobotSpec::neg_limit);
     node->get_parameter("pulse_per_unit", RobotSpec::pulse_per_unit);
+
+    ROS_PRINT("robot_type = %d ", RobotSpec::robot_type);
+
+    ROS_PRINT("a: ");
+    for(size_t i = 0; i < RobotSpec::a.size(); i++)
+            ROS_PRINT("%2f,", RobotSpec::a[i]);
 }
 
 }

@@ -65,6 +65,15 @@ void Manager_Topic::timerCallback_robotStatus()
         jointStatesMsg.position
         );
     joint_states_publisher_->publish(jointStatesMsg);
+
+/*
+    ROS_PRINT("jointStates: \n");
+        for(size_t i = 0; i < jointStatesMsg.position.size(); i++)
+            ROS_PRINT("%s: %.2f\n", 
+            jointStatesMsg.name[i].c_str(),
+            jointStatesMsg.position[i]
+            );
+            */
 }
 
 }//end namesapce

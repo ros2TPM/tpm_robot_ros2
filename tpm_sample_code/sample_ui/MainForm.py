@@ -78,11 +78,13 @@ class MainWindow(QMainWindow):
             txt_hmOffset = getattr(self.mainForm, 'txt_hmOff' + str(axisId))
             txt_hmOffset.setText(f"{hmOffset[axisId]:.2f}")
 
-            txt_psl = getattr(self.mainForm, 'txt_psl' + str(axisId))
-            txt_psl.setText(f"{psl[axisId]:.2f}")
+            if(axisId < len(psl)):
+                txt_psl = getattr(self.mainForm, 'txt_psl' + str(axisId))
+                txt_psl.setText(f"{psl[axisId]:.2f}")
 
-            txt_nsl = getattr(self.mainForm, 'txt_nsl' + str(axisId))
-            txt_nsl.setText(f"{nsl[axisId]:.2f}")
+            if(axisId < len(nsl)):
+                txt_nsl = getattr(self.mainForm, 'txt_nsl' + str(axisId))
+                txt_nsl.setText(f"{nsl[axisId]:.2f}")
             pass
 
     def set_slot(self):
