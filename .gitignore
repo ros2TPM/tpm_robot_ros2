@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+
+#### don't ignore the following file:
+!RobC/lib/libRobC.so
+
