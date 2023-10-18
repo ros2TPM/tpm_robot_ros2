@@ -33,6 +33,12 @@ set(INCLUDE_DIR
 ###########
 ## Build ##
 ###########
+if (CMAKE_SYSTEM_PROCESSOR MATCHES "arm")
+  set(LIB_DEPENDENCIES RobC_rpi RPiMNet_64)
+else()
+  set(LIB_DEPENDENCIES RobC RPiMNet)
+endif()
+
 add_executable(${PROJECT_NAME}
   src/tpm_core_node.cpp
   src/global_instance.cpp
@@ -58,7 +64,7 @@ target_include_directories(
   ${INCLUDE_DIR}
 )
 
-target_link_libraries(${PROJECT_NAME} RobC RPiMNet_64)
+target_link_libraries(${PROJECT_NAME} ${LIB_DEPENDENCIES})
 
 
 #############
