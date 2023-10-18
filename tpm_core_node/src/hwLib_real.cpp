@@ -9,19 +9,13 @@
 namespace tpm_core
 {
   #pragma region RI
-  enum Baudrate {
-      _2_5MHZ = 0,
-      _5MHZ   = 1,
-      _10MHZ  = 2,
-      _20MHZ  = 3
-    };
   short HwLib_Real::connect()
   {
     RIDT = new ST_RIDT_t();
 
     TRY_AND_PRINT(rpi_master_initialize());
     TRY_AND_PRINT(rpi_mnet_open());
-    TRY_AND_PRINT(rpi_mnet_set_ring_config(ringNo, Baudrate::_20MHZ));
+    TRY_AND_PRINT(rpi_mnet_set_ring_config(ringNo, Config::baudrate));
     TRY_AND_PRINT(rpi_mnet_reset_ring(ringNo));
     TRY_AND_PRINT(rpi_mnet_start_ring(ringNo));
 
@@ -91,7 +85,6 @@ namespace tpm_core
   }
   ST_RIDT_t* HwLib_Real::ri_get_RIDT()
   {
-    //ROS_PRINT("ri_get_RIDT:iosts:0x%08x", RIDT->m1a[0].ioSts);
     rpi_ri_get_data(RIDT);
     return RIDT;
   }
@@ -102,8 +95,8 @@ namespace tpm_core
     TRY(rpi_mnet_reset_ring_error_counter(ringNo));
     TRY(rpi_mnet_m1a_initial(ringNo, ip));
 
-    TRY(rpi_mnet_m1a_set_pls_iptmode(ringNo, ip, 2, 0));//mode 2:AB_x4
-    TRY(rpi_mnet_m1a_set_pls_outmode(ringNo, ip, 2));//mode 2:fallingEdge_DIR_low
+    TRY(rpi_mnet_m1a_set_pls_iptmode(ringNo, ip, Config::ipt_mode, 0));
+    TRY(rpi_mnet_m1a_set_pls_outmode(ringNo, ip, Config::out_mode));
     TRY(rpi_mnet_m1a_set_feedback_src(ringNo, ip, Config::feedback_src)); //0:external. 1:internal
 
     TRY(rpi_mnet_m1a_set_erc(ringNo, ip, 1, 0, 0));

@@ -9,10 +9,14 @@ class Config
 {
 public:
     static bool use_sim;
+    static int baudrate;
+    static int out_mode;
+    static int ipt_mode;
     static int alm_logic;   
     static int org_logic;   
     static int feedback_src;
     static int home_mode;
+    static int home_escape_offset;
     static double max_xyz_jog_speed;
     static double max_abc_jog_speed;
     static std::vector<double> home_offsets;

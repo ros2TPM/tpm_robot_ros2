@@ -14,10 +14,14 @@ Manager_Param::Manager_Param(rclcpp::Node::SharedPtr node)
 
       node->declare_parameter("max_xyz_jog_speed", 40.0);
       node->declare_parameter("max_abc_jog_speed", 20.0);
+      node->declare_parameter("baudrate", 3);
+      node->declare_parameter("out_mode", 2);
+      node->declare_parameter("ipt_mode", 2);
       node->declare_parameter("alm_logic", 0);
       node->declare_parameter("org_logic", 0);
       node->declare_parameter("feedback_src", 0);
       node->declare_parameter("home_mode", 0);
+      node->declare_parameter("home_escape_offset", 1000);
       node->declare_parameter("home_offsets", zeros);
       node->declare_parameter("home_dir", zeros_i);
       node->declare_parameter("max_axes_jog_speed", zeros);
@@ -26,10 +30,14 @@ Manager_Param::Manager_Param(rclcpp::Node::SharedPtr node)
         Config::use_sim = node->get_parameter("use_sim").as_bool();
         Config::max_xyz_jog_speed = node->get_parameter("max_xyz_jog_speed").as_double();
         Config::max_abc_jog_speed = node->get_parameter("max_abc_jog_speed").as_double();
+        Config::baudrate        = node->get_parameter("baudrate").as_int();
+        Config::out_mode        = node->get_parameter("out_mode").as_int();
+        Config::ipt_mode        = node->get_parameter("ipt_mode").as_int();
         Config::alm_logic       = node->get_parameter("alm_logic").as_int();
         Config::org_logic       = node->get_parameter("org_logic").as_int();
         Config::feedback_src    = node->get_parameter("feedback_src").as_int();
         Config::home_mode       = node->get_parameter("home_mode").as_int();
+        Config::home_escape_offset = node->get_parameter("home_escape_offset").as_int();
         node->get_parameter("home_offsets", Config::home_offsets);
         node->get_parameter("home_dir", Config::home_dir);
         node->get_parameter("max_axes_jog_speed", Config::max_axes_jog_speed);

@@ -8,6 +8,7 @@ typedef struct _AxisConfig
     double home_offsets;  
     double max_jog_vel;
     double pulse_per_deg;
+    int home_escape_offset;
 }AxisConfig;
 
 class Axis

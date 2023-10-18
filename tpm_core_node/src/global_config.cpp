@@ -6,10 +6,14 @@ namespace tpm_core{
 
 bool Config::use_sim;
 
-int Config::alm_logic;   
-int Config::org_logic;   
+int Config::baudrate;
+int Config::out_mode;
+int Config::ipt_mode;
+int Config::alm_logic;
+int Config::org_logic;
 int Config::feedback_src;
 int Config::home_mode;
+int Config::home_escape_offset;
 double Config::max_xyz_jog_speed;
 double Config::max_abc_jog_speed;
 std::vector<double> Config::home_offsets;

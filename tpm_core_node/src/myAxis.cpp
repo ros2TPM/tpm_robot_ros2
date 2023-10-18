@@ -14,6 +14,7 @@ void Axis::init(unsigned short slvIp, int id)
 {
     _slvIp = slvIp;
     _id = id;
+    _config.home_escape_offset = Config::home_escape_offset;
     _config.home_dir        = Config::home_dir[id];
     _config.home_offsets    = Config::home_offsets[id];
     _config.max_jog_vel     = Config::max_axes_jog_speed[id];
@@ -69,15 +70,18 @@ short Axis::start_homing()
 }
 short Axis::search_org()
 {
-    UINT8 dir     =_config.home_dir;
-    UINT32 maxVel =_config.max_jog_vel 
-                * _config.pulse_per_deg
-                * vel_ratio
-                * 0.2 ;
+    UINT8 dir     = _config.home_dir;
+    UINT32 maxVel = abs(_config.max_jog_vel
+                        * _config.pulse_per_deg
+                        * vel_ratio
+                        * 0.2);
+
+    // ROS_PRINT("max_jog_vel:%.2f, pulse_per_deg:%.2f, vel_ratio:%.2f", 
+    //     _config.max_jog_vel, _config.pulse_per_deg, vel_ratio);
 
     const UINT32 strVel=0;
     const float Tacc=0.5;//sec
-    const INT32 escapeORGOffset = 5000;//pulse
+    const INT32 escapeORGOffset = _config.home_escape_offset;//pulse
       
     ROS_PRINT("Axis %d search_org. dir=%d, maxV(Pulse)=%d", _id, dir, maxVel);
     TRY(HwLib::Instance().ri_enable_DDAMode(false));
