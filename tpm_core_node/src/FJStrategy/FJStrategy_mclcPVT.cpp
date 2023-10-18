@@ -48,7 +48,7 @@ namespace tpm_core
       if(err != 0)
         ROS_PRINT("Set PVT data failed. ErrCode: %d", err);
     }
-    err = (MCL_ERR)HwLib::Instance().move_pvt(1000, 0xFF);
+    err = HwLib::Instance().move_pvt(1000, 0xFF);
     if(err != 0)
       ROS_PRINT("Add PVT cmd failed. ErrCode: %d", err);
 

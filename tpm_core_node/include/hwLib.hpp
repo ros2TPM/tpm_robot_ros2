@@ -5,12 +5,8 @@
 #include <stdio.h>
 #include <string>
 
-#ifdef ROB_REAL
-  #include "RPiRobIF.h"
-#else
-  #include "RobC.h"
-  #include "def_RIDT.h"
-#endif
+#include "RPiRobIF.h"
+#include "RobC.h"
 
 template<typename T>
 T& get_global() {
@@ -115,6 +111,7 @@ namespace tpm_core
     
   private:
     short init_axis(UINT16 ip);
+    UINT16 ringNo = 0;
   };
 
   class HwLib_Sim : public HwLib

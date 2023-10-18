@@ -1,24 +1,11 @@
 #include "hwLib.hpp"
 #include "myRobot.h" //for get_pulse_per_deg in init();
 #include "def_macro.h"
-#include "def_RIDT.h"
 #include "global_instance.hpp" //for MAX_AXIS_NUM
-#include "global_config.hpp" //for RobotSpec
 #include <thread> //for RI-DDA_Cycle()
-
-#include "robot_kinematics/robotKinematics.hpp"
 
 namespace tpm_core
 {
-  HwLib& HwLib::Instance(){
-    #ifdef USE_REAL_MNET
-        static HwLib_Real instance;
-    #else 
-        static HwLib_Sim instance;
-    #endif
-
-        return instance;
-    }
   HwLib_Sim::HwLib_Sim()
   {
     ROS_PRINT("*** HwLib: use simulation mode ****");
@@ -79,39 +66,7 @@ namespace tpm_core
   #pragma endregion
 
   #pragma region ROBC
-  short HwLib::init()
-  {
-    ROB_KIN_TYPE robotType = (ROB_KIN_TYPE)RobotSpec::robot_type;
-
-    FLT posLimit   [MAX_AXIS_PER_ROBOT];
-    FLT negLimit   [MAX_AXIS_PER_ROBOT];
-    FLT a          [MAX_AXIS_PER_ROBOT];
-    FLT alpha      [MAX_AXIS_PER_ROBOT];
-    FLT d          [MAX_AXIS_PER_ROBOT];
-    FLT theta      [MAX_AXIS_PER_ROBOT];
-    FLT thetaShift [MAX_AXIS_PER_ROBOT];
-    FLT pulsePerDeg[MAX_AXIS_PER_ROBOT];
-
-    for (int i = 0; i < MAX_AXIS_PER_ROBOT; i++)
-    {
-      posLimit[i] = RobotSpec::pos_limit[i];
-      negLimit[i] = RobotSpec::neg_limit[i];
-      a[i] = RobotSpec::a[i];
-      alpha[i] = RobotSpec::alpha[i];
-      d[i] = RobotSpec::d[i];
-      theta[i] = RobotSpec::theta[i];
-      thetaShift[i] = RobotSpec::theta_shift[i];
-      pulsePerDeg[i] = RobotSpec::pulse_per_unit[i];
-    }
-
-    auto rc = init_inner(robotType, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);
-
-    RobotKinematics::SelectKinematic(robotType);
-    RobotKinematics::GetInstance()->Init(a, alpha, d, theta);
-
-    return rc;
-
-  }
+  
   short HwLib_Sim::init_inner(ROB_KIN_TYPE type, FLT* a, FLT* alpha, FLT* d, FLT* theta, FLT* thetaShift, FLT* posLimit, FLT* negLimit, FLT* pulsePerDeg)
   {
     auto rc = robc_init(type, a, alpha, d, theta, thetaShift, posLimit, negLimit, pulsePerDeg);

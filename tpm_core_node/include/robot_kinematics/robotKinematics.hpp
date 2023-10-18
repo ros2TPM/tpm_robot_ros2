@@ -1,7 +1,13 @@
 #include <vector>
 #include <string>
 #include "MCL_Types.h"
-#include "ROB_DEF.h"
+
+
+#ifdef ROB_REAL
+  #include "RPiRobIF.h"
+#else
+  #include "ROB_DEF.h"
+#endif
 
 namespace tpm_core
 {

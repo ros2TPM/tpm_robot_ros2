@@ -40,11 +40,11 @@ void Manager_Topic::timerCallback_robotStatus()
         message.axes[i].mnet_encoder = RIDT->m1a[i].encPos;
 
         U32 ioSts = RIDT->m1a[i].ioSts;
-        message.axes[i].is_servo_on = ioSts & (1 << 14);
-        message.axes[i].is_org      = ioSts & (1 << 4); 
-        message.axes[i].is_pel      = ioSts & (1 << 2); 
-        message.axes[i].is_nel      = ioSts & (1 << 3); 
-        message.axes[i].is_alm      = ioSts & (1 << 1); 
+        message.axes[i].is_servo_on = (ioSts & (1 << 14)) > 0;
+        message.axes[i].is_org      = (ioSts & (1 << 4)) > 0; 
+        message.axes[i].is_pel      = (ioSts & (1 << 2)) > 0; 
+        message.axes[i].is_nel      = (ioSts & (1 << 3)) > 0; 
+        message.axes[i].is_alm      = (ioSts & (1 << 1)) > 0; 
         
         message.axes[i].deg = RIDT->robc.axis[i];
         message.axes[i].mnet_encoder = RIDT->m1a[i].encPos;

@@ -31,7 +31,6 @@ public:
     short jog_pose(char poseId, signed char dir);
 
     bool is_homing(){return isHoming;}
-    void get_pulse_per_deg(float* out_array, int len); 
 
     std::vector<Axis*> axes;   
 

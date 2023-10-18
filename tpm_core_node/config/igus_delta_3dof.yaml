@@ -7,6 +7,15 @@ tpm_core_node:
     theta: [105.0,627.323,0.0,0.0,0.0,0.0]
     pos_limit: [150.0,150.0,150.0]
     neg_limit: [0.0,0.0,0.0]
-    pulse_per_unit: [100.0, 100.0, 100.0]
+    pulse_per_unit: [56.513, 56.547, 55.893]
     max_xyz_jog_speed: 40.0
     max_abc_jog_speed: 20.0
+
+    # mnet config
+    alm_logic: 0    # 0:low active, 1:high active
+    org_logic: 0    # 0:low active, 1:high active
+    feedback_src: 0 # 0:external. 1:internal
+    max_axes_jog_speed: [40.0, 20.0, 20.0, 40.0, 40.0, 40.0] #unit:deg
+    home_mode: 0
+    home_offsets: [14.0, 14.0, 14.0, 0.0, 0.0, 0.0] #unit:deg
+    home_dir: [0, 0, 0, 0, 0, 0] 

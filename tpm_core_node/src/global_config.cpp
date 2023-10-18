@@ -4,6 +4,8 @@
 
 namespace tpm_core{
 
+bool Config::use_sim;
+
 int Config::alm_logic;   
 int Config::org_logic;   
 int Config::feedback_src;
@@ -13,7 +15,6 @@ double Config::max_abc_jog_speed;
 std::vector<double> Config::home_offsets;
 std::vector<long int> Config::home_dir;
 std::vector<double> Config::max_axes_jog_speed;
-std::vector<double> Config::pulse_per_deg;
 
 int RobotSpec::robot_type;
 std::vector<double> RobotSpec::a;

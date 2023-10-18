@@ -1,6 +1,5 @@
 #include "hwLib.hpp"
 #include "RPiL132.h" //for rpi_master
-#include "RPiRobIF.h"
 #include "RPiMNet.h" //for Mnet
 #include "myRobot.h" //for pulsePerDeg
 #include "global_config.hpp" //for Config:: in RI APIs
@@ -31,7 +30,7 @@ namespace tpm_core
     std::vector<UINT8> vec_ioIP;
     vec_axisIP.clear();
 
-    uint32_t devTable[2] = {0};
+    U32 devTable[2] = {0};
     TRY_AND_PRINT(rpi_mnet_get_ring_active_table(ringNo, devTable));
 
     for (int i = 0; i < 64; i++)
@@ -56,7 +55,7 @@ namespace tpm_core
     
 
     // set axis
-    unsigned short axisIPs[6];
+    U16 axisIPs[6];
     for (int i = 0; i < Global::MAX_AXIS_NUM; i++)
     {
         if (i < (int)vec_axisIP.size())
@@ -92,6 +91,7 @@ namespace tpm_core
   }
   ST_RIDT_t* HwLib_Real::ri_get_RIDT()
   {
+    //ROS_PRINT("ri_get_RIDT:iosts:0x%08x", RIDT->m1a[0].ioSts);
     rpi_ri_get_data(RIDT);
     return RIDT;
   }
@@ -163,11 +163,15 @@ namespace tpm_core
   }
   short HwLib_Real::get_buffer_depth(U32* buffDepth)
   {
-    return rpi_robc_get_buffer_depth(buffDepth);
+    I32 buff;
+    short err = rpi_robc_get_buffer_depth(&buff);
+    *buffDepth = buff;
+    return err;
   }
   std::string HwLib_Real::get_last_err_msg()
   {
-    return rpi_robc_get_last_error_msg();
+    return "";
+   // return rpi_robc_get_last_error_msg();
   }
 
   short HwLib_Real::hold()
@@ -185,7 +189,6 @@ namespace tpm_core
   #pragma endregion 
 
   #pragma region Mnet
-  UINT16 ringNo=0;
   int HwLib_Real::mnet_m1a_set_svon(UINT16 ip, UINT16 on_off)
   {
     return rpi_mnet_m1a_set_svon(ringNo, ip, on_off);

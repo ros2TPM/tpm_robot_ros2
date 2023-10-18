@@ -10,6 +10,8 @@ Manager_Param::Manager_Param(rclcpp::Node::SharedPtr node)
       std::vector<double> zeros = {0.0,0.0,0.0,0.0,0.0,0.0};
       std::vector<int> zeros_i = {0, 0, 0, 0, 0, 0};
 
+      node->declare_parameter("use_sim", true);
+
       node->declare_parameter("max_xyz_jog_speed", 40.0);
       node->declare_parameter("max_abc_jog_speed", 20.0);
       node->declare_parameter("alm_logic", 0);
@@ -19,9 +21,9 @@ Manager_Param::Manager_Param(rclcpp::Node::SharedPtr node)
       node->declare_parameter("home_offsets", zeros);
       node->declare_parameter("home_dir", zeros_i);
       node->declare_parameter("max_axes_jog_speed", zeros);
-      node->declare_parameter("pulse_per_deg", zeros);
 
       ROS_PRINT("===== load_parameters ====" );
+        Config::use_sim = node->get_parameter("use_sim").as_bool();
         Config::max_xyz_jog_speed = node->get_parameter("max_xyz_jog_speed").as_double();
         Config::max_abc_jog_speed = node->get_parameter("max_abc_jog_speed").as_double();
         Config::alm_logic       = node->get_parameter("alm_logic").as_int();
@@ -31,7 +33,6 @@ Manager_Param::Manager_Param(rclcpp::Node::SharedPtr node)
         node->get_parameter("home_offsets", Config::home_offsets);
         node->get_parameter("home_dir", Config::home_dir);
         node->get_parameter("max_axes_jog_speed", Config::max_axes_jog_speed);
-        node->get_parameter("pulse_per_deg", Config::pulse_per_deg);
 
         ROS_PRINT("alm_logic = %d ", Config::alm_logic);
         ROS_PRINT("org_logic = %d ", Config::org_logic);

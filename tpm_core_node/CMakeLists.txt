@@ -23,57 +23,25 @@ endforeach()
 
 set(INCLUDE_DIR
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/def>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/ros_interface>
   $<INSTALL_INTERFACE:include>
-  ${CMAKE_CURRENT_SOURCE_DIR}/../RobC/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../ExtraLib/RobC/include
+  ${CMAKE_CURRENT_SOURCE_DIR}/../ExtraLib/RPX-L132/include
 )
 
 ###########
 ## Build ##
 ###########
-
-#add '--cmake-args -DUSE_REAL_MNET=ON' to build with RPiMnet
-option(USE_REAL_MNET "Build with RPiMnet library" OFF)
-if(USE_REAL_MNET)
-  message("******* Build real lib ********")
-  # define REAL_MNET, in the tpm_core_node.cpp will use MNetMaster_Real
-  add_definitions(-DREAL_MNET)
-  add_definitions(-DROB_REAL)
-  
-  set(LIB_SRC
-    src/hwLib_real.cpp
-  )
-  
-  set(LIB_DEPENDENCIES
-    RPiMNet_64
-  )
-else()
-  message("******* Build sim lib ********")
-  
-  set(LIB_SRC
-    src/hwLib_sim.cpp
-  )
-
-  link_directories(${CMAKE_CURRENT_SOURCE_DIR}/../RobC/lib)
-  install(
-    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../RobC/lib/
-    DESTINATION lib
-  )
-
-  set(LIB_DEPENDENCIES
-    RobC
-  )
-endif()
-# because cmake cache the value, unset USE_REAL_MNET
-# so it will always be default if user doesn't set USE_REAL_MNET
-unset(USE_REAL_MNET CACHE)
-
-
 add_executable(${PROJECT_NAME}
   src/tpm_core_node.cpp
   src/global_instance.cpp
   src/global_config.cpp
   src/myAxis.cpp
   src/myRobot.cpp
+  src/hwLib.cpp
+  src/hwLib_real.cpp
+  src/hwLib_sim.cpp
   src/ros_interface/manager_param.cpp
   src/ros_interface/manager_topic.cpp
   src/ros_interface/manager_service.cpp
@@ -87,20 +55,10 @@ ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
 target_include_directories(
   ${PROJECT_NAME}
   PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/def>
   ${INCLUDE_DIR}
 )
 
-
-add_library(core_lib ${LIB_SRC})
-target_include_directories(core_lib PUBLIC 
-$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/def>
-$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/ros_interface>
-${INCLUDE_DIR}
-)
-target_link_libraries(core_lib ${LIB_DEPENDENCIES})
-target_link_libraries(${PROJECT_NAME} core_lib)
-ament_target_dependencies(core_lib rclcpp)
+target_link_libraries(${PROJECT_NAME} RobC RPiMNet_64)
 
 
 #############

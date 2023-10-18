@@ -148,12 +148,6 @@ void Robot::clear_axes()
     axisNum = 0;
 }
 
-void Robot::get_pulse_per_deg(float* out_array, int len)
-{
-    for(int i=0; i<std::min(len,axisNum) ; i++)
-        out_array[i] = (float)axes[i]->_config.pulse_per_deg;
-}
-
 short Robot::do_axis_action(char funcType, signed char axisId)
 {
     if(axisId < -1 || axisId >= axisNum){
