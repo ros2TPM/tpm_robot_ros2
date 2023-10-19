@@ -27,6 +27,20 @@ ament_target_dependencies(move_ptp
 install(TARGETS move_ptp
   DESTINATION lib/${PROJECT_NAME})
 
+add_executable(move_delta_demo src/move_delta_demo.cpp)
+target_include_directories(move_delta_demo PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_features(move_delta_demo PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+ament_target_dependencies(move_delta_demo
+  rclcpp
+  tpm_msgs
+)
+
+install(TARGETS move_delta_demo
+  DESTINATION lib/${PROJECT_NAME})
+
 add_executable(move_lin src/move_lin.cpp)
 target_include_directories(move_lin PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
