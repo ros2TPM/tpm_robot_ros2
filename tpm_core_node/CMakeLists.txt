@@ -33,8 +33,9 @@ set(INCLUDE_DIR
 ###########
 ## Build ##
 ###########
-if (CMAKE_SYSTEM_PROCESSOR MATCHES "arm")
-  set(LIB_DEPENDENCIES RobC_rpi RPiMNet_64)
+
+if (CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
+  set(LIB_DEPENDENCIES RobC_rpi RPiMNet_rpi64)
 else()
   set(LIB_DEPENDENCIES RobC RPiMNet)
 endif()

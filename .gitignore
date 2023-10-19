@@ -36,4 +36,5 @@
 !ExtraLib/RobC/libRobC.so
 !ExtraLib/RobC/libRobC_rpi.so
 !ExtraLib/RPX-L132/libRPiMNet.so
-!ExtraLib/RPX-L132/libRPiMNet_64.so
+!ExtraLib/RPX-L132/libRPiMNet_rpi.so
+!ExtraLib/RPX-L132/libRPiMNet_rpi64.so
