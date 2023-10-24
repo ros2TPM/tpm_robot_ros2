@@ -120,13 +120,13 @@ class MainWindow(QMainWindow):
         
         self.mainForm.btnOp_svon    .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SERVO_ON))
         self.mainForm.btnOp_svoff   .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SERVO_OFF))
-        self.mainForm.btnOp_home    .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.HOME))
         self.mainForm.btnOp_clrAlm  .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.CLEAR_ALM))
         self.mainForm.btnOp_stop    .clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.STOP))
         self.mainForm.btnOp_find_ORG.clicked.connect (lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SEARCH_ORG))
         self.mainForm.btnOp_setToOffset .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SET_AS_OFFSET))
         self.mainForm.btnOp_setToZero   .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.SET_AS_ZERO))
         self.mainForm.btnOp_mvToZero    .clicked.connect(lambda: self._opLib.axis_action(self.nowAxisId, axisOP.Request.MV_TO_ZERO))
+        self.mainForm.btnOp_home.clicked.connect(self.Handle_AxisHome)
 
         # pose jog event
         self.mainForm.btnJog_pos.pressed.connect (lambda: self._opLib.jog_pose(self.nowPoseId, JogPose.Request.DIR_POS))
@@ -138,22 +138,6 @@ class MainWindow(QMainWindow):
         for btn in self.poseId_buttons:
             btn.clicked.connect(self.Handle_PoseSelectedChanged)
 
-        '''  this approach fails.
-        self.btnOp_mapping = [
-            (self.mainForm.btnOp_svon,      axisOP.servo_on),
-            (self.mainForm.btnOp_svoff,     axisOP.servo_off),
-            (self.mainForm.btnOp_home,      axisOP.home),
-            (self.mainForm.btnOp_clrAlm,    axisOP.clear_alm),
-            (self.mainForm.btnOp_stop,      axisOP.stop),
-            (self.mainForm.btnOp_find_ORG,   axisOP.search_org),
-            (self.mainForm.btnOp_setToZero,  axisOP.set_pos_to_zero),
-            (self.mainForm.btnOp_setToOffset,axisOP.set_pos_to_offset),
-            (self.mainForm.btnOp_mvToZero,   axisOP.mv_to_zero),
-        ]
-
-        for btn, op in self.btnOp_mapping:
-            btn.clicked.connect(lambda op2=op: self._opLib.axis_action(self.nowAxisId, op2))
-        '''
         pass
 
     @QtCore.Slot()
@@ -263,4 +247,11 @@ class MainWindow(QMainWindow):
         print("Slider value changed: ", speed)
         self._opLib.rob_action(robOP.Request.FEEDRATE, speed/100.0)
         # self._opLib.set_robot_parameter(robotParam.move_speed, speed)
+        pass
 
+    def Handle_AxisHome(self):
+        if self.mainForm.checkBox_mvZeroAfterHm.isChecked():
+            self._opLib.axis_action(self.nowAxisId, axisOP.Request.SEARCH_ORG)
+        else:
+            self._opLib.axis_action(self.nowAxisId, axisOP.Request.HOME)
+        pass
