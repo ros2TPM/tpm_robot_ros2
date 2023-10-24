@@ -30,7 +30,7 @@ def generate_launch_description():
         'robot_config_file_name', default_value=[robot_name, '.yaml'])
         )
     ld.add_action(DeclareLaunchArgument(
-            'use_sim', default_value='false'
+            'use_sim', default_value='true'
         ))
     #Note: you can't directly use 'robot_name= LaunchConfiguration('robot_name')' as string.
     # you have to use another launch argument.

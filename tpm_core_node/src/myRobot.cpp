@@ -14,6 +14,59 @@ namespace tpm_core {
 
 class Robot::Private
 {
+private:
+    static void wait_for_search_done(Robot& self)
+    {
+        bool isAllDone;
+        do {
+            ushort motionSts = 0;
+            isAllDone = true;
+            for (int i=0; i<self.axisNum; i++)
+            {
+                HwLib::Instance().mnet_m1a_motion_done(i, &motionSts);
+                //ROS_PRINT("axis(%d) state:%d", i, motionSts);
+                if (motionSts != 0)
+                {
+                    isAllDone = false;
+                    break;
+                }
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        } while(isAllDone == false);
+    }
+    static void wait_for_move_done(Robot& self)
+    {
+        while(1)
+        {
+            U32 buffDepth;
+            HwLib::Instance().get_buffer_depth(&buffDepth);
+            if(buffDepth == 0)
+                break;
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+    }
+    static short home_allAxes(Robot& self)
+    {
+        auto& hwLib = HwLib::Instance();
+        hwLib.ri_enable_DDAMode(false);
+        for (int i=0; i<self.axisNum; i++)
+            self.axes[i]->search_org();
+
+        wait_for_search_done(self);
+        
+        hwLib.ri_enable_DDAMode(true);
+        for (int i=0; i<self.axisNum; i++)
+        {
+            hwLib.mnet_m1a_reset_all(i);
+            self.axes[i]->set_as_offset();
+        }
+
+        // 
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        mv_to_zero(self, -1);
+        return 0;
+    }
+
 public:    
     static short servo      (Robot& self, signed char axisId, bool isOn)
     {    
@@ -31,9 +84,8 @@ public:
         if(axisId >= 0)
             TRY(self.axes[axisId]->start_homing());
 
-        else{
-            //todo
-        }
+        else
+            TRY(home_allAxes(self));
         
         return 0;
     }
@@ -154,6 +206,7 @@ short Robot::do_axis_action(char funcType, signed char axisId)
         ROS_PRINT("ERROR: axisId=%d. should be [0~%d] or -1", axisId, axisNum-1);
         return -1;
     }
+    //ROS_PRINT("do_axis_action: func:%d axis:%d", funcType, axisId);
 
     switch(funcType)
     {

@@ -50,7 +50,7 @@ namespace tpm_core
     ddaThread = std::thread(&HwLib_Sim::DDA_Cycle, this);
 
     //set fake vec_axisIP
-    for(int i=0; i<Global::MAX_AXIS_NUM; i++)
+    for(int i=0; i<3/*Global::MAX_AXIS_NUM*/; i++)
         vec_axisIP.push_back(i);
 
     return 0;

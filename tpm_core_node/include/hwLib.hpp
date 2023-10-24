@@ -65,7 +65,7 @@ namespace tpm_core
     virtual int mnet_m1a_set_svon   (UINT16 ip, UINT16 on_off) {return 0;}
     virtual int mnet_m1a_set_ralm   (UINT16 ip, UINT16 on_off) {return 0;}
     virtual int mnet_m1a_home_search(UINT16 ip, UINT8 Dir, UINT32 StrVel, UINT32 MaxVel, float Tacc, INT32 ORGOffset) {return 0;}
-    virtual int mnet_m1a_motion_done(UINT16 ip, UINT16 *MoSt) {return 0;}
+    virtual int mnet_m1a_motion_done(UINT16 ip, UINT16 *MoSt) { *MoSt = 0; return 0;}
     virtual int mnet_m1a_reset_all  (UINT16 ip) {return 0;}
     virtual int mnet_m1a_sd_stop    (UINT16 ip) {return 0;}
 

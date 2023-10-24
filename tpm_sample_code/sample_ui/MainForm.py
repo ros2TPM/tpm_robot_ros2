@@ -251,7 +251,7 @@ class MainWindow(QMainWindow):
 
     def Handle_AxisHome(self):
         if self.mainForm.checkBox_mvZeroAfterHm.isChecked():
-            self._opLib.axis_action(self.nowAxisId, axisOP.Request.SEARCH_ORG)
-        else:
             self._opLib.axis_action(self.nowAxisId, axisOP.Request.HOME)
+        else:
+            self._opLib.axis_action(self.nowAxisId, axisOP.Request.SEARCH_ORG)
         pass
