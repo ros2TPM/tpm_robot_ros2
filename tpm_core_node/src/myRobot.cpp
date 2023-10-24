@@ -108,6 +108,7 @@ public:
         else 
             TRY(self.axes[axisId]->search_org());
         
+        TRY(HwLib::Instance().ri_enable_DDAMode(true));
         return 0; 
     }
     static short set_as_offset(Robot& self, signed char axisId)
