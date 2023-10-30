@@ -1,0 +1,128 @@
+<?xml version="1.0" ?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="igus_robolink_5dof" >
+
+<!--Define constant-->
+<xacro:property name="PI" value="3.14159"/>
+<xacro:property name="d2r" value="0.0174533"/> <!--degree 2 radius-->
+<material name="gray">
+  <color rgba="0.4 0.4 0.4 1"/> 
+</material>
+<material name="red">
+  <color rgba="1 0 0 1"/> 
+</material>
+<material name="green">
+  <color rgba="0 1 0 1"/> 
+</material>
+<material name="blue">
+  <color rgba="0 0 1 1"/> <!-- Long stick is represented by a long-thin box -->
+</material>
+<material name="yellow">
+  <color rgba="1 1 0 1"/> 
+</material>
+<material name="purple">
+  <color rgba="1 0 1 1"/> 
+</material>
+
+
+<!-- ======== base ======== -->
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_robolink_5dof/0_base.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="gray"/>
+    </visual>
+  </link>
+  
+  <joint name="joint1" type="revolute">
+    <axis xyz="0 0 1" />
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="link1"/>
+    <limit effort="30" velocity="1" lower="-3.14" upper="3.14"/>
+  </joint>
+  
+  <link name="link1">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_robolink_5dof/1_link1.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="red"/>
+    </visual>
+  </link>
+
+  <joint name="joint2" type="revolute">
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 0.152" rpy="0 0 0"/>
+    <parent link="link1"/>
+    <child link="link2"/>
+		<limit effort="100.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+  </joint>
+
+  <link name="link2">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_robolink_5dof/2_link2.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="green"/>
+    </visual>
+  </link>
+
+  <joint name="joint3" type="revolute">
+    <axis xyz="0 1 0"/>
+    <origin xyz="0 0 0.350" rpy="0 0 0"/>
+    <parent link="link2"/>
+    <child link="link3"/>
+		<limit effort="100.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+  </joint>
+
+  <link name="link3">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_robolink_5dof/3_link3.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="yellow"/>
+    </visual>
+  </link>
+
+  <joint name="joint4" type="revolute">
+    <axis xyz="0 1 0"/>
+    <origin xyz="0.270 0 0" rpy="0 0 0"/>
+    <parent link="link3"/>
+    <child link="link4"/>
+		<limit effort="100.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+  </joint>
+
+  <link name="link4">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_robolink_5dof/4_link4.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="blue"/>
+    </visual>
+  </link>
+  
+  <joint name="joint5" type="revolute">
+    <axis xyz="0 0 1"/>
+    <origin xyz="0 0 -0.190" rpy="0 0 0"/>
+    <parent link="link4"/>
+    <child link="link5"/>
+		<limit effort="100.0" lower="-3.14" upper="3.14" velocity="0.5"/>
+  </joint>
+
+  <link name="link5">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://tpm_description/meshes/igus_robolink_5dof/5_link5.stl" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="purple"/>
+    </visual>
+  </link>
+</robot>

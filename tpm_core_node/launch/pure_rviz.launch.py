@@ -56,7 +56,8 @@ def generate_launch_description():
             choices=[
                 "ar3", 
                 "igus_scara_4dof", 
-                "igus_delta_3dof"
+                "igus_delta_3dof",
+                "igus_robolink_5dof"
                 ],
             description="name of the robot"
         ),
