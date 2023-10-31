@@ -19,7 +19,7 @@ ros2 launch tpm_core_node demo.launch.py
 ```
 sample_ui and Rviz windows would pop-up as shown below.
 
-![Using TPM Library](/src/Image/tpm_library.png)
+![Using TPM Library](/../Image/tpm_library.png)
 
 On MyRosRobot, choose the axis to control with commands on the left buttom corner such as SvOn, SvOff and Home. The status of each axis would be shown on the right side.
 
