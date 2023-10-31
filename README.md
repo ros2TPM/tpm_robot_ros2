@@ -1,19 +1,25 @@
 # tpm_robot_ros2
-**ROS2(Robot Operating System)** is a set of software libraries and tools for building robot applications. This repository is a **ROS2** node driver for using **TPM RPX-L132D1-ROS2** controller to control robot. It provides nodes to communicate with Motionnet drivers and to perform the kinematics and CAD modules for several robots.
+**ROS2 (Robot Operating System)** is a set of open-source software libraries and tools for building robot applications. 
+On the other hand, **RPX-L132D1-ROS2** is a robot controller. It is a raspberry pi HAT board, designed by TPM (Taiwan Pulse Motion), that calculates kinematics and interpolation, and communicates with Motionnet drivers to control robots. 
+This Git repository is a **ROS2** node wrapping of **RPX-L132D1-ROS2** controller. It provides nodes that wraps the API libraries, along with CAD modules for several robots.
 
 ## Overview
-The TPM robot control system using **RPX-L132D1-ROS2** can be divided into four parts:
-1. Robot Mechanics: the mechanical parts of robot. The recent supported robots are:
+The whole controlling architecture can be divided into four parts:
+1. **Robot Mechanics:** 
+   the mechanical parts of robot. Current supported robots are:
     - igus_scara_4dof
     - igus_delta_3dof
     - igus_robolink_5dof
-    - ar3
-2. Drivers:TPM SVR-M1xx series or other Motionnet Slave drivers to control motors.
-3. Controller(RPX-L132D1-ROS2): a Raspberry Pi operating ROS2 nodes with Motionnet Master add-on board HAT-L132D1 to control drivers through Motionnet Fieldbus.
+    - AR3 6dof arm by [Annin Robotics](https://www.anninrobotics.com/) 
+2. **Drivers:** 
+   TPM SVR-M1xx series or other Motionnet Slave drivers to control motors.
+3. **Controller(RPX-L132D1-ROS2):** 
+   a Raspberry Pi operating ROS2 nodes with Motionnet Master add-on board HAT-L132D1 to control drivers through Motionnet Fieldbus.
 
 ![RPX-L132D1-ROS2](Image/RPX-L132D1-ROS2.png)
 
-4. Programming environment: interfaces for user to receive status and send commands to axes and robot such as MyRosRobot, Moveit or C++ and python APIs.
+4. **Programming environment:** 
+interfaces for user to receive status and send commands to axes and robot such as MyRosRobot, Moveit or C++ and python APIs.
 
 ![RPX-L132D1-ROS2](Image/Architecture%20of%20automation%20controller.png)
 
