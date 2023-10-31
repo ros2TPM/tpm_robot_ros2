@@ -1,0 +1,2 @@
+# tpm_moveit
+Here contain the config files for Moveit platform. For the usage of using Moveit platform to control robot, please refer to [Using Moveit! Platform](../tpm_core_node/README.md#using-moveit-platform).
