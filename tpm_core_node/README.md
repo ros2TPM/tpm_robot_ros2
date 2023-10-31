@@ -19,7 +19,7 @@ ros2 launch tpm_core_node demo.launch.py
 ```
 sample_ui and Rviz windows would pop-up as shown below.
 
-![Using TPM Library](/../Image/tpm_library.png)
+![Using TPM Library](Image/tpm_library.png)
 
 On MyRosRobot, choose the axis to control with commands on the left buttom corner such as SvOn, SvOff and Home. The status of each axis would be shown on the right side.
 
@@ -32,7 +32,7 @@ ros2 launch tpm_core_node demo_moveit.launch.py
 ```
 MyRosRobot and Rviz(with moveit) windows would pop-up as shown below.
 
-![Using moveit](/src/Image/using%20moveit.png)
+![Using moveit](Image/using%20moveit.png)
 
 The usage of MyRosRobot is the same as in the previous section [Using TPM Library](#using-tpm-library).
 For the usage of Moveit, please refer to the [Moveit official website]().
@@ -43,7 +43,9 @@ Enter the following command into the terminal to launch Rviz with JointStatePubl
 ros2 launch tpm_core_node pure_rviz.launch.py
 ```
 JointStatePublisher and Rviz windows would pop-up as shown below.
-![JointStatePublisher](/src/Image/pure_rviz.png)
+
+![JointStatePublisher](Image/pure_rviz.png)
+
 Move the slot to move the components of the robot in Rviz.
 
 ## Ros2 Interfaces
