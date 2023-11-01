@@ -11,9 +11,11 @@
     ```
 
 3. Copy libraries to a path that can be found during build and execution.
+
    There are two libraries in the directory of `ExtraLib`, `RobC` is for simulation and `RPiMNet` is for RPX-L132.
+
    If you are working on `Raspberry Pi`, must use `libRobC_rpi.so` and `libRPiMNet_rpi.so`.
-   
+
    For example, copy libraries to the system directory:
     ```
     sudo cp src/ExtraLib/RobC/libRobC.so /usr/lib
@@ -28,4 +30,8 @@
     source install/setup.bash
     ```
 
-4. Verify the build by executing simulation. For more detail, please refer to [here](<[Getting Start] Simulation.md>).
+4. Verify the build by executing simulation.
+
+    ```
+    ros2 launch tpm_core_node demo_with_rviz.launch.py robot_name:=ar3 use_sim:=true
+    ```
