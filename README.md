@@ -1,60 +1,85 @@
-# what is tpm_robot_ros2?
-**ROS2 (Robot Operating System)** is a set of open-source software libraries and tools for building robot applications. 
+# What is this repository?
+This Git repository demonstrate how to use a robot controller named **RPX-L132D1-ROS2**.  
+This controller is composed of a `Raspberry pi 4B` and a `HAT board` designed by [TPM (Taiwan Pulse Motion)][tpm] company named **‘HAT-L132D1’**.  
 
-On the other hand, **RPX-L132D1-ROS2** is a robot controller. It is a Raspberry pi HAT board, designed by [TPM (Taiwan Pulse Motion)](https://www.tpm-pac.com/), which can calculate kinematics and interpolation, and communicates with Motionnet drivers to control robots. 
+This HAT board can calculate robot kinematics and interpolation, than send the signal to drivers through field bus called [‘Motionnet’][motionnet]. It also provides an API library called **’RpiMNet’** (libRpiMNet.so) in the style of C function.
 
-This Git repository is a **ROS2** node wrapping of **RPX-L132D1-ROS2** controller. It provides nodes that wraps the API libraries, along with CAD modules for several robots.
+The HAT board is than connected to a Raspberry pi that has Ubuntu and ROS2 installed. Together they are called **‘RPX-L132D1-ROS2’**.
 
-## Overview
-The whole controlling architecture can be divided into four parts:
-1. **Robot Mechanics:** 
-
-    the mechanical parts of robot. Current supported robots are:
-    - igus_scara_4dof
-    - igus_delta_3dof
-    - igus_robolink_5dof
-    - AR3 6dof arm by [Annin Robotics](https://www.anninrobotics.com/) 
-2. **Drivers:** 
-
-   [TPM SVR-M1xx Driver series](https://www.tpm-pac.com/product-2/motionnet-3/nu-servo-drive-m/closed-loop-m-nu/) or other Motionnet Slave drivers to control motors.
-3. **Controller(RPX-L132D1-ROS2):** 
-
-   a Raspberry Pi operating ROS2 nodes with Motionnet Master add-on board HAT-L132D1 to control drivers through Motionnet Fieldbus.
+Note: [ROS2][ros2] (Robot Operating System) is a set of open-source software libraries and tools for building robot applications.
 
 ![RPX-L132D1-ROS2](Image/RPX-L132D1-ROS2.png)
 
-4. **Programming environment:** 
+This Git repository demostrates how to use **RPX-L132D1-ROS2** controller by wrapping the RPiMNet API library into a ROS2 node, along with CAD modules for several types of robots, a simple GUI, and some sample client codes.
 
-interfaces for user to receive status and send commands to axes and robot such as MyRosRobot, Moveit or C++ and python APIs.
+# Architecture
+The overall robot controlling architecture can be divided into four parts:
+1. **Robot Mechanics:**  
+    The mechanical parts of robot. Current supported robots are:
+    + scara robot (4dof) by igus
+    + delta robot (3dof) by igus
+    + robotlink arm (5dof) by igus
+    + AR3 arm (6dof) by [Annin Robotics][anninrobotics]
+
+2. **Drivers:**  
+   [TPM SVR-M1xx Driver series][svr-M1xx] are closed-loop step motors that use ['Motionnet'][motionnet] as field bus communication.
+     
+4. **Controller:**  
+   The controller is RPX-L132D1-ROS2, as described above.  
+   An API library is provided as dll file.
+
+5. **User application (this repository):**  
+   Wraps the RPiMNet API library into ROS2 nodes, and demostrate how to use it along with ROS2 built-in features such as Rviz or Moveit!.
 
 ![RPX-L132D1-ROS2](Image/Architecture%20of%20automation%20controller.png)
 
-This repository contains the software for the controller and the programming environment. Here simply describes the functions of each component of this repository. Users may reach the corresponding chapters of components for further understanding in their concern.
-- **tpm_core_node**    : processes all core functions of the controller to execute commands from users and monitor the statuses of axes.
-- **tpm_sample_code**  : provides C++ / python sample codes. Also a GUI called **MyRosRobot** for users to call services from **tpm_core_node**.
-- **tpm_description**  : contains 3D simulation related config files for Rviz.
-- **tpm_moveit** : contains related config files for moveit! application.
-- **tpm_msgs**   : contains the message and service definitions.
-- **Image**      : contains images for Readme files.
+# Prerequisite
+This guide assumes that the reader has experience with Linux and ROS2 project.  
+The code is tested under following environment:
++ Ubuntu 22.04  
+    -- on Windows VM Virtual Box  
+    -- on Raspberry Pi 4B  
++ ROS2 Humble
 
-Here introduce three configurations of nodes for users to meet their demands. Detailed usages of each configuration are provided in the next chapter. For users willing to develop ROS2 nodes to call services from tpm_core_node directly, please refer to .
-### Node Configurations
-1. Using TPM Library
+By simply clone and build this repository, you can run in `simulation mode`.  
+However, in order to run in `real mode` (i.e. control real-physical robot), you’ll need:
++ RPX-L132D1-ROS2 controller
++ Motionnet Drivers
++ Motors
++ Robot mechenics
+If you are interested, please [contact TPM][contactTPM] or mail to: ros2TPM@tpm-pac.com
 
-MyRosRobot is a sample GUI made by TPM. It presents commands for both kinematical movements to robot and controls to axes to tpm_core_node. The status of each axis will also be shown on MyRosRobot. To observe 3D perception of the robot, Rviz in tpm_description presents the posture of the robot according to the joint_state published by tpm_core_node.
+# Getting Started
+You can find more instructions in the following documents:
+- [Clone, Build, and Run Simulation](<Doc/[Setting Start] Build and Run simulation.md>)
+- [Run on Real Robot](<Doc/[Demo] igus Delta Robot.pdf>)
+- ~~[Use with MoveIt! library](Doc/)~~
 
-![Using TPM Library](Image/tpm_library.png)
+# Folder overview
+Here is a brief overview of each component within this repository. For more detiled information, navigate into individual folders. 
 
-2. Using Moveit Platform
+- **tpm_core_node**:  
+  The ROS2 node that warps the RPiMNet API library. It provides ROS2-style Topics, Services, and Actions that can execute commands from users and monitor the statuses of drivers.
+- **tpm_msgs**:  
+  Contains the ROS2 message and service definitions. Used in `tpm_core_node`.
+- **tpm_description**:  
+  Contains CAD files and configuration files of several robot types. Used for Rviz 3D simulation, which is a build-in tool of ROS2.
+- **tpm_sample_code**:  
+  Provides C++ and python sample client codes. And most importantly, a GUI called **MyRosRobot** for users to call basic services from **tpm_core_node**, such as ServoOn/Off, Homing, Jogging, and monitor the driver position..
+- **tpm_moveit**:  
+  Contains code and configuration files in order to use the Moveit! platform, which is a famous open-source robot framework based on ROS.
+- **ExtraLib**:  
+  Contains the header (.h) files and dll (.so) files of the RPiMNet library.
+- **Doc**:  
+  Contains instructions and manuals.
+- **Image**:  
+  Contains images for Readme.md files.
 
-Moveit2 is the robotic manipulation platform for ROS2 (by moveit official website). It contains functions such as motion planning, 3D perception (Rviz) and collision checking. For users willing to use Moveit2 to control robots, tpm_core_node can also operate joint trajectory from Move_group node by calling action follow_joint_trajectory. It should be noted that in this configuration, commands for drivers such as ServoOn and Home still need to be called by using MyRosRobot.
-
-![Using moveit](Image/using%20moveit.png)
-
-3. Using Joint State Publisher
-
-ROS2 provides a GUI called Joint State Publisher for users to observe and move the 3D modules in Rviz. Users cannot control the robot by using Joint State Publisher. The movement of 3D modules may also be different from using TPM libraries or Moveit.
-
-![Using joint state publisher](Image/pure_rviz.png)
 
 
+[tpm]: https://www.tpm-pac.com/
+[contactTPM]: https://www.tpm-pac.com/contact-us/
+[motionnet]: http://www.motionnet.jp/en/motionnet.html
+[ros2]: https://docs.ros.org/en/humble/Tutorials.html
+[anninrobotics]: https://www.anninrobotics.com/
+[svr-M1xx]: https://www.tpm-pac.com/product-2/motionnet-3/nu-servo-drive-m/closed-loop-m-nu/
