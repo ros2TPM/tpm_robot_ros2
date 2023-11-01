@@ -28,7 +28,7 @@
     source install/setup.bash
     ```
 
-4. Verify the build by executing simulation.
+## Verify the build by executing simulation.
 
     ```
     ros2 launch tpm_core_node demo_with_rviz.launch.py robot_name:=ar3 use_sim:=true
