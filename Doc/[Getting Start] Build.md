@@ -10,10 +10,8 @@
     git clone https://github.com/ros2TPM/tpm_robot_ros2.git src
     ```
 
-3. Copy libraries to a path that can be found during build and execution.
-
-   There are two libraries in the directory of `ExtraLib`, `RobC` is for simulation and `RPiMNet` is for RPX-L132.
-
+3. Copy libraries to a path that can be found during build and execution.  
+   There are two libraries in the directory of `ExtraLib`, `RobC` is for simulation and `RPiMNet` is for RPX-L132.  
    If you are working on `Raspberry Pi`, must use `libRobC_rpi.so` and `libRPiMNet_rpi.so`.
 
    For example, copy libraries to the system directory:
