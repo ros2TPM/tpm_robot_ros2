@@ -254,4 +254,5 @@ class MainWindow(QMainWindow):
             self._opLib.axis_action(self.nowAxisId, axisOP.Request.HOME)
         else:
             self._opLib.axis_action(self.nowAxisId, axisOP.Request.SEARCH_ORG)
+            self._opLib.axis_action(self.nowAxisId, axisOP.Request.SET_AS_OFFSET)
         pass
