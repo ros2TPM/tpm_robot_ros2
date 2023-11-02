@@ -52,7 +52,7 @@ def generate_launch_description():
         
         DeclareLaunchArgument(
             "robot_name",
-            default_value="igus_delta_3dof",
+            default_value="ar3",
             choices=[
                 "ar3", 
                 "igus_scara_4dof", 

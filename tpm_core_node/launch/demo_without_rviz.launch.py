@@ -14,7 +14,7 @@ def generate_launch_description():
     ld.add_action(
         DeclareLaunchArgument(
             "robot_name",
-            default_value="igus_delta_3dof",
+            default_value="ar3",
             description="name of the robot",
             choices=[
                 "ar3", 
@@ -22,24 +22,6 @@ def generate_launch_description():
                 ],
         )
     )
-    #==== Rviz & robot_state_publisher ====
-    pkg_dir = packages.get_package_share_directory('tpm_description')
-    robot_description = Command( ["xacro ", pkg_dir, '/urdf/',robot_name,'.urdf.xacro'])
-    node_rsp = Node(
-            package='robot_state_publisher',
-            executable='robot_state_publisher',
-            name='robot_state_publisher',
-            output='screen',
-            parameters=[{'robot_description':robot_description}],
-            )
-
-    config_rviz = os.path.join(pkg_dir,'rviz/show_robot.rviz')
-    node_rviz = Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            output='screen',
-            arguments=['-d', config_rviz])
 
     #==== tpm_core_node ====
     pkg_dir = packages.get_package_share_directory('tpm_core_node')
@@ -48,8 +30,7 @@ def generate_launch_description():
         'robot_config_file_name', default_value=[robot_name, '.yaml'])
         )
     ld.add_action(DeclareLaunchArgument(
-            'use_sim',
-            default_value='false'
+            'use_sim', default_value='false'
         ))
     #Note: you can't directly use 'robot_name= LaunchConfiguration('robot_name')' as string.
     # you have to use another launch argument.
@@ -72,8 +53,6 @@ def generate_launch_description():
     )
     
     #==== final ====
-    ld.add_action(node_rsp)
-    ld.add_action(node_rviz)
     ld.add_action(node_tpm_core)
     ld.add_action(simple_ui)
     return ld
