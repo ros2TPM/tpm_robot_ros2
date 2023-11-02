@@ -16,9 +16,9 @@ This Git repository demostrates how to use **RPX-L132D1-ROS2** controller by wra
 The overall robot controlling architecture can be divided into four parts:
 1. **Robot Mechanics:**  
     The mechanical parts of robot. Current supported robots are:
-    + scara robot (4dof) by igus
-    + delta robot (3dof) by igus
-    + robotlink arm (5dof) by igus
+    + scara robot (4dof) by [igus][igus_4dof]
+    + delta robot (3dof) by [igus][igus_3dof]
+    + robotlink arm (5dof) by [igus][igus_5dof]
     + AR3 arm (6dof) by [Annin Robotics][anninrobotics]
 
 2. **Drivers:**  
@@ -51,7 +51,7 @@ If you are interested, please [contact TPM][contactTPM] or mail to: ros2TPM@tpm-
 
 # Getting Started
 You can find more instructions in the following documents:
-- [Clone, Build, and Run Simulation](<Doc/[Setting Start] Build and Run simulation.md>)
+- [Clone, Build, and Run Simulation](<Doc/[Getting Start] Build and Run simulation.md>)
 - [Run on Real Robot](<Doc/[Demo] igus Delta Robot.pdf>)
 - ~~[Use with MoveIt! library](Doc/)~~
 
@@ -81,5 +81,8 @@ Here is a brief overview of each component within this repository. For more deti
 [contactTPM]: https://www.tpm-pac.com/contact-us/
 [motionnet]: http://www.motionnet.jp/en/motionnet.html
 [ros2]: https://docs.ros.org/en/humble/Tutorials.html
+[igus_3dof]: https://www.igus.com.tw/product/20433?artNr=DLE-DR-0005
+[igus_4dof]: https://www.igus.com.tw/product/20961?artNr=RL-SCR-0100
+[igus_5dof]: https://www.igus.com.tw/product/20239?artNr=RL-DP-5
 [anninrobotics]: https://www.anninrobotics.com/
 [svr-M1xx]: https://www.tpm-pac.com/product-2/motionnet-3/nu-servo-drive-m/closed-loop-m-nu/
