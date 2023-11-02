@@ -12,15 +12,15 @@
 
 3. Copy dll libraries:  
    To build this repository, you need several dll libraries. You can find them in the `ExtraLib` folder.  
-   For Ubuntu on **Raspberry Pi** : `libRobC_rpi.so`, `libRPiMNet_rpi(or 64).so`  
-   For Ubuntu on **VM Virtual Box** : `libRobC.so`, `libRPiMNet.so`  
+   For Ubuntu on **Raspberry Pi** : `libRobC.so`, `libRPiMNet(or _64).so`  
+   For Ubuntu on **VM Virtual Box** : `libRobC_vm.so`, `libRPiMNet_vm.so`  
 
    Please copy them to a path that can be found by OS during build and execution.  
 
    For example, copy libraries to the system directory:
     ```
     sudo cp src/ExtraLib/RobC/libRobC.so /usr/lib
-    sudo cp src/ExtraLib/RobC/libRPiMNet.so /usr/lib
+    sudo cp src/ExtraLib/RPX-L132/libRPiMNet.so /usr/lib
     sudo ldconfig #update cache
     ```
 

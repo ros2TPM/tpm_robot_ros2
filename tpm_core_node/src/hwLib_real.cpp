@@ -132,7 +132,7 @@ namespace tpm_core
 
   short HwLib_Real::set_axis_position(U8 AxisId, FLT value)
   {
-    return rpi_robc_set_axis_position(AxisId, value);
+    return rpi_robc_set_axis_position(AxisId, value); 
   }
   short HwLib_Real::jog_axis(U8 AxisId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc) 
   {
@@ -178,6 +178,15 @@ namespace tpm_core
   short HwLib_Real::feedrate(double feedrate)
   {
     return rpi_robc_feedrate(feedrate);
+  }
+
+  short HwLib_Real::set_pvt_data(U8 AxisId, U32 PointNum, MCL_PVT_POINT* PvtPoints)
+  {
+    return robc_set_pvt_data(AxisId, PointNum, PvtPoints);
+  }
+  short HwLib_Real::move_pvt(FLT StopDec, U8 Mask)
+  {
+    return robc_move_pvt(0, StopDec, Mask);
   }
   #pragma endregion 
 

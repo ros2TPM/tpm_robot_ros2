@@ -21,5 +21,5 @@ tpm_core_node:
     max_axes_jog_speed: [40.0, 20.0, 20.0, 40.0, 40.0, 40.0] #unit:deg
     home_mode: 0
     home_escape_offset: 1000
-    home_offsets: [14.0, 16.0, 14.0, 0.0, 0.0, 0.0] #unit:deg
+    home_offsets: [14.0, 14.0, 14.0, 0.0, 0.0, 0.0] #unit:deg
     home_dir: [0, 0, 0, 0, 0, 0]

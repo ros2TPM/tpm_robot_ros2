@@ -99,6 +99,9 @@ namespace tpm_core
     short resume() override;
     short feedrate(double feedrate) override;
 
+    short set_pvt_data(U8 AxisId, U32 PointNum, MCL_PVT_POINT* PvtPoints) override;
+    short move_pvt(FLT StopDec, U8 Mask) override;
+
     //===== Mnet =====
     int mnet_m1a_set_svon   (UINT16 ip, UINT16 on_off) override;
     int mnet_m1a_set_ralm   (UINT16 ip, UINT16 on_off) override;

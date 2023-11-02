@@ -35,9 +35,9 @@ set(INCLUDE_DIR
 ###########
 
 if (CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64")
-  set(LIB_DEPENDENCIES RobC_rpi RPiMNet_rpi64)
+  set(LIB_DEPENDENCIES RobC RPiMNet_64)
 else()
-  set(LIB_DEPENDENCIES RobC RPiMNet)
+  set(LIB_DEPENDENCIES RobC_vm RPiMNet_vm)
 endif()
 
 add_executable(${PROJECT_NAME}
