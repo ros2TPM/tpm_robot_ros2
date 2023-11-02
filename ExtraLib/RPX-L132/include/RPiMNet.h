@@ -38,6 +38,7 @@
 #define ERR_InvalidParameter_11              -61
 #define ERR_InvalidParameter_12              -62
 #define ERR_InvalidParameter_13              -63
+#define ERR_InvalidParameter_14              -64
 #define ERR_FailGetDeviceTable               -74
 #define ERR_NoDeviceFound                    -75
 #define ERR_SlowDownPointError              -101
@@ -136,7 +137,6 @@ extern "C" {
     I16 rpi_mnet_get_ring_count(U16 *Count);
     I16 rpi_mnet_get_ring_active_table(U16 RingNo, U32 DevTable[2]);
     I16 rpi_mnet_get_slave_type(U16 RingNo, U16 SlaveIP, U8 *SlaveType);
-    I16 rpi_mnet_get_msg_slave_type(U16 RingNo, U16 SlaveIP, U16 *Type);
     I16 rpi_mnet_get_ring_status(U16 RingNo, U16 *Status);
     I16 rpi_mnet_get_com_status(U16 RingNo);
     I16 rpi_mnet_get_ring_error_counter(U16 RingNo, U16 *ErrCount);
@@ -214,17 +214,6 @@ extern "C" {
     I16 rpi_mnet_ai8_get_value_all(U16 RingNo, U16 SlaveIP, I16 Value[8]);
     I16 rpi_mnet_ai8_get_voltage(U16 RingNo, U16 SlaveIP, U16 ChannelNo, F64 *Voltage);
     I16 rpi_mnet_ai8_get_voltage_all(U16 RingNo, U16 SlaveIP, F64 Voltage[8]);
-    I16 rpi_mnet_ao4_initial(U16 RingNo, U16 SlaveIP);
-    I16 rpi_mnet_ao4_get_hardware_info(U16 RingNo, U16 SlaveIP, U8 *DeviceID, U8 *VHDL_Version);
-    I16 rpi_mnet_ao4_reset_DAC(U16 RingNo, U16 SlaveIP);
-    I16 rpi_mnet_ao4_clear_output_all(U16 RingNo, U16 SlaveIP);
-    I16 rpi_mnet_ao4_set_output(U16 RingNo, U16 SlaveIP, U8 ChannelNo, I16 SetValue);
-    I16 rpi_mnet_ao4_set_voltage(U16 RingNo, U16 SlaveIP, U8 ChannelNo, F64 Voltage);
-    I16 rpi_mnet_ao4_set_voltage1(U16 RingNo, U16 SlaveIP, U8 ChannelNo, F64 Voltage, I16 *Value);
-    I16 rpi_mnet_ao4_set_output_all(U16 RingNo, U16 SlaveIP, I16 SetValue1, I16 SetValue2, I16 SetValue3, I16 SetValue4);
-    I16 rpi_mnet_ao4_set_voltage_all(U16 RingNo, U16 SlaveIP, F64 Voltage1, F64 Voltage2, F64 Voltage3, F64 Voltage4);
-    I16 rpi_mnet_ao4_set_voltage_all1(U16 RingNo, U16 SlaveIP, F64 Voltage1, F64 Voltage2, F64 Voltage3, F64 Voltage4, I16 *Value1, I16 *Value2, I16 *Value3, I16 *Value4);
-    I16 rpi_mnet_ao4_set_coarse_gain(U16 RingNo, U16 SlaveIP, U8 ChannelNo, I16 SetValue);
     I16 rpi_mnet_c144_initial(U16 RingNo, U16 SlaveIP);
     I16 rpi_mnet_c144_get_firmware_version(U16 RingNo, U16 SlaveIP, U16 *Ver);
     I16 rpi_mnet_c144_get_do(U16 RingNo, U16 SlaveIP, U8 *Val);

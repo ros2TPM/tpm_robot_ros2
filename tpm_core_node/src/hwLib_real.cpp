@@ -19,7 +19,7 @@ namespace tpm_core
     TRY_AND_PRINT(rpi_mnet_reset_ring(ringNo));
     TRY_AND_PRINT(rpi_mnet_start_ring(ringNo));
 
-    TRY_AND_PRINT(rpi_ri_init());
+    TRY_AND_PRINT(rpi_ri_init(1));//0:MCLC, 1:ROBC
 
     std::vector<UINT8> vec_ioIP;
     vec_axisIP.clear();
@@ -156,7 +156,7 @@ namespace tpm_core
   }
   short HwLib_Real::get_buffer_depth(U32* buffDepth)
   {
-    I32 buff;
+    U32 buff;
     short err = rpi_robc_get_buffer_depth(&buff);
     *buffDepth = buff;
     return err;
@@ -182,11 +182,11 @@ namespace tpm_core
 
   short HwLib_Real::set_pvt_data(U8 AxisId, U32 PointNum, MCL_PVT_POINT* PvtPoints)
   {
-    return robc_set_pvt_data(AxisId, PointNum, PvtPoints);
+    return rpi_robc_set_pvt_data(AxisId, PointNum, PvtPoints);
   }
   short HwLib_Real::move_pvt(FLT StopDec, U8 Mask)
   {
-    return robc_move_pvt(0, StopDec, Mask);
+    return rpi_robc_move_pvt(0, StopDec, Mask);
   }
   #pragma endregion 
 
