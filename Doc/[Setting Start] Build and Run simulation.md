@@ -28,8 +28,31 @@
     source install/setup.bash
     ```
 
-## Verify the build by executing simulation.
+## Verify the build by executing simulation.  
 
-    ```
+There are sevral launch files in the `tpm_core_node` project.
+- demo.launch.py:  
+  Run `tpm_core_node` and `sample_client_py`
+- demo_with_rviz.launch.py:  
+  Run `tpm_core_node`, `sample_client_py` and `rviz`
+- pure_rviz.launch.py:  
+  Only run `rviz` with robot description.  
+  Robot models may not display properly because the `joint_state_publisher` is not running.  
+- rviz_with_jsp.launch.py:  
+  Run `joint_state_publisher_gui` to drag joints
+
+You can set some parameters with launch file
+- **use_sim** : Executing 'tpm_core_node' in simulation mode.  
+  Permitted Value : `true`、`false`
+- **robot_name** : Select robot type.  
+  Permitted Value : `ar3`、`igus_delta_3dof`
+
+So if you want to run a simulated AR3 robot and view it in RVIZ, you can run the following command:
+
     ros2 launch tpm_core_node demo_with_rviz.launch.py robot_name:=ar3 use_sim:=true
-    ```
+    
+![launch damo](https://github.com/ros2TPM/tpm_robot_ros2/assets/79964174/ba0393c7-74a0-4221-8614-341a0dba3f3a)
+
+
+
+
