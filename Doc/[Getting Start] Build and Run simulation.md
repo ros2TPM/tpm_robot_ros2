@@ -12,7 +12,7 @@
 
 3. Copy dll libraries:  
    To build this repository, you need several dll libraries. You can find them in the `ExtraLib` folder.  
-   For Ubuntu on **Raspberry Pi** : `libRobC.so`, `libRPiMNet(or _64).so`  
+   For Ubuntu on **Raspberry Pi** : `libRobC.so`, `libRPiMNet.so (or _64.so)`  
    For Ubuntu on **VM Virtual Box** : `libRobC_vm.so`, `libRPiMNet_vm.so`  
 
    Please copy them to a path that can be found by OS during build and execution.  
@@ -34,18 +34,19 @@
 ## Verify the build by executing simulation.  
 
 There are several launch files in the `tpm_core_node` project.
-- demo.launch.py:  
+- **demo.launch.py:**  
+  This will run `tpm_core_node`, `sample_ui` 
+- **demo_wit_rviz.launch.py:**  
   This will run `tpm_core_node`, `sample_ui` and `rviz`
-- demo_without_rviz.launch.py:  
-  This will run `tpm_core_node` and `sample_ui`
-- rviz_with_jsp.launch.py:  
+- **rviz_with_jsp.launch.py:**  
   This will run `rviz`, but will NOT run `tpm_core_node`. Instead, it will run `joint_state_publisher_gui`, which is a ROS2 built-in GUI that allows you to drag joints.
 
 You can set some parameters with launch file
 - **use_sim** : Executing 'tpm_core_node' in simulation mode.  
-  Permitted Value : `true`、`false`
+  Permitted Value : `true`, `false`  
+  The default value is 'false'.
 - **robot_name** : Select robot type.  
-  Permitted Value : `ar3`、`igus_delta_3dof`  
+  Permitted Value : `ar3`, `igus_delta_3dof`  
   Under development : `igus_scara_4dof`、`igus_robolink_5dof`
 
 So if you want to run a simulated AR3 robot and view it in RVIZ, you can run the following command:
