@@ -33,6 +33,11 @@
     I16 rpi_robc_jog_pose(U8 PoseId, MCL_DIR_TYPE dir, FLT Dist, FLT Vel, FLT Acc, ROB_FRAME_TYPE frame)
     { return -4; }
 
+    I16 rpi_robc_set_pvt_data(U8 AxisId, U32 PointNum, MCL_PVT_POINT* PvtPoints)
+    { return -4; }
+    I16 rpi_robc_move_pvt(U32 CmdId, FLT StopDec, U8 Mask)
+    { return -4; }
+    
     // ===== Command control functions =========
     I16 rpi_robc_hold() { return -4; }
     I16 rpi_robc_resume() { return -4; }
@@ -44,7 +49,7 @@
     I16 rpi_robc_get_axis(FLT* out_values) { return -4; } //return an array. [unit:mm or deg]
     I16 rpi_robc_get_pose(FLT* out_values) { return -4; } //return an array (xyzabc). [unit:mm or deg]
 
-    I16 rpi_robc_get_buffer_depth(I32* Depth) { return -4; }
+    I16 rpi_robc_get_buffer_depth(U32* Depth) { return -4; }
     I16 rpi_robc_get_now_cmd_id(U32* ID) { return -4; }
     I16 rpi_robc_get_last_error() { return -4; }
     I16 rpi_robc_get_last_error_msg(char* Msg) { return -4; }
@@ -60,7 +65,7 @@
     I16 rpi_robc_check_axis_overspeed(MCL_BOOL isEnable) { return -4; } //whether to check Axis-Overspeed (at dda cycle). default is TRUE.
 
     ////////////////////////////////////////////////////////////////////////////
-    I16 rpi_ri_init(void) { return -4; }
+    I16 rpi_ri_init(U8 alg_type) { return -4; } //0:MCLC, 1:ROBC
     I16 rpi_ri_mnet_m1a_init(U16 RingNo, U16* SlaveIPs) { return -4; }
     I16 rpi_ri_mnet_m1a_enable(U8 Enable) { return -4; }
     I16 rpi_ri_mnet_dio_init(U16 RingNo, U16 SlaveIP, U8 IoSlaveId) { return -4; }
