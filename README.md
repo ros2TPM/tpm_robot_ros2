@@ -54,8 +54,9 @@ If you are interested, please [contact TPM][contactTPM] or mail to: ros2TPM@tpm-
 # Getting Started
 You can find more instructions in the following documents:
 - [Build, and Run Simulation](<Doc/[Getting Start] Build and Run simulation.md>)
-- [Run on Real Robot](<Doc/[Demo] igus Delta Robot.pdf>)
-- ~~[Use with MoveIt! library](Doc/)~~
+- [Run on Real Robot](<Doc/[Demo] igus Delta Robot.pdf>)\
+- [Use with MoveIt! platform](<tpm_moveit/README.md>)
+
 
 # Folder overview
 Here is a brief overview of each component within this repository. For more detiled information, navigate into individual folders. 
