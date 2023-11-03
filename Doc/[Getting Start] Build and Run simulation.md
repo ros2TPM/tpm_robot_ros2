@@ -49,7 +49,12 @@ You can set some parameters with launch file
   Permitted Value : `ar3`, `igus_delta_3dof`  
   Under development : `igus_scara_4dof`、`igus_robolink_5dof`
 
-So if you want to run a simulated AR3 robot and view it in RVIZ, you can run the following command:
+So if you want to run a simulation, where:
+    \<package name\>:  tpm_core_node   
+    \<launch file\>:   demo_with_rviz.launch.py   
+    \<use_sim\>:       true   
+    \<robot_name\>:    ar3   
+you can run the following command:
 
     ros2 launch tpm_core_node demo_with_rviz.launch.py robot_name:=ar3 use_sim:=true
     
