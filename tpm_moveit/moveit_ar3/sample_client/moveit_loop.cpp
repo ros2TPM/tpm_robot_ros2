@@ -167,7 +167,7 @@ void MyNode::infiniteLoop()
         plan_and_execute();
         
         //delay 1s
-        std::this_thread::sleep_for(std::chrono::seconds(5));   
+        //std::this_thread::sleep_for(std::chrono::seconds(5));   
       }       
     }
 

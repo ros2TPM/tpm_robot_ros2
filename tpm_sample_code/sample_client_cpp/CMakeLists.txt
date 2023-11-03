@@ -63,21 +63,6 @@ install(TARGETS move_delta_demo
   DESTINATION lib/${PROJECT_NAME})
 
 
-#================= moveit_loop ================
-find_package(moveit_ros_planning_interface REQUIRED)
-  add_executable(moveit_loop src/moveit_loop.cpp)
-  target_include_directories(moveit_loop PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-    $<INSTALL_INTERFACE:include>)
-  target_compile_features(moveit_loop PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
-  
-  ament_target_dependencies(moveit_loop
-    rclcpp
-    moveit_ros_planning_interface
-  )  
-  install(TARGETS moveit_loop
-    DESTINATION lib/${PROJECT_NAME})
-
 #======================================
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
