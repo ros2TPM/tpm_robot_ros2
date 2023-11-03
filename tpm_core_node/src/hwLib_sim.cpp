@@ -8,7 +8,6 @@ namespace tpm_core
 {
   HwLib_Sim::HwLib_Sim()
   {
-    ROS_PRINT("*** HwLib: use simulation mode ****");
   }
   #pragma region RI
   static bool is_need_stop_dda;
@@ -170,15 +169,6 @@ namespace tpm_core
 
   short HwLib_Sim::set_pvt_data(U8 AxisId, U32 PointNum, MCL_PVT_POINT* PvtPoints)
   {
-    if(AxisId==0)
-    {
-      for(int i=0; i<PointNum; i++){
-        ROS_PRINT("[%d] %.2f", i, PvtPoints[i].pos);
-      }
-        ROS_PRINT("\n");
-    }
-    
-
     return robc_set_pvt_data(AxisId, PointNum, PvtPoints);
   }
   short HwLib_Sim::move_pvt(FLT StopDec, U8 Mask)

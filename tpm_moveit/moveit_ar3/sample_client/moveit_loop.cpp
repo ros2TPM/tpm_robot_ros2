@@ -68,7 +68,7 @@ private:
   std::vector<Points> ReadPoints_fromFile()
   {
     std::vector<Points> pointsVec;
-    const std::string fileName= "myJoints.txt";
+    const std::string fileName= "myPoints.txt"; //relatve path to where this code is executed.
 
     std::ifstream file(fileName);
     if (!file.is_open()) {
@@ -102,6 +102,7 @@ private:
             std::cerr << "Invalid format in file: " << fileName << std::endl;
         }
     }
+    
     std::cout<<"\njoints in deg:\n";
     processVectorItems(pointsVec, print);
     std::cout<<"\n";
@@ -163,6 +164,13 @@ void MyNode::infiniteLoop()
       for(int i=0; i< pointNum; i++)
       {
         RCLCPP_INFO(this->get_logger(), "\nRunning pose %d/%d...", i+1, pointNum);
+        std::cout<<"in deg:{";
+        for(auto& item : pointVector[i].values)
+            std::cout<<item*180/M_PI<<", ";
+        std::cout<<"}\n"; 
+
+        //print(pointVector[i]);
+
         move_group_interface->setJointValueTarget(pointVector[i].values);
         plan_and_execute();
         

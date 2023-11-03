@@ -42,6 +42,14 @@ Manager_Param::Manager_Param(rclcpp::Node::SharedPtr node)
         node->get_parameter("home_dir", Config::home_dir);
         node->get_parameter("max_axes_jog_speed", Config::max_axes_jog_speed);
 
+        //=== print configuration =====
+        if(Config::use_sim == true){
+          ROS_PRINT("Run mode: SIMULATION");
+        }
+        else{
+          ROS_PRINT("Run mode: REAL-PHYSICAL");
+        }
+
         ROS_PRINT("alm_logic = %d ", Config::alm_logic);
         ROS_PRINT("org_logic = %d ", Config::org_logic);
         ROS_PRINT("feedback_src = %d", Config::feedback_src);

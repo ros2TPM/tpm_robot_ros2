@@ -1,6 +1,6 @@
 from moveit_configs_utils import MoveItConfigsBuilder
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument
+from launch.actions import IncludeLaunchDescription, DeclareLaunchArgument, ExecuteProcess
 from launch.substitutions import LaunchConfiguration
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
@@ -56,5 +56,15 @@ def generate_launch_description():
             ],
         )
     )
+
+    #==== Sample UI ====
+    # Run a Python script 
+    pkg_dir = packages.get_package_prefix('sample_client_py')
+    sample_ui = ExecuteProcess(
+        cmd=['python3 ', f'{pkg_dir}/../../src/tpm_sample_code/sample_ui/entry.py'],
+        shell=True
+    )
+
+    ld.add_action(sample_ui)
 
     return ld

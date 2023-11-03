@@ -63,7 +63,7 @@ def generate_launch_description():
                 {'use_sim': LaunchConfiguration('use_sim')}
             ],
         )
-    #==== Simple UI ====
+    #==== Sample UI ====
     # Run a Python script 
     pkg_dir = packages.get_package_prefix('sample_client_py')
     sample_ui = ExecuteProcess(
