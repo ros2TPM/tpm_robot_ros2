@@ -34,7 +34,7 @@
 
 #### don't ignore the following file:
 !ExtraLib/RobC/libRobC.so
-!ExtraLib/RobC/libRobC_rpi.so
+!ExtraLib/RobC/libRobC_vm.so
 !ExtraLib/RPX-L132/libRPiMNet.so
-!ExtraLib/RPX-L132/libRPiMNet_rpi.so
-!ExtraLib/RPX-L132/libRPiMNet_rpi64.so
+!ExtraLib/RPX-L132/libRPiMNet_64.so
+!ExtraLib/RPX-L132/libRPiMNet_vm.so
