@@ -1,10 +1,11 @@
 # What is this repository?
-This Git repository demonstrate how to use a robot controller named **RPX-L132D1-ROS2**.  
-This controller is composed of a `Raspberry pi 4B` and a `HAT board` designed by [TPM (Taiwan Pulse Motion)][tpm] company named **‘HAT-L132D1’**.  
+This Git repository demonstrates how to use **RPX-L132D1-ROS2**.   
 
-This HAT board can calculate robot kinematics and interpolation, than send the signal to drivers through field bus called [‘Motionnet’][motionnet]. It also provides an API library called **’RpiMNet’** (libRpiMNet.so) in the style of C function.
+**RPX-L132D1-ROS2** is a robot controller that is composed of a `Raspberry pi 4B` and a `HAT board` named **‘HAT-L132D1’**. 
 
-The HAT board is than connected to a Raspberry pi that has Ubuntu and ROS2 installed. Together they are called **‘RPX-L132D1-ROS2’**.
+This **HAT-L132D1** HAT board is designed by [TPM (Taiwan Pulse Motion)][tpm] company. It can calculate robot kinematics and interpolation, than send the signal to drivers through field bus called [‘Motionnet’][motionnet]. It also provides an API library called **’RpiMNet’** (libRpiMNet.so) in the style of C function.
+
+The HAT board is connected to a Raspberry pi 4B module, which has Ubuntu and ROS2 installed. Together they are called **‘RPX-L132D1-ROS2’**.
 
 Note: [ROS2][ros2] (Robot Operating System) is a set of open-source software libraries and tools for building robot applications.
 
@@ -16,10 +17,10 @@ This Git repository demostrates how to use **RPX-L132D1-ROS2** controller by wra
 The overall robot controlling architecture can be divided into four parts:
 1. **Robot Mechanics:**  
     The mechanical parts of robot. Current supported robots are:
-    + scara robot (4dof) by [igus][igus_4dof]
-    + delta robot (3dof) by [igus][igus_3dof]
-    + robotlink arm (5dof) by [igus][igus_5dof]
-    + AR3 arm (6dof) by [Annin Robotics][anninrobotics]
+    + [scara robot (4dof)][igus_4dof] by igus
+    + [delta robot (3dof)][igus_3dof] by igus
+    + [robotlink arm (5dof)][igus_5dof] by igus
+    + [AR3 arm (6dof)][anninrobotics] by Annin Robotics
 
 2. **Drivers:**  
    [TPM SVR-M1xx Driver series][svr-M1xx] are closed-loop step motors that use ['Motionnet'][motionnet] as field bus communication.
@@ -47,11 +48,12 @@ However, in order to run in `real mode` (i.e. control real-physical robot), you�
 + Motionnet Drivers
 + Motors
 + Robot mechenics
+  
 If you are interested, please [contact TPM][contactTPM] or mail to: ros2TPM@tpm-pac.com
 
 # Getting Started
 You can find more instructions in the following documents:
-- [Clone, Build, and Run Simulation](<Doc/[Getting Start] Build and Run simulation.md>)
+- [Build, and Run Simulation](<Doc/[Getting Start] Build and Run simulation.md>)
 - [Run on Real Robot](<Doc/[Demo] igus Delta Robot.pdf>)
 - ~~[Use with MoveIt! library](Doc/)~~
 
@@ -65,9 +67,10 @@ Here is a brief overview of each component within this repository. For more deti
 - **tpm_description**:  
   Contains CAD files and configuration files of several robot types. Used for Rviz 3D simulation, which is a build-in tool of ROS2.
 - **tpm_sample_code**:  
-  Provides C++ and python sample client codes. And most importantly, a GUI called **MyRosRobot** for users to call basic services from **tpm_core_node**, such as ServoOn/Off, Homing, Jogging, and monitor the driver position..
+  Provides C++ and python sample client codes. And most importantly, a sample-GUI called 'MyRosRobot' for users to call basic services from 'tpm_core_node', such as ServoOn/Off, Homing, Jogging, and monitor the driver position..
 - **tpm_moveit**:  
-  Contains code and configuration files in order to use the Moveit! platform, which is a famous open-source robot framework based on ROS.
+  [Moveit!][moveit] is a famous open-source robot framework based on ROS.
+  Here contains configuration files and sample codes that demostrate how to cooperate with Moveit!.
 - **ExtraLib**:  
   Contains the header (.h) files and dll (.so) files of the RPiMNet library.
 - **Doc**:  
@@ -86,3 +89,4 @@ Here is a brief overview of each component within this repository. For more deti
 [igus_5dof]: https://www.igus.com.tw/product/20239?artNr=RL-DP-5
 [anninrobotics]: https://www.anninrobotics.com/
 [svr-M1xx]: https://www.tpm-pac.com/product-2/motionnet-3/nu-servo-drive-m/closed-loop-m-nu/
+[moveit]: https://moveit.picknik.ai/main/index.html
