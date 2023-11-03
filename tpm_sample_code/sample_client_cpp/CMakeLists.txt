@@ -13,6 +13,9 @@ find_package(tpm_msgs REQUIRED)
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)
 
+
+
+  #================= move_ptp ================
 add_executable(move_ptp src/move_ptp.cpp)
 target_include_directories(move_ptp PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -27,20 +30,8 @@ ament_target_dependencies(move_ptp
 install(TARGETS move_ptp
   DESTINATION lib/${PROJECT_NAME})
 
-add_executable(move_delta_demo src/move_delta_demo.cpp)
-target_include_directories(move_delta_demo PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-target_compile_features(move_delta_demo PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
 
-ament_target_dependencies(move_delta_demo
-  rclcpp
-  tpm_msgs
-)
-
-install(TARGETS move_delta_demo
-  DESTINATION lib/${PROJECT_NAME})
-
+#================= move_lin ================
 add_executable(move_lin src/move_lin.cpp)
 target_include_directories(move_lin PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -55,6 +46,39 @@ ament_target_dependencies(move_lin
 install(TARGETS move_lin
   DESTINATION lib/${PROJECT_NAME})
 
+
+#================= move_delta_demo ================
+add_executable(move_delta_demo src/move_delta_demo.cpp)
+target_include_directories(move_delta_demo PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>)
+target_compile_features(move_delta_demo PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+
+ament_target_dependencies(move_delta_demo
+  rclcpp
+  tpm_msgs
+)
+
+install(TARGETS move_delta_demo
+  DESTINATION lib/${PROJECT_NAME})
+
+
+#================= moveit_loop ================
+find_package(moveit_ros_planning_interface REQUIRED)
+  add_executable(moveit_loop src/moveit_loop.cpp)
+  target_include_directories(moveit_loop PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+    $<INSTALL_INTERFACE:include>)
+  target_compile_features(moveit_loop PUBLIC c_std_99 cxx_std_17)  # Require C99 and C++17
+  
+  ament_target_dependencies(moveit_loop
+    rclcpp
+    moveit_ros_planning_interface
+  )  
+  install(TARGETS moveit_loop
+    DESTINATION lib/${PROJECT_NAME})
+
+#======================================
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
