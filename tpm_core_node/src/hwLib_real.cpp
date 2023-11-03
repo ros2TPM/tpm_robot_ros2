@@ -45,7 +45,10 @@ namespace tpm_core
             vec_ioIP.push_back(i);
         }
     }
-    ROS_PRINT("==== end finding slaves ====");
+    ROS_PRINT("==== Total found: %ld Drivers, %ld IO modules. ====", 
+    	vec_axisIP.size(),
+    	vec_ioIP.size()
+    );
     
 
     // set axis

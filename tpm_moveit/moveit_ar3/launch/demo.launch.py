@@ -37,13 +37,6 @@ def generate_launch_description():
             ),
         )
     )
-    ld.add_action(
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(
-                str(moveit_config.package_path / "launch/moveit_rviz.launch.py")
-            ),
-        )
-    )
 
     # launch tpm_core_node
     pkg_dir = packages.get_package_share_directory('tpm_core_node')
