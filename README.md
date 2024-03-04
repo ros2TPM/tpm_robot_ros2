@@ -3,14 +3,18 @@ This Git repository demonstrates how to use **RPX-L132D1-ROS2**, which is a robo
 
 The **HAT-L132D1** HAT board is designed by [TPM (Taiwan Pulse Motion)][tpm], operates in real-time. With each cycle, it computes the robot kinematics and path interpolation, than sends those instructions to the drivers through a field bus called [‘Motionnet’][motionnet]. Additionally, it includes an API library named **’RpiMNet’** (libRpiMNet.so), in the style of C functions.
 
-The HAT board is then attached on top of a Raspberry pi 4B module through the 40-pin GPIO, and communicates through SPI bus. The Raspberry pi has Ubuntu and ROS2 installed. Together they are named **‘RPX-L132D1-ROS2’**.
+The HAT board is then attached on top of a `Raspberry pi 4B` module through the 40-pin GPIO, and communicates through the SPI bus. The Raspberry pi has Ubuntu and ROS2 installed. Together they are named **‘RPX-L132D1-ROS2’**.
 
 Note: [ROS2][ros2] (Robot Operating System) is a set of open-source software libraries and tools for building robot applications.
 
 ![RPX-L132D1-ROS2](Image/RPX-L132D1-ROS2.png)
 
-This Git repository demostrates how to use **RPX-L132D1-ROS2** controller by wrapping the RPiMNet API library into a ROS2 node. 
-This repo also contains CAD modules for several types of robots, a sample GUI, and some sample client codes.
+This Git repository demostrates how to use **RPX-L132D1-ROS2** controller through ROS2 and MoveIt platform. 
+This repos contains:
+* codes that wraps the RPiMNet API library into a ROS2 node
+* CAD modules for several types of robots
+* a sample GUI
+* some sample client codes.
 
 # Architecture
 The overall robot controlling architecture can be divided into four parts:
