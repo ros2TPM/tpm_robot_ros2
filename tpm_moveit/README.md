@@ -24,7 +24,7 @@ You can set some parameters with launch file
   `true`: run in simulation mode.
   `false (default)` : run in real mode. This requires a **RPX-L132D1-ROS2** hardware and Drivers 
 
-## Method 1: Run with Rviz
+## Method 1: Using Rviz
 Use following command:  
 ```
 ros2 launch moveit_ar3 demo_with_rviz.launch.py use_sim:=true
@@ -39,9 +39,9 @@ than you can manipulate the `rivz` GUI, which will generate the `FollowJointTraj
 
 ![demo_launch](https://github.com/ros2TPM/tpm_robot_ros2/assets/79964174/a8c19d9e-d2e4-4068-9064-cb7bb75b4ba7)
 
-## Run Demo (Method 2)
-Alternatively, instead of using rviz, you can write your own code to generate FollowJointTrajectory.  
-This [sample code](moveit_ar3/sample_client/moveit_loop.cpp) reads points from a file called `myPoints.txt`, and repeatedly send these points to move_group in order to generate FollowJointTrajectory.  
+## Method 2: Using custom code
+Alternatively, instead of using `rviz`, you can write your own code to generate `FollowJointTrajectory`.  
+This [sample code](moveit_ar3/sample_client/moveit_loop.cpp) reads points from a file called `myPoints.txt`, and repeatedly send these points to `move_group` in order to generate `FollowJointTrajectory`.  
 Run this sample using following command:  
   ```
   ros2 launch moveit_ar3 demo.launch.py use_sim:=true
