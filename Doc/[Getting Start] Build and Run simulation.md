@@ -1,4 +1,4 @@
-# Build the package in ROS2
+## Build the package in ROS2
 
 1. This guide assumes you had already install and setup `ros2` environment. If not, see [official website](https://docs.ros.org/en/humble/Installation.html).
 
@@ -31,18 +31,24 @@
     source install/setup.bash
     ```
 
-## Verify the build by executing simulation.  
+## Run launch files
 
 There are several launch files in the `tpm_core_node` project.
 - **demo.launch.py:**  
-  This will run `tpm_core_node`, `sample_ui`
-  
-- **demo_wit_rviz.launch.py:**  
-  This will run `tpm_core_node`, `sample_ui` and `rviz`
-  
-- **rviz_with_jsp.launch.py:**  
-  This will run `rviz`, but will NOT run `tpm_core_node`. Instead, it will run `joint_state_publisher_gui`, which is a ROS2 built-in GUI that allows you to drag joints.
+  This will run `tpm_core_node` and `sample_ui`  
+<img src="https://github.com/ros2TPM/tpm_robot_ros2/blob/main/Image/nodeGraph_1_SimpleUI.png" width=60% height=60%>
 
+- **demo_wit_rviz.launch.py:**  
+  This will run `tpm_core_node`, `sample_ui` and `rviz`  
+  <img src="https://github.com/ros2TPM/tpm_robot_ros2/blob/main/Image/nodeGraph_2_SimpleUI_Rviz.png" width=90% height=90%>
+
+- **rviz_with_jsp.launch.py:**  
+  This will run `rviz` and `joint_state_publisher_gui`, which is a ROS2 built-in GUI that allows you to drag joints.  
+  Since it does NOT run `tpm_core_node`, it will not invoke any robot contorl.  
+  This launch file is used to **test whether the 3D-meshes and urdf are correct**.  
+  <img src="https://github.com/ros2TPM/tpm_robot_ros2/blob/main/Image/nodeGraph_0_JointStateGUI.png" width=80% height=80%>
+
+### Launch file parameters
 You can set some parameters with launch file. Available parameters are:
 - **use_sim** : Whether to run 'tpm_core_node' in simulation mode.
   `true` : run in simulation.
